@@ -14,7 +14,13 @@ And Turn On / Off the View
 
 # Instituion could Upload Student info and Edit It
 
+![RW6BQ12XyrbB_1024_500](https://github.com/Hariswar8018/Studio-Next-Light/assets/126468993/d0e0ae87-3ebd-43c4-97ad-7cf851184d16)
+
 ![1ZaxzA5PDYqy_1024_500](https://github.com/Hariswar8018/Studio-Next-Light/assets/126468993/6b7ded98-9066-4cbc-a606-df685f807123)
+
+# Parent could View Data with student info verification
+
+![973upmPfwdPn_1024_500 (1)](https://github.com/Hariswar8018/Studio-Next-Light/assets/126468993/30b7d5f5-70ec-4927-8150-4182aa98c015)
 
  Studio Next Light isn't just an app; it's a powerful tool crafted to optimize the administrative workflow of educational institutions. Experience the ease of centralized student data management, and empower parents with convenient access to their child's information. Welcome to Studio Next Light, where organizing student databases for ID cards is as efficient as it is user-friendly.
  
