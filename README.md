@@ -1,8 +1,11 @@
 # Studio Next Light
 
-Welcome to Studio Next Light, the comprehensive solution for streamlined student database management, designed to simplify the process of creating ID cards effortlessly. Studio Next Light offers a user-friendly platform for uploading and managing student data, including photos and essential information. This intuitive app extends its functionality to include the seamless uploading of school details, signatures, and photos, ensuring a hassle-free ID card generation process. Parents can actively engage with the app, allowing them to effortlessly check and verify their children's data, fostering a transparent and collaborative educational environment. Studio Next Light isn't just an app; it's a powerful tool crafted to optimize the administrative workflow of educational institutions. Experience the ease of centralized student data management, and empower parents with convenient access to their child's information. Welcome to Studio Next Light, where organizing student databases for ID cards is as efficient as it is user-friendly.
+Welcome to Studio Next Light, the comprehensive solution for streamlined student database management, designed to simplify the process of creating ID cards effortlessly. Studio Next Light offers a user-friendly platform for uploading and managing student data, including photos and essential information. This intuitive app extends its functionality to include the seamless uploading of school details, signatures, and photos, ensuring a hassle-free ID card generation process. Parents can actively engage with the app, allowing them to effortlessly check and verify their children's data, fostering a transparent and collaborative educational environment.
 
+![JuaYfl7VVEDJ_1024_500](https://github.com/Hariswar8018/Studio-Next-Light/assets/126468993/55968198-d21e-4d27-8e21-eaa59e8897ae)
 
+ Studio Next Light isn't just an app; it's a powerful tool crafted to optimize the administrative workflow of educational institutions. Experience the ease of centralized student data management, and empower parents with convenient access to their child's information. Welcome to Studio Next Light, where organizing student databases for ID cards is as efficient as it is user-friendly.
+ 
 ## Getting Started
 
 This project is a starting point for a Flutter application.
