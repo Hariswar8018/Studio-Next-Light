@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "727734347697",
+    "project_id": "studio-next-light",
+    "storage_bucket": "studio-next-light.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:727734347697:android:68d268f37a0b5c14c43f90",
+        "android_client_info": {
+          "package_name": "com.heavenonthisearth.studio_next_light"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2kHM3_X0ONDGMTkWBqdlp_WpWksUpxyo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
