@@ -13,9 +13,11 @@ import 'package:studio_next_light/admin/Student_Data_Update.dart';
 import 'package:studio_next_light/admin/student_profile_view.dart';
 import 'package:studio_next_light/model/student_model.dart';
 import 'package:studio_next_light/model/orders_model.dart';
+import 'package:studio_next_light/picture.dart';
 import 'dart:typed_data';
 import 'package:studio_next_light/upload/storage.dart';
 import 'package:intl/intl.dart';
+import 'package:checkbox_formfield/checkbox_formfield.dart';
 
 class Students extends StatelessWidget {
   bool EmailB;
@@ -37,17 +39,23 @@ class Students extends StatelessWidget {
   String Class;
   String Session;
 
-  Students(
-      {super.key,
-      required this.id,
-      required this.session_id,
-      required this.class_id,
-      required this.shop,
-      required this.School,
-      required this.Session,
-      required this.Class,
-        required this.EmailB, required this.RegisB, required this.Other4B, required this.Other3B,
-        required this.Other2B, required this.Other1B, required this.MotherB, required this.DepB, required this.BloodB});
+  Students({super.key,
+    required this.id,
+    required this.session_id,
+    required this.class_id,
+    required this.shop,
+    required this.School,
+    required this.Session,
+    required this.Class,
+    required this.EmailB,
+    required this.RegisB,
+    required this.Other4B,
+    required this.Other3B,
+    required this.Other2B,
+    required this.Other1B,
+    required this.MotherB,
+    required this.DepB,
+    required this.BloodB});
 
   List<StudentModel> list = [];
   late Map<String, dynamic> userMap;
@@ -58,171 +66,180 @@ class Students extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: true,
-          backgroundColor: Colors.orange,
-          title: Text('Students Data'),
-          actions: [
-            Container(
-                decoration: BoxDecoration(
-                  color : Colors.white,
-                  border: Border.all(
-                    color: Colors.red, // Set the border color to green
-                    width: 2.0, // Set the border width
-                  ),
+      appBar: AppBar(
+        automaticallyImplyLeading: true,
+        backgroundColor: Colors.orange,
+        title: Text('Students Data'),
+        actions: [
+          Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(
+                  color: Colors.red, // Set the border color to green
+                  width: 2.0, // Set the border width
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text( shop ),
-                )),
-            SizedBox(width : 5),
-          ],
-        ),
-        floatingActionButton:  FloatingActionButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Add(
-                        id: id,
-                        session_id: session_id,
-                        classid: class_id,
-                        EmailB: EmailB, RegisB: RegisB, Other4B: Other4B,
-                        Other3B: Other3B, Other2B: Other2B, Other1B: Other1B,
-                        MotherB: MotherB, DepB: DepB, BloodB: BloodB,
-                      ),
-                    ),
-                  );
-                },
-                child: Icon(Icons.add)),
-        body: StreamBuilder(
-          stream: Fire.collection('School')
-              .doc(id)
-              .collection('Session')
-              .doc(session_id)
-              .collection("Class")
-              .doc(class_id)
-              .collection("Student")
-              .snapshots(),
-          builder: (context, snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.waiting:
-              case ConnectionState.none:
-                return Center(child: CircularProgressIndicator());
-              case ConnectionState.active:
-              case ConnectionState.done:
-                final data = snapshot.data?.docs;
-                list = data
-                        ?.map((e) => StudentModel.fromJson(e.data()))
-                        .toList() ??
-                    [];
-                return ListView.builder(
-                  itemCount: list.length,
-                  padding: EdgeInsets.only(top: 10),
-                  physics: BouncingScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return ChatUser(
-                      user: list[index],
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(shop),
+              )),
+          SizedBox(width: 5),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    Add(
                       id: id,
                       session_id: session_id,
-                      class_id: class_id,
-                      b: shop == "Still Uploading",
-                      EmailB: EmailB, RegisB: RegisB, Other4B: Other4B,
-                      Other3B: Other3B, Other2B: Other2B, Other1B: Other1B,
-                      MotherB: MotherB, DepB: DepB, BloodB: BloodB,
+                      classid: class_id,
+                      EmailB: EmailB,
+                      RegisB: RegisB,
+                      Other4B: Other4B,
+                      Other3B: Other3B,
+                      Other2B: Other2B,
+                      Other1B: Other1B,
+                      MotherB: MotherB,
+                      DepB: DepB,
+                      BloodB: BloodB,
+                    ),
+              ),
+            );
+          },
+          child: Icon(Icons.add)),
+      body: StreamBuilder(
+        stream: Fire.collection('School').doc(id).collection('Session').doc(session_id).collection("Class").doc(class_id).collection("Student").snapshots(),
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+            case ConnectionState.none:
+              return Center(child: CircularProgressIndicator());
+            case ConnectionState.active:
+            case ConnectionState.done:
+              final data = snapshot.data?.docs;
+              list = data?.map((e) => StudentModel.fromJson(e.data())).toList() ?? [];
+              return ListView.builder(
+                itemCount: list.length,
+                padding: EdgeInsets.only(top: 10),
+                physics: BouncingScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return ChatUser(
+                    user: list[index],
+                    id: id,
+                    session_id: session_id,
+                    class_id: class_id,
+                    b: shop == "Still Uploading",
+                    EmailB: EmailB,
+                    RegisB: RegisB,
+                    Other4B: Other4B,
+                    Other3B: Other3B,
+                    Other2B: Other2B,
+                    Other1B: Other1B,
+                    MotherB: MotherB,
+                    DepB: DepB,
+                    BloodB: BloodB,
+                  );
+                },
+              );
+          }
+        },
+      ),
+      persistentFooterButtons: [
+        shop == "Still Uploading"
+            ? Padding(
+          padding: const EdgeInsets.all(1.0),
+          child: SocialLoginButton(
+            backgroundColor: Color(0xff50008e),
+            height: 40,
+            text: shop == "Still Uploading" ? 'PLACE ORDER NOW  🛒' : '',
+            borderRadius: 20,
+            fontSize: 21,
+            buttonType: SocialLoginButtonType.generalLogin,
+            onPressed: () {
+              if (shop == "Still Uploading") {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('Alert'),
+                      content: Text(
+                          'Continue Order ! Once Order is Submitted, No Edit would be Allowed ! Please double check all Data before Continue to Order ID Card'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            // Close the dialog
+                            Navigator.of(context).pop();
+                          },
+                          child: Text('Close'),
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            // Close the dialog
+                            DateTime now = DateTime.now();
+                            // Format the DateTime
+                            String formattedDate =
+                            DateFormat('HH:mm - dd-MMM-yyyy')
+                                .format(now);
+                            OrderModel s = OrderModel(
+                                School_id: id,
+                                session_id: session_id,
+                                class_id: class_id,
+                                class_name: Class,
+                                session_name: Session,
+                                status: "ID Ordered on ",
+                                School_Name: School,
+                                num : list.length ,
+                                Time: formattedDate);
+                            CollectionReference collection =
+                            FirebaseFirestore.instance
+                                .collection('Admin')
+                                .doc("Order")
+                                .collection('Orders');
+                            await collection
+                                .doc(formattedDate)
+                                .set(s.toJson());
+
+                            CollectionReference collection1 =
+                            FirebaseFirestore.instance
+                                .collection('School')
+                                .doc(id)
+                                .collection('Session')
+                                .doc(session_id)
+                                .collection('Class');
+                            await collection1.doc(class_id).update({
+                              "status": "Order Processing",
+                            });
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                    "Success ! We notified the Admin to Start processing your ID Cards"),
+                              ),
+                            );
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                          },
+                          child: Text('Order Now only'),
+                        ),
+                      ],
                     );
                   },
                 );
-            }
-          },
-        ),
-        persistentFooterButtons: [
-          shop == "Still Uploading" ? Padding(
-            padding: const EdgeInsets.all(1.0),
-            child: SocialLoginButton(
-              backgroundColor: Color(0xff50008e),
-              height: 40,
-              text: shop == "Still Uploading"
-                  ? 'PLACE ORDER NOW  🛒' :
-                  '' ,
-              borderRadius: 20,
-              fontSize: 21,
-              buttonType: SocialLoginButtonType.generalLogin,
-              onPressed: () {
-                if (shop == "Still Uploading") {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text('Alert'),
-                        content: Text(
-                            'Continue Order ! Once Order is Submitted, No Edit would be Allowed ! Please double check all Data before Continue to Order ID Card'),
-                        actions: <Widget>[
-                          TextButton(
-                            onPressed: () {
-                              // Close the dialog
-                              Navigator.of(context).pop();
-                            },
-                            child: Text('Close'),
-                          ),
-                          TextButton(
-                            onPressed: () async {
-                              // Close the dialog
-
-                              DateTime now = DateTime.now();
-                              // Format the DateTime
-                              String formattedDate =
-                                  DateFormat('HH:mm - dd-MMM-yyyy').format(now);
-                              OrderModel s = OrderModel(
-                                  School_id: id,
-                                  session_id: session_id,
-                                  class_id: class_id,
-                                  class_name: Class,
-                                  session_name: Session,
-                                  status: "ID Ordered on ",
-                                  School_Name: School,
-                                  Time: formattedDate);
-                              CollectionReference collection = FirebaseFirestore.instance.collection('Admin').doc("Order").collection('Orders');
-                              await collection.doc(formattedDate).set(s.toJson());
-
-                              CollectionReference collection1 =
-                                  FirebaseFirestore.instance
-                                      .collection('School')
-                                      .doc(id)
-                                      .collection('Session')
-                                      .doc(session_id)
-                                      .collection('Class');
-                              await collection1.doc(class_id).update({
-                                "status": "Order Processing",
-                              });
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                      "Success ! We notified the Admin to Start processing your ID Cards"),
-                                ),
-                              );
-                              Navigator.pop(context);
-                              Navigator.pop(context);
-                            },
-                            child: Text('Order Now only'),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                          'Failed ! This Class\'s Order is already being Proceed'),
-                    ),
-                  );
-                }
-              },
-            ),
-          ) :
-          SizedBox(height : 5),
-        ],
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                        'Failed ! This Class\'s Order is already being Proceed'),
+                  ),
+                );
+              }
+            },
+          ),
+        )
+            : SizedBox(height: 5),
+      ],
     );
   }
 }
@@ -244,14 +261,21 @@ class ChatUser extends StatelessWidget {
   String class_id;
   bool b;
 
-  ChatUser(
-      {super.key,
-      required this.user,
-      required this.id,
-      required this.session_id,
-      required this.class_id,
-      required this.b,  required this.EmailB, required this.RegisB, required this.Other4B, required this.Other3B,
-        required this.Other2B, required this.Other1B, required this.MotherB, required this.DepB, required this.BloodB});
+  ChatUser({super.key,
+    required this.user,
+    required this.id,
+    required this.session_id,
+    required this.class_id,
+    required this.b,
+    required this.EmailB,
+    required this.RegisB,
+    required this.Other4B,
+    required this.Other3B,
+    required this.Other2B,
+    required this.Other1B,
+    required this.MotherB,
+    required this.DepB,
+    required this.BloodB});
 
   @override
   Widget build(BuildContext context) {
@@ -270,8 +294,7 @@ class ChatUser extends StatelessWidget {
           if (user.state == "Editing") {
             Navigator.push(
                 context,
-                PageTransition(
-                    child: StudentProfile(
+                PageTransition(child: StudentProfile(
                       user: user,
                       class_id: class_id,
                       session_id: session_id,
@@ -291,8 +314,7 @@ class ChatUser extends StatelessWidget {
                     duration: Duration(milliseconds: 800)));
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content:
-                    Text("Profile Confirmed and closed for Editing !"),
+                content: Text("Profile Confirmed and closed for Editing !"),
               ),
             );
           }
@@ -305,37 +327,31 @@ class ChatUser extends StatelessWidget {
                   ),
                   type: PageTransitionType.rightToLeft,
                   duration: Duration(milliseconds: 800)));
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                  'Failed ! This Class\'s Order is already Submitted for ID CARD. Thus can\'t be Edited'),
-            ),
-          );
         }
       },
       trailing: user.state == "Editing"
           ? Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.green, // Set the border color to green
-                  width: 2.0, // Set the border width
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text("Editing"),
-              ))
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.green, // Set the border color to green
+              width: 2.0, // Set the border width
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text("Editing"),
+          ))
           : Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.red, // Set the border color to green
-                  width: 2.0, // Set the border width
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(user.state),
-              )),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.red, // Set the border color to green
+              width: 2.0, // Set the border width
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(user.state),
+          )),
       splashColor: Colors.orange.shade300,
       tileColor: Colors.grey.shade50,
     );
@@ -345,7 +361,6 @@ class ChatUser extends StatelessWidget {
 class Add extends StatefulWidget {
   String id;
   String session_id;
-
   String classid;
   bool EmailB;
   bool BloodB;
@@ -356,14 +371,20 @@ class Add extends StatefulWidget {
   bool Other2B;
   bool Other3B;
   bool Other4B;
-  Add(
-      {super.key,
-      required this.id,
-      required this.session_id,
-      required this.classid,
-        required this.EmailB, required this.RegisB, required this.Other4B, required this.Other3B,
-        required this.Other2B, required this.Other1B, required this.MotherB, required this.DepB, required this.BloodB
-      });
+
+  Add({super.key,
+    required this.id,
+    required this.session_id,
+    required this.classid,
+    required this.EmailB,
+    required this.RegisB,
+    required this.Other4B,
+    required this.Other3B,
+    required this.Other2B,
+    required this.Other1B,
+    required this.MotherB,
+    required this.DepB,
+    required this.BloodB});
 
   @override
   State<Add> createState() => _AddState();
@@ -394,10 +415,12 @@ class _AddState extends State<Add> {
   final TextEditingController Other3 = TextEditingController();
   final TextEditingController Other4 = TextEditingController();
 
+  final _formKey = GlobalKey<FormState>();
+  bool? checkboxIconFormFieldValue = false;
+
   String s = " ";
 
   pickImage(ImageSource source) async {
-
     final ImagePicker _imagePicker = ImagePicker();
     XFile? _file = await _imagePicker.pickImage(source: source);
 
@@ -417,8 +440,7 @@ class _AddState extends State<Add> {
               toolbarColor: Colors.deepOrange,
               toolbarWidgetColor: Colors.white,
               initAspectRatio: CropAspectRatioPreset.original,
-              lockAspectRatio: false
-          ),
+              lockAspectRatio: false),
           IOSUiSettings(
             title: 'Cropper',
           ),
@@ -449,8 +471,14 @@ class _AddState extends State<Add> {
         backgroundColor: Colors.orange,
       ),
       body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
+        width: MediaQuery
+            .of(context)
+            .size
+            .width,
+        height: MediaQuery
+            .of(context)
+            .size
+            .height,
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -460,17 +488,30 @@ class _AddState extends State<Add> {
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
                 child:
-                    Icon(Icons.person_pin, size: 30, color: Colors.pinkAccent),
+                Icon(Icons.person_pin, size: 30, color: Colors.pinkAccent),
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 12.0),
                 child: Text("Student Basic Information",
                     style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
+                    TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
               ),
               InkWell(
                 onTap: () async {
                   Uint8List? _file = await pickImage(ImageSource.gallery);
+                  String photoUrl = await StorageMethods()
+                      .uploadImageToStorage('students', _file!, true);
+                  setState(() {
+                    pic = photoUrl;
+                  });
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text("Profile Pic uploaded"),
+                    ),
+                  );
+                },
+                onDoubleTap: () async {
+                  Uint8List? _file = await pickImage(ImageSource.camera);
                   String photoUrl = await StorageMethods()
                       .uploadImageToStorage('students', _file!, true);
                   setState(() {
@@ -489,8 +530,12 @@ class _AddState extends State<Add> {
                       "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
                       fit: BoxFit.cover,
                     )
-                    // You can customize the fit as needed
-                    ),
+                  // You can customize the fit as needed
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(child: Text("Single Tap to open Gallery and Double Tap to open Camera", textAlign : TextAlign.center, style : TextStyle(fontSize : 9, color : Colors.blue))),
               ),
               SizedBox(height: 6),
               d(
@@ -499,18 +544,19 @@ class _AddState extends State<Add> {
                 "AYUSMAN SAMASI",
                 false,
               ),
-              d(
+          widget.RegisB ? d(
                 Registration_number,
                 "Registration Number",
                 "TN09863256",
                 false,
-              ),
-              widget.RegisB ?  d(
+              ) : SizedBox(),
+
+              d(
                 AdmissionNumber,
                 "Admission Number",
                 "AN000123",
                 false,
-              ) : SizedBox(),
+              ),
               d(
                 id_number,
                 "Id Number",
@@ -524,7 +570,9 @@ class _AddState extends State<Add> {
                 false,
               ),
               max(Roll, "Roll Number", "21", true, 3),
-              widget.BloodB ? max(blood, "Blood Group", "A+", false, 3) : SizedBox(),
+              widget.BloodB
+                  ? max(blood, "Blood Group", "A+", false, 3)
+                  : SizedBox(),
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
                 child: Icon(Icons.book, size: 30, color: Colors.lightGreen),
@@ -533,7 +581,7 @@ class _AddState extends State<Add> {
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: Text("Other Basic Information",
                     style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
+                    TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
               ),
               d(
                 Father,
@@ -541,19 +589,23 @@ class _AddState extends State<Add> {
                 "RATAN SAMASI",
                 false,
               ),
-              widget.MotherB ? d(
+              widget.MotherB
+                  ? d(
                 Mother,
                 "Mother Name",
                 "RATAN SAMASI",
                 false,
-              ) : SizedBox(width : 0.1),
+              )
+                  : SizedBox(width: 0.1),
               max(Mobile, "Mobile Number", "7978097489", true, 10),
-              widget.EmailB ? d(
+              widget.EmailB
+                  ? d(
                 Email,
                 "Email",
                 "hariswarsamasi@gmail.com",
                 false,
-              ): SizedBox(width : 0.1),
+              )
+                  : SizedBox(width: 0.1),
               d(
                 Address,
                 "Address",
@@ -568,7 +620,7 @@ class _AddState extends State<Add> {
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: Text("Academic Information",
                     style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
+                    TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
               ),
               d(
                 Class,
@@ -577,12 +629,14 @@ class _AddState extends State<Add> {
                 false,
               ),
               max(Section, "Section", "A", false, 1),
-              widget.DepB ? d(
+              widget.DepB
+                  ? d(
                 Department,
                 "Department / Major",
                 "Science",
                 false,
-              ): SizedBox(width : 0.1),
+              )
+                  : SizedBox(width: 0.1),
               d(
                 Session,
                 "Session",
@@ -603,136 +657,210 @@ class _AddState extends State<Add> {
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: Text("Other Information",
                     style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
+                    TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
               ),
               Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
                 Container(
-                  width: MediaQuery.of(context).size.width / 2 - 10,
-                  child: widget.Other1B ? d(
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width / 2 - 10,
+                  child: widget.Other1B
+                      ? d(
                     Other1,
                     "Other1",
                     " ",
                     false,
-                  ): SizedBox(width : 0.1),
+                  )
+                      : SizedBox(width: 0.1),
                 ),
                 Container(
-                  width: MediaQuery.of(context).size.width / 2 - 10,
-                  child: widget.Other2B ? d(
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width / 2 - 10,
+                  child: widget.Other2B
+                      ? d(
                     Other2,
                     "Other2",
                     " ",
                     false,
-                  ): SizedBox(width : 0.1),
+                  )
+                      : SizedBox(width: 0.1),
                 )
               ]),
               Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
                 Container(
-                  width: MediaQuery.of(context).size.width / 2 - 10,
-                  child: widget.Other3B ? d(
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width / 2 - 10,
+                  child: widget.Other3B
+                      ? d(
                     Other3,
                     "Other3",
                     " ",
                     false,
-                  ): SizedBox(width : 0.1),
+                  )
+                      : SizedBox(width: 0.1),
                 ),
                 Container(
-                  width: MediaQuery.of(context).size.width / 2 - 10,
-                  child: widget.Other4B ? d(
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width / 2 - 10,
+                  child: widget.Other4B
+                      ? d(
                     Other4,
                     "Other4",
                     " ",
                     false,
-                  ): SizedBox(width : 0.1),
-                )
-              ]),
-              Padding(
-                padding: const EdgeInsets.all(14.0),
-                child: SocialLoginButton(
-                  backgroundColor: Color(0xff50008e),
-                  height: 40,
-                  text: 'Add Student Now',
-                  borderRadius: 20,
-                  fontSize: 21,
-                  buttonType: SocialLoginButtonType.generalLogin,
-                  onPressed: () async {
-                    try {
-                      CollectionReference collection = FirebaseFirestore
-                          .instance
-                          .collection('School')
-                          .doc(widget.id)
-                          .collection('Session')
-                          .doc(widget.session_id)
-                          .collection('Class')
-                          .doc(widget.classid)
-                          .collection("Student");
-
-                      String customDocumentId = DateTime.now()
-                          .millisecondsSinceEpoch
-                          .toString(); // Replace with your own custom ID
-                      String Mobile1 = Mobile.text;
-                      String Roll1 = Roll.text;
-                      // Try to parse the text to an integer
-                      int rollNumber = int.tryParse(Roll1) ?? 3;
-                      String shhhh = AdmissionNumber.text.isEmpty ? customDocumentId : AdmissionNumber.text ;
-                      int MobileNum = int.tryParse(Mobile1) ?? 7978097489;
-                      StudentModel student1 = StudentModel(
-                          Name: Name.text,
-                          id: id_number.text,
-                          Address: Address.text,
-                          Email: Email.text ?? 'NA',
-                          Admission_number: shhhh ,
-                          Batch: Batch.text,
-                          BloodGroup: blood.text ?? 'NA',
-                          Class: Class.text,
-                          Con: " ",
-                          Department: Department.text  ?? 'NA',
-                          Driver: " ",
-                          Father_Name: Father.text,
-                          Mobile: MobileNum,
-                          Mother_Name: Mother.text  ?? 'NA',
-                          pic: pic,
-                          Registration_number: Registration_number.text,
-                          Roll_number: rollNumber,
-                          Section: Section.text,
-                          Session: Session.text,
-                          Other1: Other1.text ?? 'NA',
-                          Other2: Other2.text ?? 'NA',
-                          Other3: Other3.text ?? 'NA',
-                          Other4: Other4.text  ?? 'NA',
-                          state: "Editing", dob: dob.text);
-                      await collection
-                          .doc(shhhh)
-                          .set(student1.toJson());
-                      CollectionReference collection22 = FirebaseFirestore.instance.collection('Admin');
-                      await collection22.doc("Order").update({
-                        'Students': FieldValue.increment(1)  ,
-                      });
-                      Navigator.pop(context);
-                    } catch (e) {
-                      print('${e}');
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('${e}'),
-                        ),
-                      );
-                    }
-                    ;
-                  },
+                  )
+                      : SizedBox(width: 0.1),
                 ),
+              ]),
+              CheckboxListTileFormField(
+                title: Text(
+                    'T&C- I consent to processing the information to be provided by me as a photo id card.'),
+                onSaved: (bool? value) {
+                  print(value);
+                },
+                validator: (bool? value) {
+                  if (value!) {
+                    return null;
+                  } else {
+                    return 'Please accept T&C';
+                  }
+                },
+                onChanged: (value) {
+                  if (value) {
+                    print("ListTile Checked :)");
+                    setState(() {
+                      checkboxIconFormFieldValue = value;
+                    });
+                  } else {
+                    print("ListTile Not Checked :(");
+                    setState(() {
+                      checkboxIconFormFieldValue = value;
+                    });
+                  }
+                },
+                autovalidateMode: AutovalidateMode.always,
+                contentPadding: EdgeInsets.all(1),
               ),
+
             ],
           ),
         ),
       ),
+      persistentFooterButtons: [
+        Padding(
+          padding: const EdgeInsets.all(1.0),
+          child: SocialLoginButton(
+            backgroundColor: Color(0xff50008e),
+            height: 40,
+            text: 'Add Student Now',
+            borderRadius: 20,
+            fontSize: 21,
+            buttonType: SocialLoginButtonType.generalLogin,
+            onPressed: () async {
+              bool jgfj = checkboxIconFormFieldValue ?? false;
+              if (jgfj) {
+                print("1");
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Uploadind Data Please Wait.....'),
+                  ),
+                );
+                try {
+                  await dhhh();
+                  Navigator.pop(context);
+                } catch (e) {
+                  print('${e}');
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('${e}'),
+                    ),
+                  );
+                };
+              } else {
+                print("2");
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Please accept the T&C first !'),
+                  ),
+                );
+              }
+            },
+          ),
+        ),
+      ],
     );
   }
 
-  Widget d(
-    TextEditingController c,
-    String label,
-    String hint,
-    bool number,
-  ) {
+  Future<void> dhhh() async {
+    CollectionReference collection = FirebaseFirestore.instance.collection(
+        'School').doc(widget.id).collection('Session').doc(widget.session_id)
+        .collection('Class').doc(widget.classid)
+        .collection("Student");
+
+    String customDocumentId = DateTime.now().millisecondsSinceEpoch.toString(); // Replace with your own custom ID
+    String pic = DateTime.now().microsecondsSinceEpoch.toString();
+    String Mobile1 = Mobile.text;
+    String Roll1 = Roll.text;
+
+    int rollNumber = int.tryParse(Roll1) ?? 3;
+    String shhhh = AdmissionNumber.text.isEmpty ? customDocumentId : AdmissionNumber.text;
+
+    int MobileNum = int.tryParse(Mobile1) ?? 7978097489;
+    StudentModel student1 = StudentModel(
+        Name: Name.text,
+        id: id_number.text,
+        Address: Address.text,
+        Email: Email.text ?? 'NA',
+        Admission_number: shhhh,
+        Batch: Batch.text,
+        BloodGroup: blood.text ?? 'NA',
+        Class: Class.text,
+        Con: " ",
+        Department: Department.text ?? 'NA',
+        Driver: " ",
+        Father_Name: Father.text,
+        Mobile: MobileNum.toString(),
+        Mother_Name: Mother.text ?? 'NA',
+        pic: pic,
+        Registration_number: Registration_number.text ?? "NA",
+        Roll_number: rollNumber,
+        Section: Section.text,
+        Session: Session.text,
+        Other1: Other1.text ?? 'NA',
+        Other2: Other2.text ?? 'NA',
+        Other3: Other3.text ?? 'NA',
+        Other4: Other4.text ?? 'NA',
+        state: "Editing",
+        dob: dob.text, Pic_Name: pic);
+
+    await collection.doc(shhhh).set(student1.toJson());
+    
+    CollectionReference collection22 = FirebaseFirestore.instance.collection(
+        'Admin'); //Update Student in Admin Panel
+    await collection22.doc("Order").update({
+      'Students': FieldValue.increment(1),
+    });
+
+    await FirebaseFirestore.instance.collection("School").doc(widget.id).update({
+      'Total': FieldValue.increment(1),
+      'Pending': FieldValue.increment(1),
+    }); //Update School Panel
+
+    await FirebaseFirestore.instance.collection("School").doc(widget.id).collection('Session')
+        .doc(widget.session_id)
+        .collection('Class').doc(widget.classid).update({
+      'total': FieldValue.increment(1),
+    }); //Update Class Panel
+  }
+
+  Widget d(TextEditingController c, String label, String hint, bool number,) {
     return Padding(
       padding: const EdgeInsets.all(14.0),
       child: TextFormField(
@@ -788,13 +916,47 @@ class StudentProfile extends StatelessWidget {
   String session_id;
   String school_id;
 
-  StudentProfile(
-      {super.key,
-      required this.user,
-      required this.class_id,
-      required this.session_id,
-      required this.school_id,
-      required this.parent});
+  StudentProfile({super.key,
+    required this.user,
+    required this.class_id,
+    required this.session_id,
+    required this.school_id,
+    required this.parent});
+
+  pickImage(ImageSource source) async {
+    final ImagePicker _imagePicker = ImagePicker();
+    XFile? _file = await _imagePicker.pickImage(source: source);
+
+    if (_file != null) {
+      final croppedFile = await ImageCropper().cropImage(
+        sourcePath: _file.path,
+        aspectRatioPresets: [
+          CropAspectRatioPreset.square,
+          CropAspectRatioPreset.ratio3x2,
+          CropAspectRatioPreset.original,
+          CropAspectRatioPreset.ratio4x3,
+          CropAspectRatioPreset.ratio16x9,
+        ],
+        uiSettings: [
+          AndroidUiSettings(
+              toolbarTitle: 'Crop Student Image',
+              toolbarColor: Colors.deepOrange,
+              toolbarWidgetColor: Colors.white,
+              initAspectRatio: CropAspectRatioPreset.original,
+              lockAspectRatio: false),
+          IOSUiSettings(
+            title: 'Cropper',
+          ),
+        ],
+      );
+      if (croppedFile != null) {
+        final Uint8List data = await croppedFile.readAsBytes();
+        return data;
+      }
+    }
+    print('No Image Selected');
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -806,26 +968,27 @@ class StudentProfile extends StatelessWidget {
           parent
               ? SizedBox()
               : Padding(
-                  padding: const EdgeInsets.only(right: 10.0),
-                  child: IconButton(
-                      onPressed: () async {
-                        CollectionReference collection = FirebaseFirestore
-                            .instance
-                            .collection('School')
-                            .doc(school_id)
-                            .collection('Session')
-                            .doc(session_id)
-                            .collection('Class')
-                            .doc(class_id)
-                            .collection("Student");
-                        await collection.doc(user.Admission_number).delete();
-                        CollectionReference collection22 = FirebaseFirestore.instance.collection('Admin');
-                        await collection22.doc("Order").update({
-                          'Students': FieldValue.increment(-1)  ,
-                        });
-                      },
-                      icon: Icon(Icons.delete, color: Colors.white)),
-                ),
+            padding: const EdgeInsets.only(right: 10.0),
+            child: IconButton(
+                onPressed: () async {
+                  CollectionReference collection = FirebaseFirestore
+                      .instance
+                      .collection('School')
+                      .doc(school_id)
+                      .collection('Session')
+                      .doc(session_id)
+                      .collection('Class')
+                      .doc(class_id)
+                      .collection("Student");
+                  await collection.doc(user.Admission_number).delete();
+                  CollectionReference collection22 =
+                  FirebaseFirestore.instance.collection('Admin');
+                  await collection22.doc("Order").update({
+                    'Students': FieldValue.increment(-1),
+                  });
+                },
+                icon: Icon(Icons.delete, color: Colors.white)),
+          ),
         ],
       ),
       body: SingleChildScrollView(
@@ -835,12 +998,95 @@ class StudentProfile extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Center(
-                child: CircleAvatar(
-                  backgroundImage: NetworkImage(user.pic),
-                  radius: 120,
+                child: InkWell(
+                  onLongPress: (){
+                    Navigator.push(
+                        context,
+                        PageTransition(
+                            child: Pic(str : user.pic, name : user.Name),
+                            type: PageTransitionType.rightToLeft,
+                            duration: Duration(milliseconds: 400)));
+                  },
+                  onTap: () async {
+                    try{
+                      Uint8List? _file = await pickImage(ImageSource.gallery);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("Uploading..."),
+                        ),
+                      );
+                      String photoUrl = await StorageMethods()
+                          .uploadImageToStorage('students', _file!, true);
+                      await FirebaseFirestore.instance
+                        ..collection('School')
+                            .doc(school_id).collection('Session')
+                            .doc(session_id)
+                            .collection('Class')
+                            .doc(class_id)
+                            .collection("Student")
+                            .doc(user.Admission_number)
+                            .update({
+                          "pic": photoUrl,
+                        });
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("Profile Pic updated"),
+                        ),
+                      );
+                    }catch(e){
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("${e}"),
+                        ),
+                      );
+                    }
+                  },
+                  onDoubleTap: () async {
+                    try{
+                      Uint8List? _file = await pickImage(ImageSource.camera);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("Uploading..."),
+                        ),
+                      );
+                      String photoUrl = await StorageMethods()
+                          .uploadImageToStorage('students', _file!, true);
+                      await FirebaseFirestore.instance
+                        ..collection('School')
+                            .doc(school_id).collection('Session')
+                            .doc(session_id)
+                            .collection('Class')
+                            .doc(class_id)
+                            .collection("Student")
+                            .doc(user.Admission_number)
+                            .update({
+                          "pic": photoUrl,
+                        });
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("Profile Pic updated"),
+                        ),
+                      );
+                    }catch(e){
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("${e}"),
+                        ),
+                      );
+                    }
+                  },
+                  child: CircleAvatar(
+                    backgroundImage: NetworkImage(user.pic),
+                    radius: 120,
+                  ),
                 ),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Center(child: Text("Single Tap to open Gallery and Double Tap to open Camera", textAlign : TextAlign.center, style : TextStyle(fontSize : 9, color : Colors.blue))),
+            ),
+            Center(child: Text(user.Pic_Name)),
             SizedBox(height: 10),
             GestureDetector(
                 onTap: () {
@@ -1010,7 +1256,7 @@ class StudentProfile extends StatelessWidget {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content:
-                        Text('Success ! Waiting for Parents to confirm Now'),
+                    Text('Success ! Waiting for Parents to confirm Now'),
                   ),
                 );
                 Navigator.pop(context);
@@ -1029,7 +1275,7 @@ class StudentProfile extends StatelessWidget {
           : Icon(Icons.circle, color: Colors.black, size: 20),
       title: Text(s + " :"),
       trailing:
-          Text(n, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15)),
+      Text(n, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15)),
       splashColor: Colors.orange.shade300,
       tileColor: b ? Colors.grey.shade50 : Colors.white,
     );

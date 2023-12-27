@@ -121,20 +121,7 @@ class ChatUser extends StatelessWidget {
        ), type: PageTransitionType.rightToLeft, duration: Duration(milliseconds: 800)
        ));
       },
-      trailing: user.status == "Still Uploading" ? Icon(
-        Icons.arrow_forward_ios_sharp,
-        color: Colors.black,
-        size: 20,
-      ) : Container(
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.green, // Set the border color to green
-              width: 2.0, // Set the border width
-            ),
-          ), child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Text(user.status),
-      )),
+      trailing :  Text(user.total.toString(), style : TextStyle(fontSize: 19, fontWeight: FontWeight.w700)),
       splashColor: Colors.orange.shade300,
       tileColor: Colors.grey.shade50,
     );
@@ -209,6 +196,7 @@ class Add extends StatelessWidget {
                       'Name': sessionNameController.text,
                       'id' : customDocumentId,
                       'status' : "Still Uploading",
+                      "total" : 0,
                       // Add more fields as needed
                     });
 
@@ -237,16 +225,19 @@ class SessionModel {
     required this.Name,
     required this.id,
     required this.status,
+    required this.total ,
   });
 
   late final String Name;
   late final String id;
   late final String status;
+  late final int total ;
 
   SessionModel.fromJson(Map<String, dynamic> json) {
     Name = json['Name'] ?? 'samai';
     id = json['id'] ?? 'Xhqo6S2946pNlw8sRSKd';
     status = json['status'] ?? "Still Uploading";
+    total = json['total'] ?? 0 ;
   }
 
   Map<String, dynamic> toJson() {
@@ -254,6 +245,7 @@ class SessionModel {
     data['Name'] = Name;
     data['status'] = status;
     data['id'] = id ;
+    data['total'] = total ;
     return data;
   }
 }

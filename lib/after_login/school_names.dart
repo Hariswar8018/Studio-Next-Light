@@ -7,9 +7,11 @@ import 'package:social_login_buttons/social_login_buttons.dart';
 import 'package:social_media_buttons/social_media_button.dart';
 import 'package:social_media_buttons/social_media_buttons.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:studio_next_light/after_login/options.dart';
 import 'package:studio_next_light/after_login/session.dart';
 import 'package:flutter/material.dart';
 import 'package:studio_next_light/before_check/first.dart';
+import 'package:studio_next_light/service.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:studio_next_light/model/school_model.dart';
@@ -17,12 +19,15 @@ import 'package:studio_next_light/model/school_model.dart';
 class Schoo_Name extends StatelessWidget {
   Schoo_Name({super.key});
 
-  List<SchoolModel> list = [] ;
-  late Map<String, dynamic> userMap ;
-  TextEditingController ud = TextEditingController() ;
+  List<SchoolModel> list = [];
 
-  String s = FirebaseAuth.instance.currentUser!.email ?? " " ;
-  final Fire = FirebaseFirestore.instance ;
+  late Map<String, dynamic> userMap;
+
+  TextEditingController ud = TextEditingController();
+
+  String s = FirebaseAuth.instance.currentUser!.email ?? " ";
+
+  final Fire = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -40,22 +45,24 @@ class Schoo_Name extends StatelessWidget {
         backgroundColor: Colors.orange,
         actions: [
           Padding(
-            padding: const EdgeInsets.only( right : 5),
+            padding: const EdgeInsets.only(right: 5),
             child: IconButton(
               icon: Icon(Icons.waving_hand),
-              onPressed: () async{
+              onPressed: () async {
                 final Uri _url =
-                Uri.parse('https://wa.me/917000994158?text=Hi%20Wingtrix');
+                    Uri.parse('https://wa.me/917000994158?text=Hi%20Wingtrix');
                 if (!await launchUrl(_url)) {
-                throw Exception('Could not launch $_url');
+                  throw Exception('Could not launch $_url');
                 }
               },
-            )  ,
+            ),
           )
         ],
       ),
       body: StreamBuilder(
-        stream: Fire.collection('School').where('Clientemail', isEqualTo : s ).snapshots(),
+        stream: Fire.collection('School')
+            .where('Clientemail', isEqualTo: s)
+            .snapshots(),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
@@ -67,16 +74,43 @@ class Schoo_Name extends StatelessWidget {
               list =
                   data?.map((e) => SchoolModel.fromJson(e.data())).toList() ??
                       [];
-              return ListView.builder(
-                itemCount: 1,
-                padding: EdgeInsets.only(top: 1),
-                physics: BouncingScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return ChatUser(
-                    user: list[index],
-                  );
-                },
-              );
+              if (list.isEmpty) {
+                return Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(height: 50),
+                      Image.network(
+                          "https://assets-v2.lottiefiles.com/a/92920ca4-1174-11ee-9d90-63f3a87b4e3d/c6NYERU5De.png"),
+                      Text("No School found for your Email", style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.w700)),
+                      Text(
+                          "Looks like Admin of Institution haven't add your Email for School Upload. Please double check your Email or Please contact either Admin or SuperAdmin",
+                          textAlign: TextAlign.center),
+                      SizedBox(height: 10),
+                      TextButton(
+                        child: Text("Inquire on Whatsapp"),
+                        onPressed: () async {
+                          final Uri _url = Uri.parse(
+                              'https://wa.me/917000994158?text=Hello!%20We%20are%20contacting%20you%20for%20Students%20ID%20Card%20Services!');
+                          if (!await launchUrl(_url)) {
+                            throw Exception('Could not launch $_url');
+                          }
+                        },
+                      )
+                    ]);
+              } else {
+                return ListView.builder(
+                  itemCount: 1,
+                  padding: EdgeInsets.only(top: 1),
+                  physics: BouncingScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return ChatUser(
+                      user: list[index],
+                    );
+                  },
+                );
+              }
+
           }
         },
       ),
@@ -92,7 +126,8 @@ class Schoo_Name extends StatelessWidget {
           Container(
               width: MediaQuery.of(context).size.width,
               height: 200,
-              child: Image.asset("assets/WhatsApp_Image_2023-11-22_at_17.13.30_388ceeb5-transformed.png")),
+              child: Image.asset(
+                  "assets/WhatsApp_Image_2023-11-22_at_17.13.30_388ceeb5-transformed.png")),
           ListTile(
             leading: Icon(
               Icons.language,
@@ -117,7 +152,12 @@ class Schoo_Name extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.work, color: Colors.redAccent, size: 30),
             title: Text("Our Services"),
-            onTap: () async {},
+            onTap: () async {
+              Navigator.push(
+                  context, PageTransition(
+                  child: Servie(), type: PageTransitionType.rightToLeft, duration: Duration(milliseconds: 800)
+              ));
+            },
             splashColor: Colors.orange.shade300,
             trailing: Icon(
               Icons.arrow_forward_ios_sharp,
@@ -172,7 +212,8 @@ class Schoo_Name extends StatelessWidget {
             ),
             title: Text("Whatsapp"),
             onTap: () async {
-              final Uri _url = Uri.parse('https://wa.me/917000994158?text=Hello!%20We%20are%20contacting%20you%20for%20Students%20ID%20Card%20Services!');
+              final Uri _url = Uri.parse(
+                  'https://wa.me/917000994158?text=Hello!%20We%20are%20contacting%20you%20for%20Students%20ID%20Card%20Services!');
               if (!await launchUrl(_url)) {
                 throw Exception('Could not launch $_url');
               }
@@ -234,9 +275,11 @@ class Schoo_Name extends StatelessWidget {
               size: 20,
             ),
             tileColor: Colors.grey.shade50,
-            subtitle : Text("Log out "),
+            subtitle: Text("Log out "),
           ),
-         SizedBox(height: 20,),
+          SizedBox(
+            height: 20,
+          ),
         ],
       ),
     );
@@ -257,19 +300,26 @@ class ChatUserState extends State<ChatUser> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        if( widget.user.b){
+        if (widget.user.b) {
           Navigator.push(
               context,
               PageTransition(
-                  child: Session(id: widget.user.id, School : widget.user.Name,
-                    EmailB: widget.user.EmailB, RegisB: widget.user.RegisB, Other4B: widget.user.Other4B,
-                    Other3B: widget.user.Other3B, Other2B: widget.user.Other2B, Other1B: widget.user.Other1B,
-                    MotherB: widget.user.MotherB, DepB: widget.user.DepB, BloodB: widget.user.BloodB,
-
+                  child: Session(
+                    id: widget.user.id,
+                    School: widget.user.Name,
+                    EmailB: widget.user.EmailB,
+                    RegisB: widget.user.RegisB,
+                    Other4B: widget.user.Other4B,
+                    Other3B: widget.user.Other3B,
+                    Other2B: widget.user.Other2B,
+                    Other1B: widget.user.Other1B,
+                    MotherB: widget.user.MotherB,
+                    DepB: widget.user.DepB,
+                    BloodB: widget.user.BloodB,
                   ),
                   type: PageTransitionType.rightToLeft,
                   duration: Duration(milliseconds: 400)));
-        }else{
+        } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(" School Editing had been Closed by Admin "),
@@ -279,7 +329,7 @@ class ChatUserState extends State<ChatUser> {
       },
       child: Container(
         height: MediaQuery.of(context).size.height,
-        width : MediaQuery.of(context).size.width,
+        width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
@@ -296,13 +346,13 @@ class ChatUserState extends State<ChatUser> {
               height: 200,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
-
                 image: DecorationImage(
                     image: NetworkImage(widget.user.Pic), fit: BoxFit.cover),
               ),
             ),
             ListTile(
-              title: Text(widget.user.Name, style : TextStyle ( fontWeight: FontWeight.w700)),
+              title: Text(widget.user.Name,
+                  style: TextStyle(fontWeight: FontWeight.w700)),
               subtitle: Text(
                 widget.user.Address,
                 maxLines: 1,
@@ -316,75 +366,110 @@ class ChatUserState extends State<ChatUser> {
                   label: Text(widget.user.Students.toString())),
             ),
             Divider(),
-            SizedBox(height : 5),
-            Text("   Total Students : 467", style : TextStyle ( fontWeight: FontWeight.w500, fontSize: 16), textAlign : TextAlign.start),
-            Text("   Completed Data : 167", style : TextStyle ( fontWeight: FontWeight.w500, fontSize: 16), textAlign : TextAlign.start),
-            Text("   Pending Data : 67", style : TextStyle ( fontWeight: FontWeight.w500, fontSize: 16), textAlign : TextAlign.start),
-            Text("   ID Card Receive : 6", style : TextStyle ( fontWeight: FontWeight.w500, fontSize: 16), textAlign : TextAlign.start),
-            SizedBox(height : 5),
+            SizedBox(height: 5),
+            Text("   Total Students : " + widget.user.total.toString(),
+                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+                textAlign: TextAlign.start),
+            Text("   Completed Data : " +  widget.user.complete.toString(),
+                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+                textAlign: TextAlign.start),
+            Text("   Pending Data : " +  widget.user.pending.toString(),
+                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+                textAlign: TextAlign.start),
+            Text("   ID Card Receive : " +  widget.user.receive.toString(),
+                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+                textAlign: TextAlign.start),
+            SizedBox(height: 5),
             Divider(),
             ListTile(
-              title: Text(widget.user.Chief, style : TextStyle ( fontWeight: FontWeight.w700, fontSize: 16),),
+              title: Text(
+                widget.user.Chief,
+                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+              ),
               subtitle: Text("Chief Cordinator"),
               trailing: Container(
-                  height: 90, width : 160,
+                  height: 90,
+                  width: 160,
                   child: Image.network(widget.user.AuthorizeSignature)),
             ),
-            SizedBox(height : 15),
+            SizedBox(height: 15),
             Container(
-              width : MediaQuery.of(context).size.width,
+              width: MediaQuery.of(context).size.width,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(widget.user.uidise, style : TextStyle ( fontWeight: FontWeight.w700, fontSize: 16),),
-                        Text("UIDSE"),
+                      Text(
+                        widget.user.uidise,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w700, fontSize: 16),
+                      ),
+                      Text("UIDSE"),
                     ],
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(widget.user.Phone, style : TextStyle ( fontWeight: FontWeight.w700, fontSize: 16),),
+                      Text(
+                        widget.user.Phone,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w700, fontSize: 16),
+                      ),
                       Text("Phone"),
                     ],
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(widget.user.Adminemail, style : TextStyle ( fontWeight: FontWeight.w700, fontSize: 16), maxLines: 1,),
+                      Text(
+                        widget.user.Adminemail,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w700, fontSize: 16),
+                        maxLines: 1,
+                      ),
                       Text("Email"),
                     ],
                   )
                 ],
               ),
             ),
-            SizedBox(height : 10),
+            SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: SocialLoginButton(
-                backgroundColor:  Color(0xff50008e),
+                backgroundColor: Color(0xff50008e),
                 height: 40,
                 text: 'Upload Student Data',
                 borderRadius: 20,
                 fontSize: 18,
                 buttonType: SocialLoginButtonType.generalLogin,
                 onPressed: () async {
-                  if( widget.user.b){
+                  if (widget.user.b) {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Session(id: widget.user.id, School : widget.user.Name,
-                          EmailB: widget.user.EmailB, RegisB: widget.user.RegisB, Other4B: widget.user.Other4B,
-                          Other3B: widget.user.Other3B, Other2B: widget.user.Other2B, Other1B: widget.user.Other1B,
-                          MotherB: widget.user.MotherB, DepB: widget.user.DepB, BloodB: widget.user.BloodB,),
+                        builder: (context) => Session(
+                          id: widget.user.id,
+                          School: widget.user.Name,
+                          EmailB: widget.user.EmailB,
+                          RegisB: widget.user.RegisB,
+                          Other4B: widget.user.Other4B,
+                          Other3B: widget.user.Other3B,
+                          Other2B: widget.user.Other2B,
+                          Other1B: widget.user.Other1B,
+                          MotherB: widget.user.MotherB,
+                          DepB: widget.user.DepB,
+                          BloodB: widget.user.BloodB,
+                        ),
                       ),
                     );
-                  }else{
+                  } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text(" School Editing had been Closed by Admin "),
+                        content:
+                            Text(" School Editing had been Closed by Admin "),
                       ),
                     );
                   }
@@ -397,7 +482,26 @@ class ChatUserState extends State<ChatUser> {
                       content: Text('Success ! Updating ! It may take a While'),
                     ),
                   );*/
-                 /* Navigator.pop(context);*/
+                  /* Navigator.pop(context);*/
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SocialLoginButton(
+                backgroundColor: Color(0xff50008e),
+                height: 40,
+                text: 'Check Order History',
+                borderRadius: 20,
+                fontSize: 18,
+                buttonType: SocialLoginButtonType.generalLogin,
+                onPressed: () async {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Options(id: widget.user.id,)
+                      ),
+                    );
                 },
               ),
             ),
@@ -408,4 +512,3 @@ class ChatUserState extends State<ChatUser> {
     );
   }
 }
-

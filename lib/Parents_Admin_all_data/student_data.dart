@@ -5,14 +5,21 @@ import 'package:page_transition/page_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show SystemUiOverlayStyle, rootBundle;
+import 'package:csv/csv.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:studio_next_light/after_login/session.dart';
 import 'package:studio_next_light/after_login/students.dart';
 import 'package:studio_next_light/model/student_model.dart';
 import 'package:studio_next_light/upload/csv.dart';
+import 'package:studio_next_light/upload/download.dart';
 import 'dart:typed_data';
-import 'package:studio_next_light/upload/storage.dart';
+import 'package:studio_next_light/upload/upload.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
@@ -47,6 +54,19 @@ class StudentsP extends StatelessWidget {
           backgroundColor: Color(0xff50008e),
           title: Text('Students Data', style: TextStyle(color: Colors.white)),
         ),
+         floatingActionButton: b ? FloatingActionButton(
+          child:Icon(Icons.upload_file_rounded),
+          onPressed : (){
+            Navigator.push(
+                context,
+                PageTransition(
+                    child: Csv( classi : class_id,
+                      session : session_id,
+                      school: id,),
+                    type: PageTransitionType.rightToLeft,
+                    duration: Duration(milliseconds: 800)));
+          }
+        ): SizedBox(),
         persistentFooterButtons: [
           b
               ? SocialLoginButton(
@@ -57,11 +77,13 @@ class StudentsP extends StatelessWidget {
                   fontSize: 21,
                   buttonType: SocialLoginButtonType.generalLogin,
                   onPressed: () async {
-                    final Uri _url = Uri.parse(
-                        'https://console.cloud.google.com/firestore/databases/-default-/import-export?authuser=0&project=studio-next-light');
-                    if (!await launchUrl(_url)) {
-                      throw Exception('Could not launch $_url');
-                    }
+                    Navigator.push(
+                        context,
+                        PageTransition(
+                            child: Download(  session : session_id, classu : class_id,
+                              id: id,),
+                            type: PageTransitionType.rightToLeft,
+                            duration: Duration(milliseconds: 800)));
                   },
                 )
               : SizedBox(height: 10),
@@ -97,6 +119,7 @@ class StudentsP extends StatelessWidget {
                       c : class_id,
                       s : session_id,
                       school: id,
+                      b : b,
                     );
                   },
                 );
@@ -106,15 +129,18 @@ class StudentsP extends StatelessWidget {
 
     );
   }
+
+
 }
 
 class ChatUser extends StatelessWidget {
+  bool b ;
   String c;
   String s;
   String school;
   StudentModel user;
 
-  ChatUser({super.key, required this.user, required this.school, required this.s ,required this.c});
+  ChatUser({super.key, required this.user, required this.school, required this.s ,required this.c, required this.b});
 
   @override
   Widget build(BuildContext context) {
@@ -123,27 +149,43 @@ class ChatUser extends StatelessWidget {
         backgroundImage: NetworkImage(user.pic),
       ),
       title: Text(user.Name, style: TextStyle(fontWeight: FontWeight.w700)),
-      subtitle: Text("Roll no.: " +
+      subtitle: Text("Roll no : " +
           user.Roll_number.toString() +
           "   " +
           user.Class +
-          user.Section),
+          user.Section ),
       onTap: () {
-        if(user.state == "Confirm by Parent"){
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                  "Student Data had been Confirmed by Both School and Parents. Thus, It can't be Edited Now"),
-            ),
-          );
-        }else{
+        if(b){
           Navigator.push(
               context,
               PageTransition(
-                  child: Check(user: user, school_id: school, class_id: c, session_id: s,),
+                  child: StudentProfile(
+                    user: user,
+                    class_id: c,
+                    session_id: s,
+                    school_id: school,
+                    parent: false,
+                  ),
                   type: PageTransitionType.rightToLeft,
                   duration: Duration(milliseconds: 800)));
+        }else{
+          if(user.state == "Confirm by Parent"){
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                    "Student Data had been Confirmed by Both School and Parents. Thus, It can't be Edited Now"),
+              ),
+            );
+          }else{
+            Navigator.push(
+                context,
+                PageTransition(
+                    child: Check(user: user, school_id: school, class_id: c, session_id: s,),
+                    type: PageTransitionType.rightToLeft,
+                    duration: Duration(milliseconds: 800)));
+          }
         }
+
       },
       trailing: user.state == "Confirm by Parent"
           ? Container(

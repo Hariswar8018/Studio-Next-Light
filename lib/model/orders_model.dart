@@ -9,6 +9,8 @@ class OrderModel {
     required this.status,
     required this.School_Name,
     required this.Time,
+    required this.num,
+
   });
   late final String School_id;
   late final String class_id;
@@ -18,6 +20,7 @@ class OrderModel {
   late final String status ;
   late final String School_Name;
   late final String Time;
+  late final int num ;
 
   OrderModel.fromJson(Map<String, dynamic> json) {
     School_id = json["School"] ?? "ANY";
@@ -28,6 +31,7 @@ class OrderModel {
     class_name = json['Class_Name'] ?? "Done" ;
     session_name = json['Session_Name'] ?? "Yes";
     Time = json['Time'] ?? '66';
+    num = json['num'] ?? 0 ;
   }
 
   Map<String, dynamic> toJson() {
@@ -40,6 +44,7 @@ class OrderModel {
     data['Class_Name'] = class_name  ;
      data['Session_Name']  = session_name  ;
      data['Time'] = Time;
+     data['num'] = num ;
     return data;
   }
 }

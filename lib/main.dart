@@ -40,10 +40,7 @@ class MyApp extends StatelessWidget {
           timer.connectionState == ConnectionState.done
               ? ( user == null ? First() : ( Admin ? AdminP() : Schoo_Name()) ) //Screen to navigate to once the splashScreen is done.
               : Container(color: Colors.white,
-            width: MediaQuery
-                .of(context)
-                .size
-                .width,
+            width: MediaQuery.of(context).size.width,
             child: Image(
               image: AssetImage(
                   'assets/WhatsApp_Image_2023-11-22_at_17.13.30_388ceeb5-transformed.png'),

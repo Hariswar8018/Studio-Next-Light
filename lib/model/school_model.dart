@@ -49,8 +49,16 @@ class SchoolModel {
   late final bool Other2B;
   late final bool Other3B;
   late final bool Other4B;
+  late final int total;
+  late final int complete ;
+  late final int pending ;
+  late final int receive ;
 
   SchoolModel.fromJson(Map<String, dynamic> json) {
+    total = json['Total'] ?? 0 ;
+    pending = json['Pending'] ?? 0 ;
+    complete = json['Complete'] ?? 0 ;
+    receive = json['Receive'] ?? 0 ;
     Address = json['Address'] ?? '1st 2018';
     Email = json['Email'] ?? 'demo@demo.com';
     Pic = json['Pic'] ?? 'http.jpg';

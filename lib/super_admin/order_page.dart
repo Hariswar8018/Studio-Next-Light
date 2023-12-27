@@ -110,6 +110,10 @@ class Chat extends StatelessWidget {
                             content: Text("Order will be marked Done"),
                           ),
                         );
+                        await FirebaseFirestore.instance.collection("School").doc(user.School_id).update({
+                          'Complete': FieldValue.increment(user.num),
+                          'Pending' : FieldValue.increment(-user.num),
+                        });
                         Navigator.of(context).pop();
                       },
                       child: Text('ID CARD Done'),
@@ -117,6 +121,10 @@ class Chat extends StatelessWidget {
                     TextButton(
                       onPressed: () async {
                         await change("Shipped");
+                        await FirebaseFirestore.instance.collection("School").doc(user.School_id).update({
+                          'Receive': FieldValue.increment(user.num),
+                          'Complete' : FieldValue.increment(-user.num),
+                        }); //Update School Panel
                       },
                       child: Text('ID CARD shipped'),
                     ),
@@ -129,7 +137,13 @@ class Chat extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("School Name : " + user.School_Name, style : TextStyle(fontWeight: FontWeight.w700, fontSize: 17)),
+                Row(
+                  children: [
+                    Text("School Name : " + user.School_Name, style : TextStyle(fontWeight: FontWeight.w700, fontSize: 17)),
+                    Spacer(),
+                    Icon(Icons.supervised_user_circle_rounded),SizedBox(width : 5), Text(user.num.toString())
+                  ],
+                ),
                 Text("Session : " + user.session_name, style : TextStyle(fontWeight: FontWeight.w700)),
                 Text("Class : " + user.class_name, style : TextStyle(fontWeight: FontWeight.w700)),
                 Divider(),
@@ -177,7 +191,7 @@ class Chat extends StatelessWidget {
           session_name: user.session_name,
           status: "In Progress",
           School_Name: user.School_Name,
-          Time: user.Time);
+          Time: user.Time, num: user.num);
       CollectionReference collectionn = FirebaseFirestore.instance.collection('Admin').doc("Order").collection(coll_name);
       await collectionn.doc(user.Time).set(s.toJson());
     }catch(e){

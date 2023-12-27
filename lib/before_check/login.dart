@@ -5,6 +5,8 @@ import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
 import 'package:studio_next_light/after_login/school_names.dart';
+import 'package:studio_next_light/before_check/forgot_password.dart';
+import 'package:studio_next_light/before_check/signup_now.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -114,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 context, PageTransition(
                                 child: Schoo_Name(), type: PageTransitionType.rightToLeft, duration: Duration(milliseconds: 800)
                             ));
-                          } on FirebaseAuthException catch (e) {
+                          }on FirebaseAuthException catch (e) {
                             if (e.code == 'user-not-found') {
                               print('No user found for that email.');
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -126,68 +128,37 @@ class _LoginScreenState extends State<LoginScreen> {
                               print('Wrong password provided for that user.');
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: Text('Wrong password provided for that user.'),
+                                  content: Text(
+                                      'Wrong password provided for that user.'),
                                 ),
                               );
-                            } else(e){
-                              print('Wrong password provided for that user.');
+                            } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: Text('${e}'),
+                                  content: Text("${e}"),
                                 ),
                               );
-                            };
+                            }
                           }
                         },
                       ),
-                      SizedBox(height : 10),
-                      SocialLoginButton(
-                        backgroundColor:  Color(0xff50008e),
-                        height: 40,
-                        text: 'New ? Create Account',
-                        borderRadius: 20,
-                        fontSize: 21,
-                        buttonType: SocialLoginButtonType.generalLogin,
-                        onPressed: () async {
-                          try {
-                            final credential = await FirebaseAuth.instance
-                                .createUserWithEmailAndPassword(
-                              email: d,
-                              password: s,
-                            );
-                            print(credential);
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextButton(onPressed: () {
                             Navigator.push(
                                 context, PageTransition(
-                                child: Schoo_Name(), type: PageTransitionType.rightToLeft, duration: Duration(milliseconds: 800)
+                                child: SScreen(), type: PageTransitionType.rightToLeft, duration: Duration(milliseconds: 800)
                             ));
-                          } on FirebaseAuthException catch (e) {
-                            if (e.code == 'user-not-found') {
-                              print('No user found for that email.');
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('No User found for this Email'),
-                                ),
-                              );
-                            } else if (e.code == 'wrong-password') {
-                              print('Wrong password provided for that user.');
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('Wrong password provided for that user.'),
-                                ),
-                              );
-                            } else(e){
-                              print('Wrong password provided for that user.');
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('${e}'),
-                                ),
-                              );
-                            };
-                          }
-                        },
+                          }, child: Text("New User? Sign Up here"),),
+                          TextButton(onPressed: () {
+                            Navigator.push(
+                                context, PageTransition(
+                                child: Forgot(), type: PageTransitionType.topToBottom, duration: Duration(milliseconds: 800)
+                            ));
+                          }, child: Text("Forgot Password?"),),
+                        ],
                       ),
-                      SizedBox(height: 15,),
-                      SizedBox(height: 10,),
                      /* Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

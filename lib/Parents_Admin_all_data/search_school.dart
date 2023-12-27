@@ -9,6 +9,8 @@ import 'package:studio_next_light/Parents_Admin_all_data/session_school.dart';
 import 'package:studio_next_light/after_login/session.dart';
 import 'package:flutter/material.dart';
 import 'package:studio_next_light/model/school_model.dart';
+import 'package:studio_next_light/picture.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Panel_School extends StatelessWidget {
   bool b ;
@@ -33,8 +35,8 @@ class Panel_School extends StatelessWidget {
             keyboardType: TextInputType.text,
             style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
-              labelText: "Search by UIDSE",
-              hintText: "MGM English School",
+              labelText: "Search by UDISE no.",
+              hintText: "THH589NG",
               hintStyle: TextStyle( color : Colors.white, fontWeight: FontWeight.w100),
               labelStyle: TextStyle( color : Colors.white),
               fillColor: Colors.grey,
@@ -95,7 +97,8 @@ class Panel_School extends StatelessWidget {
         color : Colors.white,
         child: Column(
           children: [
-            Image.network("https://i.pinimg.com/originals/4b/54/c3/4b54c302d999845551baa77c995f5bbb.gif"),
+            SizedBox(height: 40,),
+            Image.network("https://confessionfreak.files.wordpress.com/2019/08/og_characters-with-cards-1.jpg"),
             SizedBox(height: 20,),
             Text("Search Institution by UDISE", style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700)),
             Text("Type your Child Institution UDISE no. above to find the school", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400), textAlign: TextAlign.center,),
@@ -119,17 +122,40 @@ class Panel_School extends StatelessWidget {
               list =
                   data?.map((e) => SchoolModel.fromJson(e.data())).toList() ??
                       [];
-              return ListView.builder(
-                itemCount: list.length,
-                padding: EdgeInsets.only(top: 10),
-                physics: BouncingScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return ChatUser(
-                    user: list[index],
-                    b : b,
-                  );
-                },
-              );
+              if(list.isEmpty){
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children : [
+                    SizedBox(height : 50),
+                    Image.network("https://assets-v2.lottiefiles.com/a/92920ca4-1174-11ee-9d90-63f3a87b4e3d/c6NYERU5De.png"),
+                    Text("No School found for that UDISE", style : TextStyle(fontSize : 20, fontWeight : FontWeight.w700)),
+                    Text("Please check and try again or Contact us to find UDISE", textAlign : TextAlign.center),
+                    SizedBox(height : 10),
+                    TextButton(
+                      child : Text("Inquire on Whatsapp"),
+                      onPressed: () async {
+                        final Uri _url = Uri.parse('https://wa.me/917000994158?text=Hello!%20We%20are%20contacting%20you%20for%20Students%20ID%20Card%20Services!');
+                        if (!await launchUrl(_url)) {
+                        throw Exception('Could not launch $_url');
+                        }
+                      },
+                    )
+                  ]
+                );
+              }else{
+                return ListView.builder(
+                  itemCount: list.length,
+                  padding: EdgeInsets.only(top: 10),
+                  physics: BouncingScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return ChatUser(
+                      user: list[index],
+                      b : b,
+                    );
+                  },
+                );
+              }
+
           }
         },
       ),
@@ -160,6 +186,101 @@ class ChatUserState extends State<ChatUser> {
                 child: SessionP(id: widget.user.id, b : widget.b),
                 type: PageTransitionType.rightToLeft,
                 duration: Duration(milliseconds: 400)));
+      },
+      onDoubleTap: (){
+        if(widget.b){
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Alert ! All Data would be cleared'),
+                content: Text('Are you sure you want to Delete ? Deleting the School would also delete each and every data inside that Institution'),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Close the dialog
+                    },
+                    child: Text('NO'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+
+                      final snackBar = SnackBar(
+                        content: Text('Please Long Press to Confirm It'),
+                        duration: Duration(seconds: 3),
+                        action: SnackBarAction(
+                          label: 'Close',
+                          onPressed: () {
+                            // Action to be performed when the "Close" button is pressed
+                          },
+                        ),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      // Close the dialog
+                    },
+                    onLongPress: () async {
+                      CollectionReference collection = FirebaseFirestore.instance.collection('School');
+                      await collection.doc(widget.user.id).delete();
+                      final snackBar = SnackBar(
+                        content: Text('School Deletion Successfull !'),
+                        duration: Duration(seconds: 3),
+                        action: SnackBarAction(
+                          label: 'Close',
+                          onPressed: () {
+                            // Action to be performed when the "Close" button is pressed
+                          },
+                        ),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      Navigator.of(context).pop();
+
+                    },
+                    child: Text('I Confirm'),
+                  ),
+                ],
+              );
+            },
+          );
+        }
+
+      },
+      onLongPress: (){
+        if(widget.b){
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Download '),
+                content: Text('Click on which School doc you had to download !'),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              child: Pic(str: widget.user.Pic_link,name : widget.user.Chief),
+                              type: PageTransitionType.rightToLeft,
+                              duration: Duration(milliseconds: 400)));
+                    },
+                    child: Text('LOGO'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              child: Pic(str: widget.user.AuthorizeSignature, name : widget.user.Chief),
+                              type: PageTransitionType.rightToLeft,
+                              duration: Duration(milliseconds: 400)));
+                    },
+                    child: Text('Pricipal SIgnature'),
+                  ),
+                ],
+              );
+            },
+          );
+        }
+
       },
       child: Container(
         decoration: BoxDecoration(
@@ -198,7 +319,9 @@ class ChatUserState extends State<ChatUser> {
                 backgroundImage: NetworkImage(widget.user.Pic_link),
               ),
               trailing: TextButton.icon(
-                  onPressed: () {},
+                  onPressed: () {
+
+                  },
                   icon: Icon(Icons.person_pin),
                   label: Text(widget.user.Students.toString())),
             ),

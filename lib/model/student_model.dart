@@ -26,13 +26,14 @@ class StudentModel {
     required this.Other4,
     required this.state,
     required this.dob,
+    required this.Pic_Name,
   });
 
   late final String Name;
   late final String Admission_number ;
   late final int Roll_number ;
   late final String Father_Name ;
-  late final int Mobile ;
+  late final String Mobile ;
   late final String Address ;
   late final String Email ;
   late final String Department;
@@ -53,13 +54,14 @@ class StudentModel {
   late final String Other4 ;
   late final String state;
   late final String dob;
+  late final String Pic_Name ;
 
   StudentModel.fromJson(Map<String, dynamic> json) {
     Name= json['Name'] ?? "Ayus";
     Admission_number= json['Admission_number'] ?? "NA";
     Roll_number= json['Roll_number'] ?? 0;
     Father_Name= json['Father_Name'] ?? "Afhh";
-    Mobile= json['Mobile'] ?? 7978097489;
+    Mobile= json['Mobile'] ?? "7978097489";
     Address= json['Address'] ?? "JAGDA, ROURELA";
     Email= json['Email'] ?? "gkgkg";
     Department= json['Department'] ?? "htfdfhf";
@@ -80,6 +82,7 @@ class StudentModel {
     Other2 = json['Other2'] ?? "NA";
     Other3 = json['Other3'] ?? "NA";
     Other4 = json['Other4'] ?? "NA";
+    Pic_Name = json['Pic_Name'] ?? "NA" ;
   }
 
   Map<String, dynamic> toJson() {

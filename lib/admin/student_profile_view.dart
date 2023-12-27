@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:studio_next_light/model/student_model.dart';
+import 'package:studio_next_light/picture.dart';
 
 class StudentProfileN extends StatelessWidget {
 
@@ -23,9 +25,19 @@ class StudentProfileN extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Center(
-                child: CircleAvatar(
-                  backgroundImage: NetworkImage(user.pic),
-                  radius: 120,
+                child: InkWell(
+                  onLongPress: (){
+                    Navigator.push(
+                        context,
+                        PageTransition(
+                            child: Pic(str : user.pic, name : user.Name),
+                            type: PageTransitionType.rightToLeft,
+                            duration: Duration(milliseconds: 400)));
+                  },
+                  child: CircleAvatar(
+                    backgroundImage: NetworkImage(user.pic),
+                    radius: 120,
+                  ),
                 ),
               ),
             ),

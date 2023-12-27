@@ -83,28 +83,6 @@ class SuperHome extends StatelessWidget {
           ],
         ),
       ),
-     /* persistentFooterButtons: [
-        Padding(
-          padding: const EdgeInsets.all(1.0),
-          child: SocialLoginButton(
-            backgroundColor:  Color(0xff50008e),
-            height: 40,
-            text: 'Export Data Now  >',
-            borderRadius: 20,
-            fontSize: 21,
-            buttonType: SocialLoginButtonType.generalLogin,
-            onPressed: () async {
-
-              Navigator.push(
-                  context,
-                  PageTransition(
-                      child: Panel_School(b : true),
-                      type: PageTransitionType.rightToLeft,
-                      duration: Duration(milliseconds: 400)));
-            },
-          ),
-        ),
-      ],*/
     );
   }
 

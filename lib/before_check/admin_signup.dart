@@ -5,16 +5,15 @@ import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
 import 'package:studio_next_light/admin/admin_panel.dart';
-import 'package:studio_next_light/before_check/admin_signup.dart';
 import 'package:studio_next_light/before_check/forgot_password.dart';
 
-class Admin extends StatefulWidget {
+class AdminC extends StatefulWidget {
 
   @override
-  State<Admin> createState() => _SuperAdminState();
+  State<AdminC> createState() => _SuperAdminCState();
 }
 
-class _SuperAdminState extends State<Admin> {
+class _SuperAdminCState extends State<AdminC> {
   final _formKey = GlobalKey<FormState>();
 
   final _emailController = TextEditingController();
@@ -117,26 +116,33 @@ class _SuperAdminState extends State<Admin> {
                   ),
                   SizedBox(height: 20.0),
                   SizedBox(height: 10,),
-        
+
                   SocialLoginButton(
                     backgroundColor:  Color(0xff50008e),
                     height: 40,
-                    text: 'Enter Admin Area',
+                    text: 'Create New Account',
                     borderRadius: 20,
                     fontSize: 21,
                     buttonType: SocialLoginButtonType.generalLogin,
                     onPressed: () async {
                       if ( k == "FRHJJJY6H" || k == '5690TTKY' || k == 'FRTYHN7539' || k == " TYUUIJKN53U" ||
                           k == "RTTT634HJ" || k == "ERTYY999" || k == 'R67UGG479' || k == 'HARI8018' ||
-                          k == "FFT479YGHE" || k == "RRTY3567V" || k == "ZQET34589" || k == "RQPI79015" || k == "YUDDT13"
-                          || k == "EQ007560"
-                      ){ ScaffoldMessenger.of(context).showSnackBar(
+                       k == "FFT479YGHE" || k == "RRTY3567V" || k == "ZQET34589" || k == "RQPI79015" || k == "YUDDT13"
+                      || k == "EQ007560"
+                      ){
+                        ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text('Correct Key ! Loggin you In'),
+                            content: Text('Creating Your Account..... Please Wait'),
                           ),
                         );
                         try {
-                          final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Signing You Up..... Please Wait'),
+                            ),
+                          );
+                          final credential = await FirebaseAuth.instance
+                              .createUserWithEmailAndPassword(
                             email: d,
                             password: s,
                           );
@@ -146,28 +152,61 @@ class _SuperAdminState extends State<Admin> {
                               context, PageTransition(
                               child: AdminP(), type: PageTransitionType.rightToLeft, duration: Duration(milliseconds: 800)
                           ));
-
                         } on FirebaseAuthException catch (e) {
                           if (e.code == 'user-not-found') {
                             print('No user found for that email.');
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text('No User found for this Email'),
+                                content: Text(
+                                    'Signing You Up..... Please Wait'),
                               ),
                             );
-                          } else if (e.code == 'wrong-password') {
-                            print('Wrong password provided for that user.');
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text('Wrong password provided for that user.'),
-                              ),
-                            );
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text("${e}"),
-                              ),
-                            );
+                            try {
+                              final credential = await FirebaseAuth.instance
+                                  .createUserWithEmailAndPassword(
+                                email: d,
+                                password: s,
+                              );
+                              SharedPreferences prefs = await SharedPreferences.getInstance();
+                              prefs.setBool('Admin', true);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Done ! Welcome $d'),
+                                ),
+                              );
+                              Navigator.push(
+                                  context, PageTransition(
+                                  child: AdminP(),
+                                  type: PageTransitionType.rightToLeft,
+                                  duration: Duration(milliseconds: 800)
+                              ));
+                            } on FirebaseAuthException catch (e) {
+                              if (e.code == 'weak-password') {
+                                print('The password provided is too weak.');
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                        'The password provided is too weak.'),
+                                  ),
+                                );
+                              } else if (e.code == 'email-already-in-use') {
+                                print(
+                                    'The account already exists for that email.');
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                        'The account already exists for that email.'),
+                                  ),
+                                );
+                              }
+                            } catch (e) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                      '${e}'),
+                                ),
+                              );
+                            }
                           }
                         }
                       }else{
@@ -183,11 +222,8 @@ class _SuperAdminState extends State<Admin> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           TextButton(onPressed: () {
-                            Navigator.push(
-                                context, PageTransition(
-                                child: AdminC(), type: PageTransitionType.rightToLeft, duration: Duration(milliseconds: 800)
-                            ));
-                          }, child: Text("New User? Sign Up here"),),
+                            Navigator.pop(context);
+                          }, child: Text("Not New? Login Now"),),
                           TextButton(onPressed: () {
                             Navigator.push(
                                 context, PageTransition(
@@ -196,7 +232,7 @@ class _SuperAdminState extends State<Admin> {
                           }, child: Text("Forgot Password?"),),
                         ],
                       ),
-        
+
                   SizedBox(height: 10,),
                 ],
               ),
