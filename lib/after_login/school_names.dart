@@ -7,6 +7,7 @@ import 'package:social_login_buttons/social_login_buttons.dart';
 import 'package:social_media_buttons/social_media_button.dart';
 import 'package:social_media_buttons/social_media_buttons.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:studio_next_light/after_login/Birthdays.dart';
 import 'package:studio_next_light/after_login/options.dart';
 import 'package:studio_next_light/after_login/session.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ import 'package:studio_next_light/service.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:studio_next_light/model/school_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Schoo_Name extends StatelessWidget {
   Schoo_Name({super.key});
@@ -49,11 +51,18 @@ class Schoo_Name extends StatelessWidget {
             child: IconButton(
               icon: Icon(Icons.waving_hand),
               onPressed: () async {
-                final Uri _url =
-                    Uri.parse('https://wa.me/917000994158?text=Hi%20Wingtrix');
-                if (!await launchUrl(_url)) {
-                  throw Exception('Could not launch $_url');
-                }
+
+                    String phoneNumber = '917000994158';
+                    String message = 'Hi, Studio Next Light! We are contacting you regarding your App as an Institute';
+
+                    String url = 'https://wa.me/$phoneNumber?text=${Uri.encodeComponent(message)}';
+
+                    if (await canLaunch(url)) {
+                    await launch(url);
+                    } else {
+// Handle error
+                    print('Could not launch WhatsApp');
+                    }
               },
             ),
           )
@@ -361,9 +370,19 @@ class ChatUserState extends State<ChatUser> {
                 backgroundImage: NetworkImage(widget.user.Pic_link),
               ),
               trailing: TextButton.icon(
-                  onPressed: () {},
-                  icon: Icon(Icons.person_pin),
-                  label: Text(widget.user.Students.toString())),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        PageTransition(
+                            child: BDay(
+                              logo: widget.user.Pic_link,
+                              id : widget.user.id ,
+                              School: widget.user.Name, address: widget.user.Address,                            ),
+                            type: PageTransitionType.rightToLeft,
+                            duration: Duration(milliseconds: 400)));
+                  },
+                  icon: Icon( Icons.card_giftcard, color : Colors.red ),
+                  label: Text("Birthdays", style : TextStyle(color : Colors.red, fontSize: 12))),
             ),
             Divider(),
             SizedBox(height: 5),

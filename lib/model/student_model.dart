@@ -27,6 +27,8 @@ class StudentModel {
     required this.state,
     required this.dob,
     required this.Pic_Name,
+    required this.newdob,
+    required this.School_id_one,
   });
 
   late final String Name;
@@ -55,6 +57,8 @@ class StudentModel {
   late final String state;
   late final String dob;
   late final String Pic_Name ;
+  late final String School_id_one ;
+  late final String newdob ;
 
   StudentModel.fromJson(Map<String, dynamic> json) {
     Name= json['Name'] ?? "Ayus";
@@ -83,14 +87,19 @@ class StudentModel {
     Other3 = json['Other3'] ?? "NA";
     Other4 = json['Other4'] ?? "NA";
     Pic_Name = json['Pic_Name'] ?? "NA" ;
+    School_id_one = json['SCHOOLID'] ?? "";
+    newdob = json['newdob'] ?? "2003-12-10 00:00:00.000";
   }
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
     data['Name'] = Name;
+    data['newdob'] = newdob ;
+    data['SCHOOLID'] = School_id_one ;
     data['Admission_number'] = Admission_number;
     data['Roll_number'] = Roll_number;
     data['Father_Name'] = Father_Name;
+    data['Pic_Name'] = Pic_Name ;
     data['Mobile'] = Mobile;
     data['Address'] = Address;
     data['Email'] = Email;

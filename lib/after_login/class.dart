@@ -109,7 +109,40 @@ class ChatUser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(user.Name),
+      title: Text(user.Name), onLongPress: (){
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Delete this ?'),
+            content: Text('Do you really want to delete this Sesssion including all Students'),
+            actions: [
+              TextButton(
+                onPressed: () async {
+                  CollectionReference collection1 = FirebaseFirestore.instance.collection('School').doc(id).collection('Session').doc(sessionid).collection('Class');
+                  await collection1.doc(user.id).delete() ;
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('This Class Deleted'),
+                    ),
+                  );
+                  Navigator.of(context).pop();
+                },
+                child: Text('Yes'),
+
+              ),
+              TextButton(
+                onPressed: () {
+                  // Close the dialog
+                  Navigator.of(context).pop();
+                },
+                child: Text('No'),
+              ),
+            ],
+          );
+        },
+      );
+    },
       onTap: () {
         Navigator.push(
         context, PageTransition(

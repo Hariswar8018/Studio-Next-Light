@@ -5,13 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:social_media_buttons/social_media_button.dart';
 import 'package:social_media_buttons/social_media_buttons.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:studio_next_light/Parents_Admin_all_data/list_birthday.dart';
 import 'package:studio_next_light/Parents_Admin_all_data/session_school.dart';
 import 'package:studio_next_light/after_login/session.dart';
 import 'package:flutter/material.dart';
 import 'package:studio_next_light/model/school_model.dart';
 import 'package:studio_next_light/picture.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 class Panel_School extends StatelessWidget {
   bool b ;
   Panel_School({super.key, required this.b});
@@ -23,6 +24,23 @@ class Panel_School extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          String phoneNumber = '917000994158';
+          String message = 'Hi, Studio Next Light! We are contacting you regarding your App as a Parent';
+
+          String url = 'https://wa.me/$phoneNumber?text=${Uri.encodeComponent(message)}';
+
+          if (await canLaunch(url)) {
+          await launch(url);
+          } else {
+// Handle error
+          print('Could not launch WhatsApp');
+          }
+        },
+        tooltip: 'Open WhatsApp',
+        child: Icon(Icons.chat),
+      ),
       appBar: AppBar(
         iconTheme: IconThemeData(
           color: Colors.white,
@@ -275,12 +293,25 @@ class ChatUserState extends State<ChatUser> {
                     },
                     child: Text('Pricipal SIgnature'),
                   ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              child: Birthdayv(
+                                logo: widget.user.Pic_link,
+                                id : widget.user.id ,
+                                School: widget.user.Name, address: widget.user.Address,                            ),
+                              type: PageTransitionType.rightToLeft,
+                              duration: Duration(milliseconds: 400)));
+                    },
+                    child: Text('Birthday'),
+                  ),
                 ],
               );
             },
           );
         }
-
       },
       child: Container(
         decoration: BoxDecoration(

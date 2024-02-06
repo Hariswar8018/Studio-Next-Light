@@ -7,7 +7,7 @@ import 'package:social_login_buttons/social_login_buttons.dart';
 import 'package:studio_next_light/after_login/school_names.dart';
 import 'package:studio_next_light/before_check/forgot_password.dart';
 import 'package:studio_next_light/before_check/signup_now.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -30,20 +30,37 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
           extendBodyBehindAppBar: true,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          String phoneNumber = '917000994158';
+          String message = 'Hi, Studio Next Light! We are contacting you regarding your App as Institute';
+
+          String url = 'https://wa.me/$phoneNumber?text=${Uri.encodeComponent(message)}';
+
+          if (await canLaunch(url)) {
+          await launch(url);
+          } else {
+// Handle error
+          print('Could not launch WhatsApp');
+          }
+        },
+        tooltip: 'Open WhatsApp',
+        child: Icon(Icons.chat),
+      ),
           appBar: AppBar(
             automaticallyImplyLeading: true,
             backgroundColor: Colors.transparent,
             elevation: 0,
           ),
-          body:  SingleChildScrollView(
-            child: Container(
-              color: Color(0xfff2f2f2),
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Form(
-                  key: _formKey,
+          body:  Container(
+            color: Color(0xfff2f2f2),
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Form(
+                key: _formKey,
+                child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -97,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       SizedBox(height: 20.0),
                       SizedBox(height: 10,),
-            
+
                       SocialLoginButton(
                         backgroundColor:  Color(0xff50008e),
                         height: 40,
@@ -176,7 +193,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           }, child: Text("Forgot Password?"),),
                         ],
                       ),*/
-            
+
                       SizedBox(height: 10,),
                     ],
                   ),

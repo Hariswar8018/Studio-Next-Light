@@ -11,13 +11,16 @@ import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:studio_next_light/admin/Student_Data_Update.dart';
 import 'package:studio_next_light/admin/student_profile_view.dart';
+import 'package:studio_next_light/after_login/student_shift.dart';
+import 'package:studio_next_light/model/birthday_student.dart';
 import 'package:studio_next_light/model/student_model.dart';
 import 'package:studio_next_light/model/orders_model.dart';
-import 'package:studio_next_light/picture.dart';
+import 'package:studio_next_light/after_login/stu_edit.dart';
 import 'dart:typed_data';
 import 'package:studio_next_light/upload/storage.dart';
 import 'package:intl/intl.dart';
 import 'package:checkbox_formfield/checkbox_formfield.dart';
+import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 
 class Students extends StatelessWidget {
   bool EmailB;
@@ -131,6 +134,7 @@ class Students extends StatelessWidget {
                     id: id,
                     session_id: session_id,
                     class_id: class_id,
+                    length : list.length ,
                     b: shop == "Still Uploading",
                     EmailB: EmailB,
                     RegisB: RegisB,
@@ -244,7 +248,7 @@ class Students extends StatelessWidget {
   }
 }
 
-class ChatUser extends StatelessWidget {
+class ChatUser extends StatefulWidget {
   bool EmailB;
   bool BloodB;
   bool DepB;
@@ -255,6 +259,7 @@ class ChatUser extends StatelessWidget {
   bool Other3B;
   bool Other4B;
   StudentModel user;
+  int length ;
   String id;
   String session_id;
 
@@ -263,6 +268,7 @@ class ChatUser extends StatelessWidget {
 
   ChatUser({super.key,
     required this.user,
+    required this.length ,
     required this.id,
     required this.session_id,
     required this.class_id,
@@ -278,27 +284,56 @@ class ChatUser extends StatelessWidget {
     required this.BloodB});
 
   @override
+  State<ChatUser> createState() => _ChatUserState();
+}
+
+class _ChatUserState extends State<ChatUser> {
+
+  void initState(){
+    v();
+  }
+
+  void v() async {
+    CollectionReference collection = FirebaseFirestore.instance.collection('School').doc(widget.id).collection('Session').doc(widget.session_id).collection('Class');
+        await collection.doc(widget.class_id).update({
+      "total" : widget.length,
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ListTile(
       leading: CircleAvatar(
-        backgroundImage: NetworkImage(user.pic),
+        backgroundImage: NetworkImage(widget.user.pic),
       ),
-      title: Text(user.Name, style: TextStyle(fontWeight: FontWeight.w700)),
+      title: Text(widget.user.Name, style: TextStyle(fontWeight: FontWeight.w700)),
       subtitle: Text("Roll no : " +
-          user.Roll_number.toString() +
+          widget.user.Roll_number.toString() +
           "   " +
-          user.Class +
-          user.Section),
+          widget.user.Class +
+          widget.user.Section),
+      onLongPress: (){
+        Navigator.push(
+            context,
+            PageTransition(child: Class1(
+              uder: widget.user,
+              class_id: widget.class_id,
+              session_id: widget.session_id,
+              id: widget.id,
+            ),
+                type: PageTransitionType.rightToLeft,
+                duration: Duration(milliseconds: 800)));
+      },
       onTap: () {
-        if (b) {
-          if (user.state == "Editing") {
+        if (widget.b) {
+          if (widget.user.state == "Editing") {
             Navigator.push(
                 context,
                 PageTransition(child: StudentProfile(
-                      user: user,
-                      class_id: class_id,
-                      session_id: session_id,
-                      school_id: id,
+                      user: widget.user,
+                      class_id: widget.class_id,
+                      session_id: widget.session_id,
+                      school_id: widget.id,
                       parent: false,
                     ),
                     type: PageTransitionType.rightToLeft,
@@ -308,7 +343,7 @@ class ChatUser extends StatelessWidget {
                 context,
                 PageTransition(
                     child: StudentProfileN(
-                      user: user,
+                      user: widget.user,
                     ),
                     type: PageTransitionType.rightToLeft,
                     duration: Duration(milliseconds: 800)));
@@ -323,13 +358,13 @@ class ChatUser extends StatelessWidget {
               context,
               PageTransition(
                   child: StudentProfileN(
-                    user: user,
+                    user: widget.user,
                   ),
                   type: PageTransitionType.rightToLeft,
                   duration: Duration(milliseconds: 800)));
         }
       },
-      trailing: user.state == "Editing"
+      trailing: widget.user.state == "Editing"
           ? Container(
           decoration: BoxDecoration(
             border: Border.all(
@@ -350,7 +385,7 @@ class ChatUser extends StatelessWidget {
           ),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(user.state),
+            child: Text(widget.user.state),
           )),
       splashColor: Colors.orange.shade300,
       tileColor: Colors.grey.shade50,
@@ -392,7 +427,7 @@ class Add extends StatefulWidget {
 
 class _AddState extends State<Add> {
   final TextEditingController Name = TextEditingController();
-  final TextEditingController dob = TextEditingController();
+  TextEditingController dob = TextEditingController();
   final TextEditingController AdmissionNumber = TextEditingController();
   final TextEditingController id_number = TextEditingController();
   final TextEditingController Registration_number = TextEditingController();
@@ -460,8 +495,207 @@ class _AddState extends State<Add> {
 
   Uint8List? _file2;
 
-  String pic = " ";
+  List<DateTime?> _singleDatePickerValueWithDefaultValue = [
+    DateTime.now(),
+  ];
 
+
+  String _getValueText(
+      CalendarDatePicker2Type datePickerType,
+      List<DateTime?> values,
+      ) {
+    values =
+        values.map((e) => e != null ? DateUtils.dateOnly(e) : null).toList();
+    var valueText = (values.isNotEmpty ? values[0] : null)
+        .toString()
+        .replaceAll('00:00:00.000', '');
+
+    if (datePickerType == CalendarDatePicker2Type.multi) {
+      valueText = values.isNotEmpty
+          ? values
+          .map((v) => v.toString().replaceAll('00:00:00.000', ''))
+          .join(', ')
+          : 'null';
+    } else if (datePickerType == CalendarDatePicker2Type.range) {
+      if (values.isNotEmpty) {
+        final startDate = values[0].toString().replaceAll('00:00:00.000', '');
+        final endDate = values.length > 1
+            ? values[1].toString().replaceAll('00:00:00.000', '')
+            : 'null';
+        valueText = '$startDate to $endDate';
+      } else {
+        return 'null';
+      }
+    }
+
+    return valueText;
+  }
+
+  _buildCalendarDialogButton() {
+    const dayTextStyle =  TextStyle(color: Colors.black, fontWeight: FontWeight.w700);
+    final weekendTextStyle =
+    TextStyle(color: Colors.grey[500], fontWeight: FontWeight.w600);
+    final anniversaryTextStyle = TextStyle(
+      color: Colors.red[400] ,
+      fontWeight: FontWeight.w700 ,
+      decoration: TextDecoration.underline ,
+    );
+    final config = CalendarDatePicker2WithActionButtonsConfig(
+      dayTextStyle: dayTextStyle,
+      calendarType: CalendarDatePicker2Type.single,
+      selectedDayHighlightColor: Colors.purple[800],
+      closeDialogOnCancelTapped: true,
+      firstDayOfWeek: 1,
+      weekdayLabelTextStyle: const TextStyle(
+        color: Colors.black87,
+        fontWeight: FontWeight.bold,
+      ),
+      controlsTextStyle: const TextStyle(
+        color: Colors.black,
+        fontSize: 15,
+        fontWeight: FontWeight.bold,
+      ),
+      centerAlignModePicker: true,
+      customModePickerIcon: const SizedBox(),
+      selectedDayTextStyle: dayTextStyle.copyWith(color: Colors.white),
+      dayTextStylePredicate: ({required date}) {
+        TextStyle? textStyle;
+        if (date.weekday == DateTime.saturday ||
+            date.weekday == DateTime.sunday) {
+          textStyle = weekendTextStyle;
+        }
+        if (DateUtils.isSameDay(date, DateTime(2021, 1, 25))) {
+          textStyle = anniversaryTextStyle ;
+        }
+        return textStyle;
+      },
+      dayBuilder: ({
+        required date,
+        textStyle,
+        decoration,
+        isSelected,
+        isDisabled,
+        isToday,
+      }) {
+        Widget? dayWidget;
+        if (date.day % 3 == 0 && date.day % 9 != 0) {
+          dayWidget = Container(
+            decoration: decoration,
+            child: Center(
+              child: Stack(
+                alignment: AlignmentDirectional.center,
+                children: [
+                  Text(
+                    MaterialLocalizations.of(context).formatDecimal(date.day),
+                    style: textStyle ,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 27.5),
+                    child: Container(
+                      height: 4,
+                      width: 4,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: isSelected == true
+                            ? Colors.white
+                            : Colors.grey[500],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+        return dayWidget;
+      },
+      yearBuilder: ({
+        required year,
+        decoration,
+        isCurrentYear,
+        isDisabled,
+        isSelected,
+        textStyle,
+      }) {
+        return Center(
+          child: Container(
+            decoration: decoration,
+            height: 36,
+            width: 72,
+            child: Center(
+              child: Semantics(
+                selected: isSelected,
+                button: true,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      year.toString(),
+                      style: textStyle,
+                    ),
+                    if (isCurrentYear == true)
+                      Container(
+                        padding: const EdgeInsets.all(5),
+                        margin: const EdgeInsets.only(left: 5),
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.redAccent,
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+    return Padding(
+      padding: const EdgeInsets.all(15),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ElevatedButton(
+            onPressed: () async {
+              final values = await showCalendarDatePicker2Dialog(
+                context: context,
+                config: config,
+                dialogSize: const Size(325, 400),
+                borderRadius: BorderRadius.circular(15),
+                value: _singleDatePickerValueWithDefaultValue ,
+                dialogBackgroundColor: Colors.white,
+              );
+              if (values != null) {
+                // ignore: avoid_print
+                print(_getValueText(
+                  config.calendarType,
+                  values,
+                ));
+                // Format the DateTime in the desired format (DD/MM/YYYY)
+                setState(() {
+                  _singleDatePickerValueWithDefaultValue  = values;
+                  DateTime? date = _singleDatePickerValueWithDefaultValue.first ;
+                  String dateTimeString = date.toString(); // Replace with your DateTime string
+
+                  // Convert DateTime string to DateTime
+                  DateTime dateTime = DateTime.parse(dateTimeString);
+
+                  // Format the DateTime in the desired format (DD/MM/YYYY)
+                  String formattedDate = DateFormat('dd/MM/yyyy').format(dateTime);
+                  dob = TextEditingController(text: formattedDate);
+                });
+              }
+            },
+            child: const Text('Choose Date of Birth'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String pic = " ";
+  bool isUploading = false;
+  int i = 1 ;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -490,19 +724,27 @@ class _AddState extends State<Add> {
                 child:
                 Icon(Icons.person_pin, size: 30, color: Colors.pinkAccent),
               ),
+
               Padding(
                 padding: const EdgeInsets.only(bottom: 12.0),
                 child: Text("Student Basic Information",
                     style:
                     TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
               ),
-              InkWell(
+              isUploading
+                  ? LinearProgressIndicator()
+                  : InkWell(
                 onTap: () async {
+                  setState(() {
+                    isUploading = true; // Set to true before starting the upload
+                  });
+
                   Uint8List? _file = await pickImage(ImageSource.gallery);
                   String photoUrl = await StorageMethods()
                       .uploadImageToStorage('students', _file!, true);
                   setState(() {
                     pic = photoUrl;
+                    isUploading = false; // Set back to false after upload is complete
                   });
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
@@ -511,12 +753,18 @@ class _AddState extends State<Add> {
                   );
                 },
                 onDoubleTap: () async {
+                  setState(() {
+                    isUploading = true; // Set to true before starting the upload
+                  });
+
                   Uint8List? _file = await pickImage(ImageSource.camera);
                   String photoUrl = await StorageMethods()
                       .uploadImageToStorage('students', _file!, true);
                   setState(() {
                     pic = photoUrl;
+                    isUploading = false; // Set back to false after upload is complete
                   });
+
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text("Profile Pic uploaded"),
@@ -524,13 +772,15 @@ class _AddState extends State<Add> {
                   );
                 },
                 child: Container(
-                    height: 90,
-                    width: 80,
-                    child: Image.network(
-                      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
-                      fit: BoxFit.cover,
-                    )
-                  // You can customize the fit as needed
+                  height: 90,
+                  width: 80,
+                  child: pic == " " ? Image.network(
+                    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+                    fit: BoxFit.cover,
+                  ) : Image.network(
+                    pic,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
               Padding(
@@ -550,7 +800,18 @@ class _AddState extends State<Add> {
                 "TN09863256",
                 false,
               ) : SizedBox(),
-
+              _buildCalendarDialogButton(),
+              Padding(
+                padding: const EdgeInsets.all(14.0),
+                child: TextFormField(
+                  controller: dob, readOnly: true ,
+                  decoration: InputDecoration(
+                    labelText: "Date of Birth",
+                    isDense: true,
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+              ),
               d(
                 AdmissionNumber,
                 "Admission Number",
@@ -561,12 +822,6 @@ class _AddState extends State<Add> {
                 id_number,
                 "Id Number",
                 "AN000123",
-                false,
-              ),
-              d(
-                dob,
-                "Date of Birth",
-                "14 October 2023",
                 false,
               ),
               max(Roll, "Roll Number", "21", true, 3),
@@ -804,18 +1059,26 @@ class _AddState extends State<Add> {
         .collection('Class').doc(widget.classid)
         .collection("Student");
 
-    String customDocumentId = DateTime.now().millisecondsSinceEpoch.toString(); // Replace with your own custom ID
-    String pic = DateTime.now().microsecondsSinceEpoch.toString();
-    String Mobile1 = Mobile.text;
-    String Roll1 = Roll.text;
+    String customDocumentId = DateTime.now().millisecondsSinceEpoch.toString() ; // Replace with your own custom ID
 
-    int rollNumber = int.tryParse(Roll1) ?? 3;
-    String shhhh = AdmissionNumber.text.isEmpty ? customDocumentId : AdmissionNumber.text;
+    String Mobile1 = Mobile.text ;
+    String Roll1 = Roll.text ;
+
+    int rollNumber = int.tryParse(Roll1) ?? 3 ;
+    String shhhh = AdmissionNumber.text.isEmpty ? customDocumentId : AdmissionNumber.text ;
+    String pichj = DateTime.now().microsecondsSinceEpoch.toString() ;
+    String jh = "DSC_00" + pichj ;
+    DateTime? date = _singleDatePickerValueWithDefaultValue.first ;
+    String dateofbirth = date.toString() ;
+
+    setState(() {
+      i ++ ;
+    });
 
     int MobileNum = int.tryParse(Mobile1) ?? 7978097489;
     StudentModel student1 = StudentModel(
-        Name: Name.text,
-        id: id_number.text,
+        Name: Name.text ,
+        id: id_number.text ,
         Address: Address.text,
         Email: Email.text ?? 'NA',
         Admission_number: shhhh,
@@ -838,10 +1101,18 @@ class _AddState extends State<Add> {
         Other3: Other3.text ?? 'NA',
         Other4: Other4.text ?? 'NA',
         state: "Editing",
-        dob: dob.text, Pic_Name: pic);
+        dob: dob.text,
+        Pic_Name: jh, newdob: dateofbirth , School_id_one: pichj );
 
     await collection.doc(shhhh).set(student1.toJson());
-    
+
+    StudentModel2 hghh7 = StudentModel2(Name: Name.text, id: pichj,
+        Mobile: MobileNum.toString(), pic: pic, newdob: dateofbirth, dne : false ,
+        School_id_one: pichj, par: false);
+
+    await FirebaseFirestore.instance.collection("School").doc(widget.id)
+        .collection("Students").doc(pichj).set(hghh7.toJson());
+
     CollectionReference collection22 = FirebaseFirestore.instance.collection(
         'Admin'); //Update Student in Admin Panel
     await collection22.doc("Order").update({
@@ -903,381 +1174,6 @@ class _AddState extends State<Add> {
           return null;
         },
       ),
-    );
-  }
-}
-
-class StudentProfile extends StatelessWidget {
-  bool parent;
-
-  StudentModel user;
-
-  String class_id;
-  String session_id;
-  String school_id;
-
-  StudentProfile({super.key,
-    required this.user,
-    required this.class_id,
-    required this.session_id,
-    required this.school_id,
-    required this.parent});
-
-  pickImage(ImageSource source) async {
-    final ImagePicker _imagePicker = ImagePicker();
-    XFile? _file = await _imagePicker.pickImage(source: source);
-
-    if (_file != null) {
-      final croppedFile = await ImageCropper().cropImage(
-        sourcePath: _file.path,
-        aspectRatioPresets: [
-          CropAspectRatioPreset.square,
-          CropAspectRatioPreset.ratio3x2,
-          CropAspectRatioPreset.original,
-          CropAspectRatioPreset.ratio4x3,
-          CropAspectRatioPreset.ratio16x9,
-        ],
-        uiSettings: [
-          AndroidUiSettings(
-              toolbarTitle: 'Crop Student Image',
-              toolbarColor: Colors.deepOrange,
-              toolbarWidgetColor: Colors.white,
-              initAspectRatio: CropAspectRatioPreset.original,
-              lockAspectRatio: false),
-          IOSUiSettings(
-            title: 'Cropper',
-          ),
-        ],
-      );
-      if (croppedFile != null) {
-        final Uint8List data = await croppedFile.readAsBytes();
-        return data;
-      }
-    }
-    print('No Image Selected');
-    return null;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(user.Name),
-        backgroundColor: Colors.orange,
-        actions: [
-          parent
-              ? SizedBox()
-              : Padding(
-            padding: const EdgeInsets.only(right: 10.0),
-            child: IconButton(
-                onPressed: () async {
-                  CollectionReference collection = FirebaseFirestore
-                      .instance
-                      .collection('School')
-                      .doc(school_id)
-                      .collection('Session')
-                      .doc(session_id)
-                      .collection('Class')
-                      .doc(class_id)
-                      .collection("Student");
-                  await collection.doc(user.Admission_number).delete();
-                  CollectionReference collection22 =
-                  FirebaseFirestore.instance.collection('Admin');
-                  await collection22.doc("Order").update({
-                    'Students': FieldValue.increment(-1),
-                  });
-                },
-                icon: Icon(Icons.delete, color: Colors.white)),
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Center(
-                child: InkWell(
-                  onLongPress: (){
-                    Navigator.push(
-                        context,
-                        PageTransition(
-                            child: Pic(str : user.pic, name : user.Name),
-                            type: PageTransitionType.rightToLeft,
-                            duration: Duration(milliseconds: 400)));
-                  },
-                  onTap: () async {
-                    try{
-                      Uint8List? _file = await pickImage(ImageSource.gallery);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text("Uploading..."),
-                        ),
-                      );
-                      String photoUrl = await StorageMethods()
-                          .uploadImageToStorage('students', _file!, true);
-                      await FirebaseFirestore.instance
-                        ..collection('School')
-                            .doc(school_id).collection('Session')
-                            .doc(session_id)
-                            .collection('Class')
-                            .doc(class_id)
-                            .collection("Student")
-                            .doc(user.Admission_number)
-                            .update({
-                          "pic": photoUrl,
-                        });
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text("Profile Pic updated"),
-                        ),
-                      );
-                    }catch(e){
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text("${e}"),
-                        ),
-                      );
-                    }
-                  },
-                  onDoubleTap: () async {
-                    try{
-                      Uint8List? _file = await pickImage(ImageSource.camera);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text("Uploading..."),
-                        ),
-                      );
-                      String photoUrl = await StorageMethods()
-                          .uploadImageToStorage('students', _file!, true);
-                      await FirebaseFirestore.instance
-                        ..collection('School')
-                            .doc(school_id).collection('Session')
-                            .doc(session_id)
-                            .collection('Class')
-                            .doc(class_id)
-                            .collection("Student")
-                            .doc(user.Admission_number)
-                            .update({
-                          "pic": photoUrl,
-                        });
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text("Profile Pic updated"),
-                        ),
-                      );
-                    }catch(e){
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text("${e}"),
-                        ),
-                      );
-                    }
-                  },
-                  child: CircleAvatar(
-                    backgroundImage: NetworkImage(user.pic),
-                    radius: 120,
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Center(child: Text("Single Tap to open Gallery and Double Tap to open Camera", textAlign : TextAlign.center, style : TextStyle(fontSize : 9, color : Colors.blue))),
-            ),
-            Center(child: Text(user.Pic_Name)),
-            SizedBox(height: 10),
-            GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      PageTransition(
-                          child: Student_Data_Update(
-                            class_id: class_id,
-                            session_id: session_id,
-                            pic: user.pic,
-                            school_id: school_id,
-                            student_id: user.Admission_number,
-                            change_change: 'Name',
-                            to_change: 'Name',
-                          ),
-                          type: PageTransitionType.rightToLeft,
-                          duration: Duration(milliseconds: 800)));
-                },
-                child: s("Name", user.Name, false, true)),
-            GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      PageTransition(
-                          child: Student_Data_Update(
-                            class_id: class_id,
-                            session_id: session_id,
-                            pic: user.pic,
-                            school_id: school_id,
-                            student_id: user.Admission_number,
-                            change_change: 'Father Name',
-                            to_change: 'Father_Name',
-                          ),
-                          type: PageTransitionType.rightToLeft,
-                          duration: Duration(milliseconds: 800)));
-                },
-                child: s("Father Name", user.Father_Name, true, true)),
-            GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      PageTransition(
-                          child: Student_Data_Update(
-                            class_id: class_id,
-                            session_id: session_id,
-                            pic: user.pic,
-                            school_id: school_id,
-                            student_id: user.Admission_number,
-                            change_change: 'Mother Name',
-                            to_change: 'Mother_Name',
-                          ),
-                          type: PageTransitionType.rightToLeft,
-                          duration: Duration(milliseconds: 800)));
-                },
-                child: s("Mother Name", user.Mother_Name, false, true)),
-            GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      PageTransition(
-                          child: Student_Data_Update(
-                            class_id: class_id,
-                            session_id: session_id,
-                            pic: user.pic,
-                            school_id: school_id,
-                            student_id: user.Admission_number,
-                            change_change: 'Blood Group',
-                            to_change: 'BloodGroup',
-                          ),
-                          type: PageTransitionType.rightToLeft,
-                          duration: Duration(milliseconds: 800)));
-                },
-                child: s("Blood Group", user.BloodGroup, true, true)),
-            s("Mobile", user.Mobile.toString(), false, false),
-            InkWell(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      PageTransition(
-                          child: Student_Data_Update(
-                            class_id: class_id,
-                            session_id: session_id,
-                            pic: user.pic,
-                            school_id: school_id,
-                            student_id: user.Admission_number,
-                            change_change: 'Email',
-                            to_change: 'Email',
-                          ),
-                          type: PageTransitionType.rightToLeft,
-                          duration: Duration(milliseconds: 800)));
-                },
-                child: s("Email", user.Email, true, true)),
-            SizedBox(height: 20),
-            s("Admission Number", user.Admission_number, false, false),
-            s("Registration Number", user.Registration_number, true, false),
-            s("ID", user.id, false, false),
-            s("Session", user.Session, true, false),
-            s("Roll Number", user.Roll_number.toString(), false, false),
-            SizedBox(height: 20),
-            s("Batch", user.Batch, true, false),
-            s("Class", user.Class, false, false),
-            s("Section", user.Section, true, false),
-            s("Department", user.Department, false, false),
-            InkWell(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      PageTransition(
-                          child: Student_Data_Update(
-                            class_id: class_id,
-                            session_id: session_id,
-                            pic: user.pic,
-                            school_id: school_id,
-                            student_id: user.Admission_number,
-                            change_change: 'Address',
-                            to_change: 'Address',
-                          ),
-                          type: PageTransitionType.rightToLeft,
-                          duration: Duration(milliseconds: 800)));
-                },
-                child: s("Address", user.Address, true, true)),
-          ],
-        ),
-      ),
-      persistentFooterButtons: [
-        Padding(
-          padding: const EdgeInsets.all(1.0),
-          child: SocialLoginButton(
-            backgroundColor: Color(0xff50008e),
-            height: 40,
-            text: 'Confirm Student Profile ',
-            borderRadius: 20,
-            fontSize: 21,
-            buttonType: SocialLoginButtonType.generalLogin,
-            onPressed: () async {
-              if (parent) {
-                CollectionReference collection = FirebaseFirestore.instance
-                    .collection('School')
-                    .doc(school_id)
-                    .collection('Session')
-                    .doc(session_id)
-                    .collection('Class')
-                    .doc(class_id)
-                    .collection("Student");
-                await collection.doc(user.Admission_number).update({
-                  "State": "Confirm by Parent",
-                });
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                        "Success ! Waiting for Admin to generate SchoolId card"),
-                  ),
-                );
-                Navigator.pop(context);
-              } else {
-                CollectionReference collection = FirebaseFirestore.instance
-                    .collection('School')
-                    .doc(school_id)
-                    .collection('Session')
-                    .doc(session_id)
-                    .collection('Class')
-                    .doc(class_id)
-                    .collection("Student");
-                await collection.doc(user.Admission_number).update({
-                  "State": "Confirm by Inst.",
-                });
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content:
-                    Text('Success ! Waiting for Parents to confirm Now'),
-                  ),
-                );
-                Navigator.pop(context);
-              }
-            },
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget s(String s, String n, bool b, bool j) {
-    return ListTile(
-      leading: j
-          ? Icon(Icons.edit_rounded, color: Colors.green, size: 20)
-          : Icon(Icons.circle, color: Colors.black, size: 20),
-      title: Text(s + " :"),
-      trailing:
-      Text(n, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15)),
-      splashColor: Colors.orange.shade300,
-      tileColor: b ? Colors.grey.shade50 : Colors.white,
     );
   }
 }

@@ -5,6 +5,8 @@ import 'package:studio_next_light/before_check/login.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:studio_next_light/before_check/student_data.dart';
 import 'package:studio_next_light/before_check/super_admin.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/services.dart';
 
 class First2 extends StatelessWidget {
   const First2({super.key});
@@ -30,18 +32,34 @@ class First2 extends StatelessWidget {
                 ElevatedButton(
                   child: Text('Yes'),
                   onPressed: () {
-                    Navigator.of(context).pop(true); // Pop the dialog
+                    SystemNavigator.pop();
                   },
                 ),
               ],
             );
           },
         );
-
         // Return false to prevent the app from being closed immediately
         return false;
       },
       child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () async {
+            String phoneNumber = '917000994158';
+            String message = 'Hi, Studio Next Light! We are contacting you regarding your App';
+
+            String url = 'https://wa.me/$phoneNumber?text=${Uri.encodeComponent(message)}';
+
+            if (await canLaunch(url)) {
+            await launch(url);
+            } else {
+// Handle error
+            print('Could not launch WhatsApp');
+            }
+          },
+          tooltip: 'Open WhatsApp',
+          child: Icon(Icons.chat),
+        ),
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Column(

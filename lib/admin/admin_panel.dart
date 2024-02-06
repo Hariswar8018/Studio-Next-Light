@@ -127,11 +127,18 @@ class AdminP extends StatelessWidget {
             ),
             title: Text("Whatsapp"),
             onTap: () async {
-              final Uri _url = Uri.parse(
-                  'https://wa.me/917000994158?text=Hello!%20We%20are%20contacting%20you%20for%20Students%20ID%20Card%20Services!');
-              if (!await launchUrl(_url)) {
-                throw Exception('Could not launch $_url');
-              }
+
+                  String phoneNumber = '917000994158';
+                  String message = 'Hi, Studio Next Light! We are contacting you regarding your App';
+
+                  String url = 'https://wa.me/$phoneNumber?text=${Uri.encodeComponent(message)}';
+
+                  if (await canLaunch(url)) {
+                  await launch(url);
+                  } else {
+// Handle error
+                  print('Could not launch WhatsApp');
+                  }
             },
             subtitle: Text("Inquire in Whatsapp"),
             trailing: Icon(
@@ -232,11 +239,17 @@ class AdminP extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () async {
-              final Uri _url =
-                  Uri.parse('https://wa.me/917000994158?text=Hi%20Wingtrix');
-              if (!await launchUrl(_url)) {
-                throw Exception('Could not launch $_url');
-              }
+                  String phoneNumber = '917000994158';
+                  String message = 'Hi, Studio Next Light! We are contacting you regarding your App';
+
+                  String url = 'https://wa.me/$phoneNumber?text=${Uri.encodeComponent(message)}';
+
+                  if (await canLaunch(url)) {
+                  await launch(url);
+                  } else {
+// Handle error
+                  print('Could not launch WhatsApp');
+                  }
             },
             icon: Icon(Icons.waving_hand),
           ),
@@ -1147,10 +1160,44 @@ class _StudentProfileState extends State<StudentProfile> {
               s("Phone", widget.user.Phone, true, true),
               s("No. of Students", widget.user.Students.toString(), true, true),
               s("Authorize Signature here ", " ", false, true),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 200,
-                child: Image.network(widget.user.AuthorizeSignature),
+              InkWell(
+                onTap: () async {
+                  Uint8List? _file = await pickImage(ImageSource.gallery);
+                  String photoUrl = await StorageMethods()
+                      .uploadImageToStorage('users', _file!, true);
+                  await FirebaseFirestore.instance
+                      .collection('School')
+                      .doc(widget.user.id)
+                      .update({
+                    "AS": photoUrl,
+                  });
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text("School Principle Signature updated "),
+                    ),
+                  );
+                },
+                onDoubleTap: () async {
+                  Uint8List? _file = await pickImage(ImageSource.gallery);
+                  String photoUrl = await StorageMethods()
+                      .uploadImageToStorage('users', _file!, true);
+                  await FirebaseFirestore.instance
+                      .collection('School')
+                      .doc(widget.user.id)
+                      .update({
+                    "AS": photoUrl,
+                  });
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text("School Principle Signature updated "),
+                    ),
+                  );
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 200,
+                  child: Image.network(widget.user.AuthorizeSignature),
+                ),
               )
             ],
           ),

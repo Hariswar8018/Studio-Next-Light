@@ -5,26 +5,18 @@ import 'package:page_transition/page_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:studio_next_light/after_login/stu_edit.dart';
 import 'dart:convert';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show SystemUiOverlayStyle, rootBundle;
-import 'package:csv/csv.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:studio_next_light/after_login/session.dart';
-import 'package:studio_next_light/after_login/students.dart';
 import 'package:studio_next_light/model/student_model.dart';
 import 'package:studio_next_light/upload/csv.dart';
 import 'package:studio_next_light/upload/download.dart';
 import 'dart:typed_data';
 import 'package:studio_next_light/upload/upload.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:uuid/uuid.dart';
+
 
 class StudentsP extends StatelessWidget {
   String id;

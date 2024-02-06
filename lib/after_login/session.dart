@@ -62,9 +62,7 @@ class Session extends StatelessWidget {
               case ConnectionState.done:
                 final data = snapshot.data?.docs;
                 list = data
-                        ?.map((e) => SessionModel.fromJson(e.data()))
-                        .toList() ??
-                    [];
+                        ?.map((e) => SessionModel.fromJson(e.data())).toList() ?? [];
                 return ListView.builder(
                   itemCount: list.length,
                   padding: EdgeInsets.only(top: 10),
@@ -73,7 +71,7 @@ class Session extends StatelessWidget {
                     return ChatUser(
                       user: list[index],
                       id : id,
-                      School : School ,EmailB: EmailB, RegisB: RegisB, Other4B: Other4B,
+                      School : School, EmailB: EmailB, RegisB: RegisB, Other4B: Other4B,
                       Other3B: Other3B, Other2B: Other2B, Other1B: Other1B,
                       MotherB: MotherB, DepB: DepB, BloodB: BloodB,
                     );
@@ -106,9 +104,41 @@ class ChatUser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(user.Name),
-      onTap: () {
+      title: Text(user.Name), onLongPress: (){
+        showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Delete this ?'),
+            content: Text('Do you really want to delete this Sesssion including all Students'),
+            actions: [
+              TextButton(
+                onPressed: () async {
+                  CollectionReference collection1 = FirebaseFirestore.instance.collection('School').doc(id).collection('Session');
+                  await collection1.doc(user.id).delete() ;
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('This Session Deleted'),
+                    ),
+                  );
+                  Navigator.of(context).pop();
+                },
+                child: Text('Yes'),
 
+              ),
+              TextButton(
+                onPressed: () {
+                  // Close the dialog
+                  Navigator.of(context).pop();
+                },
+                child: Text('No'),
+              ),
+            ],
+          );
+        },
+      );
+    },
+      onTap: () {
         Navigator.push(
         context, PageTransition(
        child: Class(id: id, session_id: user.id, Session : user.Name, School: School,
@@ -193,7 +223,7 @@ class Add extends StatelessWidget {
 
                     await collection.doc(customDocumentId).set({
                       'Name': sessionNameController.text,
-                      'id' : customDocumentId,
+                      'id' : customDocumentId ,
                       // Add more fields as needed
                     });
 
@@ -234,6 +264,7 @@ class SessionModel {
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
     data['Name'] = Name;
+    data['id'] = id ;
     return data;
   }
 }

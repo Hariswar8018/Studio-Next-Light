@@ -14,10 +14,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:typed_data';
-import 'dart:ui' as ui;
+import 'dart:ui' as ui ;
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+import 'package:flutter/rendering.dart' ;
 
 class Download extends StatelessWidget {
 
@@ -178,7 +178,7 @@ class Download extends StatelessWidget {
           + "," + record.Pic_Name.toString());
       rows.add([record.Roll_number.toString(), record.Name, record.Pic_Name.toString(),
       record.Father_Name, record.Mobile, record.Address , record.Class, record.Section, record.Department,
-        record.dob, record.BloodGroup, record.Email, record.Mother_Name, record.Other1,
+        record.newdob, record.BloodGroup, record.Email, record.Mother_Name, record.Other1,
         record.Other2, record.Other3, record.Other4
       ]);
     } );
@@ -210,8 +210,8 @@ class Download extends StatelessWidget {
               options: Options(responseType: ResponseType.bytes));
           final result = await ImageGallerySaver.saveImage(
               Uint8List.fromList(response.data),
-              quality: 60,
-              name: "${record.Name} Pic Name : ${record.Pic_Name}");
+              quality: 100,
+              name: "${record.Pic_Name}");
           print(result);
           print("Image downloaded successfully for ${record.Name}");
         } catch (error) {

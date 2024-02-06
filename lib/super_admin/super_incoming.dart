@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
 import 'package:studio_next_light/Parents_Admin_all_data/search_school.dart';
+import 'package:studio_next_light/super_admin/carousel.dart';
 import 'package:studio_next_light/super_admin/superhome.dart';
 
 class Incoming extends StatelessWidget {
@@ -19,6 +20,17 @@ class Incoming extends StatelessWidget {
         automaticallyImplyLeading: false,
         title : Text("Super Admin Area", style : TextStyle(color : Colors.white)),
         backgroundColor:  Color(0xff50008e),
+        actions: [
+          IconButton(onPressed: (){
+            Navigator.push(
+                context,
+                PageTransition(
+                    child: Carousel(),
+                    type: PageTransitionType.rightToLeft,
+                    duration: Duration(milliseconds: 400)));
+          }, icon: Icon(Icons.view_carousel_sharp, color : Colors.white)),
+          SizedBox(width : 9),
+        ],
       ),
       body : StreamBuilder(
         stream: Fire.collection('Admin').where('This', isEqualTo : "This").snapshots(),

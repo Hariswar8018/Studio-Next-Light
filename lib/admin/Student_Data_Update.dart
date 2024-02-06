@@ -42,7 +42,7 @@ class Student_Data_Update extends StatelessWidget {
             SizedBox(height : 5),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Center(child: Text( textAlign: TextAlign.center, "Type his/her Registration number as well as Admission number to confirm")),
+              child: Center(child: Text( textAlign: TextAlign.center, "Please type new $change_change for the Student")),
             ),
             d( Admission, "His New $change_change" , "AN000123", false,),
             Padding(

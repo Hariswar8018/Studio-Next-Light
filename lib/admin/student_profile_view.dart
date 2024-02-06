@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:studio_next_light/model/student_model.dart';
 import 'package:studio_next_light/picture.dart';
@@ -42,11 +43,14 @@ class StudentProfileN extends StatelessWidget {
               ),
             ),
             SizedBox(height: 10),
+             Text(user.Pic_Name),
+            SizedBox(height: 10),
              s("Name", user.Name, false, true),
              s("Father Name", user.Father_Name, true, true),
             user.Mother_Name == " " ? s("Mother Name", user.Mother_Name, false, true): SizedBox(),
             user.BloodGroup == " " ? s("Blood Group", user.BloodGroup, true, true) : SizedBox(),
             s("Mobile", user.Mobile.toString(), false, true),
+            s("Date of Birth : " , hjk(user.newdob) , false, true),
             user.Email == " " ?  s("Email", user.Email, true, true) : SizedBox(),
             SizedBox(height: 20),
             user.Admission_number == " " ? s("Admission Number", user.Admission_number, false, true): SizedBox(),
@@ -75,5 +79,16 @@ class StudentProfileN extends StatelessWidget {
       splashColor: Colors.orange.shade300,
       tileColor: b ? Colors.grey.shade50 : Colors.white,
     );
+  }
+  String hjk( String g ) {
+    String dateTimeString = g; // Replace with your DateTime string
+    print(g);
+    // Convert DateTime string to DateTime
+    DateTime dateTime = DateTime.parse(dateTimeString);
+
+    // Format the DateTime in the desired format (DD/MM/YYYY)
+    String formattedDate = DateFormat('dd/MM/yyyy').format(dateTime);
+
+    return formattedDate ;
   }
 }

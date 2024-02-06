@@ -96,6 +96,7 @@ class _CsvState extends State<Csv> {
             int i = 100 ;
             if (_data.isNotEmpty) {
               for (var element in _data.skip(1)) {
+                String picn= DateTime.now().microsecondsSinceEpoch.toString();
                 var myData = {
                   "Registration_number": i.toString(),
                   "Admission_number" : i.toString(),
@@ -106,7 +107,7 @@ class _CsvState extends State<Csv> {
                   "dob": element[3].toString(),
             "Address": element[4].toString(),
                   "Mobile": element[5].toString(),
-                  "Pic_Name": element[6].toString(),
+                  "Pic_Name": picn,
                 };
                 // Use the first name from the CSV as the document ID
                 String docId = element[0].toString();
