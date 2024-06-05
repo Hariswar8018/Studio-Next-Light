@@ -1,5 +1,6 @@
 import 'dart:io' ;
 import 'package:flutter/material.dart' ;
+import 'package:studio_next_light/Parents_Portal/home.dart';
 import 'package:studio_next_light/admin/admin_panel.dart' ;
 import 'package:studio_next_light/after_login/school_names.dart' ;
 import 'package:studio_next_light/api.dart';
@@ -26,14 +27,16 @@ Future< void> main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   WidgetsFlutterBinding.ensureInitialized() ;
   final bool Admin = prefs.getBool('Admin') ?? false ;
+  final bool Parent = prefs.getBool('Parent') ?? false ;
   await  FirebaseApi().initNotification() ;
-  runApp( MyApp(Admin : Admin));
+  
+  runApp( MyApp(Admin : Admin, Parent : Parent));
 }
 
 
 class MyApp extends StatefulWidget {
-  bool Admin ;
-  MyApp({required this.Admin});
+  bool Admin ; bool Parent ;
+  MyApp({required this.Admin, required this.Parent});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -66,7 +69,7 @@ class _MyAppState extends State<MyApp> {
           future: Future.delayed(Duration(seconds: 3)),
           builder: (ctx, timer) =>
           timer.connectionState == ConnectionState.done
-              ? ( user == null ? First() : ( widget.Admin ? AdminP() : Schoo_Name()) ) //Screen to navigate to once the splashScreen is done.
+              ? (  widget.Parent ? HomePa() : (user == null ? First() : ( widget.Admin ? AdminP() : Schoo_Name())) ) //Screen to navigate to once the splashScreen is done.
               : Container(color: Colors.white ,
             width: MediaQuery.of(context).size.width ,
             child: Image(

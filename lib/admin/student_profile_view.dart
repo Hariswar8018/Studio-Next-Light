@@ -2,15 +2,17 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:studio_next_light/after_login/calender.dart';
+import 'package:studio_next_light/attendance/Qr_code.dart';
 import 'package:studio_next_light/model/student_model.dart';
 import 'package:studio_next_light/picture.dart';
 
 class StudentProfileN extends StatelessWidget {
-
+  String schoolid, sessionid, classid ;
   StudentModel user;
   StudentProfileN(
       {super.key,
-        required this.user,});
+        required this.user, required this.schoolid, required this.classid, required this.sessionid});
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +46,25 @@ class StudentProfileN extends StatelessWidget {
             ),
             SizedBox(height: 10),
              Text(user.Pic_Name),
+            SizedBox(height: 10),
+             ElevatedButton( onPressed : (){
+               Navigator.push(
+                   context,
+                   PageTransition(
+                       child: MyCalenderPage(idi: user.School_id_one, df: schoolid, classi: classid, sessioni: sessionid, user: user,),
+                       type: PageTransitionType.rightToLeft,
+                       duration: Duration(milliseconds: 400)
+                   )
+               );
+             }, child : Text("Attendance Register")),
+            ElevatedButton( onPressed : (){
+              Navigator.push(
+                  context,
+                  PageTransition(
+                      child: Qrcode(idi: user.Admission_number, school_id: schoolid, class_id: classid, sesiion : sessionid),
+                      type: PageTransitionType.rightToLeft,
+                      duration: Duration(milliseconds: 400)));
+            }, child : Text("QR Code")),
             SizedBox(height: 10),
              s("Name", user.Name, false, true),
              s("Father Name", user.Father_Name, true, true),

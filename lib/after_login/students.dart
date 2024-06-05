@@ -4,9 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' ;
+import 'package:cloud_firestore/cloud_firestore.dart' ;
+import 'package:flutter/material.dart' ;
 import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:studio_next_light/admin/Student_Data_Update.dart';
@@ -19,7 +19,6 @@ import 'package:studio_next_light/after_login/stu_edit.dart';
 import 'dart:typed_data';
 import 'package:studio_next_light/upload/storage.dart';
 import 'package:intl/intl.dart';
-import 'package:checkbox_formfield/checkbox_formfield.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 
 class Students extends StatelessWidget {
@@ -38,12 +37,14 @@ class Students extends StatelessWidget {
 
   String shop;
 
-  String School;
+  String School ;
   String Class;
+  String sec ;
   String Session;
-
+int fee ; bool feeo ;
   Students({super.key,
-    required this.id,
+    required this.id, required this.fee, required this.feeo ,
+    required this.sec ,
     required this.session_id,
     required this.class_id,
     required this.shop,
@@ -96,7 +97,7 @@ class Students extends StatelessWidget {
               MaterialPageRoute(
                 builder: (context) =>
                     Add(
-                      id: id,
+                      id: id,  cl : Class , sec : sec ,
                       session_id: session_id,
                       classid: class_id,
                       EmailB: EmailB,
@@ -114,7 +115,7 @@ class Students extends StatelessWidget {
           },
           child: Icon(Icons.add)),
       body: StreamBuilder(
-        stream: Fire.collection('School').doc(id).collection('Session').doc(session_id).collection("Class").doc(class_id).collection("Student").snapshots(),
+        stream: Fire.collection('School').doc(id).collection('Session').doc(session_id).collection("Class").doc(class_id).collection("Student").orderBy("Name").snapshots(),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
@@ -131,8 +132,8 @@ class Students extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return ChatUser(
                     user: list[index],
-                    id: id,
-                    session_id: session_id,
+                    id: id, fee : fee,
+                    session_id: session_id, School : School,
                     class_id: class_id,
                     length : list.length ,
                     b: shop == "Still Uploading",
@@ -145,6 +146,7 @@ class Students extends StatelessWidget {
                     MotherB: MotherB,
                     DepB: DepB,
                     BloodB: BloodB,
+                    Cl : Class, sec : sec, feeo : feeo,
                   );
                 },
               );
@@ -262,11 +264,15 @@ class ChatUser extends StatefulWidget {
   int length ;
   String id;
   String session_id;
-
+  String Cl ;
+  String sec ;
   String class_id;
-  bool b;
+  bool b; String School ;
+  int fee; bool feeo ;
 
-  ChatUser({super.key,
+  ChatUser({super.key, required this.School,
+    required this.fee , required this.feeo,
+    required this.Cl, required this.sec,
     required this.user,
     required this.length ,
     required this.id,
@@ -291,13 +297,107 @@ class _ChatUserState extends State<ChatUser> {
 
   void initState(){
     v();
+    sd();
   }
+
 
   void v() async {
     CollectionReference collection = FirebaseFirestore.instance.collection('School').doc(widget.id).collection('Session').doc(widget.session_id).collection('Class');
         await collection.doc(widget.class_id).update({
       "total" : widget.length,
     });
+
+        if( widget.user.Class != widget.Cl ){
+          try{
+            CollectionReference collection = FirebaseFirestore.instance.collection('School').doc(widget.id)
+                .collection('Session').doc(widget.session_id).collection('Class')
+                .doc(widget.class_id)
+                .collection("Student");
+            await collection.doc(widget.user.Admission_number).update({
+              'Class' : widget.Cl,
+            });
+          }catch(e){
+            CollectionReference collection = FirebaseFirestore.instance.collection('School').doc(widget.id)
+                .collection('Session').doc(widget.session_id).collection('Class')
+                .doc(widget.class_id)
+                .collection("Student");
+            await collection.doc(widget.user.Registration_number).update({
+              'Class' : widget.Cl,
+            });
+          }
+
+        }
+        if ( widget.user.Section != widget.sec ){
+          try{
+            CollectionReference collection = FirebaseFirestore.instance.collection('School').doc(widget.id)
+                .collection('Session').doc(widget.session_id).collection('Class')
+                .doc(widget.class_id)
+                .collection("Student");
+            await collection.doc(widget.user.Registration_number).update({
+              'Section' : widget.sec,
+            });
+          }catch(e){
+            CollectionReference collection = FirebaseFirestore.instance.collection('School').doc(widget.id)
+                .collection('Session').doc(widget.session_id).collection('Class')
+                .doc(widget.class_id)
+                .collection("Student");
+            await collection.doc(widget.user.Admission_number).update({
+              'Section' : widget.sec,
+            });
+
+          }
+
+        }
+    if( widget.user.Classn != widget.class_id ){
+      try{
+        CollectionReference collection = FirebaseFirestore.instance.collection('School').doc(widget.id)
+            .collection('Session').doc(widget.session_id).collection('Class')
+            .doc(widget.class_id)
+            .collection("Student");
+        await collection.doc(widget.user.Registration_number).update({
+          'Classn' : widget.class_id,
+        });
+      }catch(e){
+        CollectionReference collection = FirebaseFirestore.instance.collection('School').doc(widget.id)
+            .collection('Session').doc(widget.session_id).collection('Class')
+            .doc(widget.class_id)
+            .collection("Student");
+        await collection.doc(widget.user.Admission_number).update({
+          'Classn' : widget.class_id,
+        });
+      }
+    }
+
+  }
+  void sd() async {
+    String t5 = getCurrentMonthYear() ;
+    if ( t5 != widget.user.LastUpdate ){
+      try{
+        CollectionReference collection = FirebaseFirestore.instance.collection('School').doc(widget.id)
+            .collection('Session').doc(widget.session_id).collection('Class')
+            .doc(widget.class_id)
+            .collection("Student");
+        await collection.doc(widget.user.Admission_number).update({
+          'Mf' : FieldValue.increment(widget.fee),
+          'LU' : t5,
+
+        });
+      }catch(e){
+        CollectionReference collection = FirebaseFirestore.instance.collection('School').doc(widget.id)
+            .collection('Session').doc(widget.session_id).collection('Class')
+            .doc(widget.class_id)
+            .collection("Student");
+        await collection.doc(widget.user.Registration_number).update({
+          'Mf' : FieldValue.increment(widget.fee), 'LU' : t5,
+        });
+      }
+    }
+  }
+  String getCurrentMonthYear() {
+    DateTime now = DateTime.now();
+    String month = DateFormat.MMM().format(now); // Get abbreviated month name (e.g., Dec, Jan, Feb)
+    String year = DateFormat('yy').format(now); // Get last two digits of the year (e.g., 22, 24, 45)
+    return "$month-$year";
   }
 
   @override
@@ -309,9 +409,7 @@ class _ChatUserState extends State<ChatUser> {
       title: Text(widget.user.Name, style: TextStyle(fontWeight: FontWeight.w700)),
       subtitle: Text("Roll no : " +
           widget.user.Roll_number.toString() +
-          "   " +
-          widget.user.Class +
-          widget.user.Section),
+          "   " ),
       onLongPress: (){
         Navigator.push(
             context,
@@ -326,70 +424,63 @@ class _ChatUserState extends State<ChatUser> {
       },
       onTap: () {
         if (widget.b) {
-          if (widget.user.state == "Editing") {
             Navigator.push(
                 context,
-                PageTransition(child: StudentProfile(
+                PageTransition(child: StudentProfile( str : widget.School,
                       user: widget.user,
                       class_id: widget.class_id,
                       session_id: widget.session_id,
                       school_id: widget.id,
                       parent: false,
                     ),
-                    type: PageTransitionType.rightToLeft,
-                    duration: Duration(milliseconds: 800)));
-          } else {
-            Navigator.push(
-                context,
-                PageTransition(
-                    child: StudentProfileN(
-                      user: widget.user,
-                    ),
-                    type: PageTransitionType.rightToLeft,
-                    duration: Duration(milliseconds: 800)));
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text("Profile Confirmed and closed for Editing !"),
-              ),
+                    type: PageTransitionType.rightToLeft ,
+                    duration: Duration(
+                        milliseconds: 800
+                    )
+                )
             );
-          }
+
         } else {
           Navigator.push(
               context,
               PageTransition(
                   child: StudentProfileN(
-                    user: widget.user,
+                    user: widget.user, schoolid: widget.id, classid: widget.class_id, sessionid: widget.session_id,
                   ),
                   type: PageTransitionType.rightToLeft,
                   duration: Duration(milliseconds: 800)));
         }
       },
-      trailing: widget.user.state == "Editing"
-          ? Container(
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.green, // Set the border color to green
-              width: 2.0, // Set the border width
-            ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text("Editing"),
-          ))
-          : Container(
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.red, // Set the border color to green
-              width: 2.0, // Set the border width
-            ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(widget.user.state),
-          )),
+      trailing: widget.feeo
+          ? acheck()
+          : Text("₹" + addCommas(widget.user.Myfee), style : TextStyle(fontWeight : FontWeight.w700, fontSize : widget.user.Myfee > 2500  ? 20 : 18, color : widget.user.Myfee > 2500 ? Colors.red : Colors.black)),
       splashColor: Colors.orange.shade300,
       tileColor: Colors.grey.shade50,
     );
+  }
+  Widget acheck(){
+    DateTime now = DateTime.now();
+    String stm = '${now.day}-${now.month}-${now.year}';
+    if ( widget.user.present.contains(stm)) {
+      return Text("P", style : TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color : Colors.blue));
+    }else if (widget.user.Leave.contains(stm)) {
+      return Text("L", style : TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color : Colors.orange));
+    }else{
+        return Text("A", style : TextStyle(fontSize: 21, fontWeight: FontWeight.w800, color : Colors.red));
+      }
+  }
+
+  String addCommas(int number) {
+    String formattedNumber = number.toString();
+    if (formattedNumber.length <= 3) {
+      return formattedNumber; // If number is less than or equal to 3 digits, no need for commas
+    }
+    int index = formattedNumber.length - 3;
+    while (index > 0) {
+      formattedNumber = formattedNumber.substring(0, index) + ',' + formattedNumber.substring(index);
+      index -= 2; // Move to previous comma position (every two digits)
+    }
+    return formattedNumber;
   }
 }
 
@@ -406,9 +497,10 @@ class Add extends StatefulWidget {
   bool Other2B;
   bool Other3B;
   bool Other4B;
-
+  String cl ; String sec ;
   Add({super.key,
     required this.id,
+    required this.cl , required this.sec ,
     required this.session_id,
     required this.classid,
     required this.EmailB,
@@ -426,6 +518,13 @@ class Add extends StatefulWidget {
 }
 
 class _AddState extends State<Add> {
+  void initState(){
+    setState((){
+      Registration_number.text = DateTime.now().microsecondsSinceEpoch.toString();
+      Class.text = widget.cl ;
+      Section.text = widget.sec ;
+    });
+  }
   final TextEditingController Name = TextEditingController();
   TextEditingController dob = TextEditingController();
   final TextEditingController AdmissionNumber = TextEditingController();
@@ -451,7 +550,7 @@ class _AddState extends State<Add> {
   final TextEditingController Other4 = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
-  bool? checkboxIconFormFieldValue = false;
+  bool? checkboxIconFormFieldValue = true;
 
   String s = " ";
 
@@ -696,6 +795,8 @@ class _AddState extends State<Add> {
   String pic = " ";
   bool isUploading = false;
   int i = 1 ;
+
+  bool islite = false ;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -703,6 +804,24 @@ class _AddState extends State<Add> {
         automaticallyImplyLeading: true,
         title: Text("Add a Student"),
         backgroundColor: Colors.orange,
+        actions : [
+          TextButton.icon(onPressed: () {
+            setState((){
+
+                islite = !islite ;
+
+            });
+          },
+            icon: Icon(Icons.speed, size: 25),
+            label: Text("Speed Mode"),
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(
+                 islite ?  Colors.blue : Colors.orange),
+              // Set the background color of the button
+              foregroundColor: MaterialStateProperty.all<Color>(
+                  Colors.white), // Set the text color of the button
+            ),),
+        ]
       ),
       body: Container(
         width: MediaQuery
@@ -794,12 +913,12 @@ class _AddState extends State<Add> {
                 "AYUSMAN SAMASI",
                 false,
               ),
-          widget.RegisB ? d(
+          dc(
                 Registration_number,
                 "Registration Number",
                 "TN09863256",
                 false,
-              ) : SizedBox(),
+              ) ,
               _buildCalendarDialogButton(),
               Padding(
                 padding: const EdgeInsets.all(14.0),
@@ -812,12 +931,12 @@ class _AddState extends State<Add> {
                   ),
                 ),
               ),
-              d(
+              widget.RegisB ? d(
                 AdmissionNumber,
                 "Admission Number",
                 "AN000123",
                 false,
-              ),
+              ) : SizedBox(),
               d(
                 id_number,
                 "Id Number",
@@ -974,35 +1093,6 @@ class _AddState extends State<Add> {
                       : SizedBox(width: 0.1),
                 ),
               ]),
-              CheckboxListTileFormField(
-                title: Text(
-                    'T&C- I consent to processing the information to be provided by me as a photo id card.'),
-                onSaved: (bool? value) {
-                  print(value);
-                },
-                validator: (bool? value) {
-                  if (value!) {
-                    return null;
-                  } else {
-                    return 'Please accept T&C';
-                  }
-                },
-                onChanged: (value) {
-                  if (value) {
-                    print("ListTile Checked :)");
-                    setState(() {
-                      checkboxIconFormFieldValue = value;
-                    });
-                  } else {
-                    print("ListTile Not Checked :(");
-                    setState(() {
-                      checkboxIconFormFieldValue = value;
-                    });
-                  }
-                },
-                autovalidateMode: AutovalidateMode.always,
-                contentPadding: EdgeInsets.all(1),
-              ),
 
             ],
           ),
@@ -1019,7 +1109,7 @@ class _AddState extends State<Add> {
             fontSize: 21,
             buttonType: SocialLoginButtonType.generalLogin,
             onPressed: () async {
-              bool jgfj = checkboxIconFormFieldValue ?? false;
+              bool jgfj = checkboxIconFormFieldValue ?? true;
               if (jgfj) {
                 print("1");
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -1029,7 +1119,39 @@ class _AddState extends State<Add> {
                 );
                 try {
                   await dhhh();
-                  Navigator.pop(context);
+                  if(islite){
+                    pic == " ";
+                    Registration_number.text = DateTime.now().microsecondsSinceEpoch.toString();
+                    Name.clear();
+                     dob.clear();
+                     AdmissionNumber.clear();
+                     id_number.clear();
+                     blood.clear();
+                     Roll.clear();
+                     Father.clear();
+                     Mother.clear();
+                     Mobile.clear();
+                     Email.clear();
+                     Address.clear();
+                     Class.clear();
+                     Section.clear();
+                     Con.clear();
+                     Driver.clear();
+                     Other1.clear();
+                     Other2.clear();
+                     Other3.clear();
+                     Other4.clear();
+                     setState((){
+
+                     });
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Success ! Now Add New Data'),
+                      ),
+                    );
+                  }else{
+                    Navigator.pop(context);
+                  }
                 } catch (e) {
                   print('${e}');
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -1065,34 +1187,30 @@ class _AddState extends State<Add> {
     String Roll1 = Roll.text ;
 
     int rollNumber = int.tryParse(Roll1) ?? 3 ;
-    String shhhh = AdmissionNumber.text.isEmpty ? customDocumentId : AdmissionNumber.text ;
-    String pichj = DateTime.now().microsecondsSinceEpoch.toString() ;
-    String jh = "DSC_00" + pichj ;
+    String jh = "DSC_00" + Registration_number.text ;
     DateTime? date = _singleDatePickerValueWithDefaultValue.first ;
     String dateofbirth = date.toString() ;
-
     setState(() {
       i ++ ;
     });
-
     int MobileNum = int.tryParse(Mobile1) ?? 7978097489;
     StudentModel student1 = StudentModel(
-        Name: Name.text ,
+        Name: Name.text , Myfee : 0 , LastUpdate : "Up-10",
         id: id_number.text ,
-        Address: Address.text,
+        Address: Address.text ,
         Email: Email.text ?? 'NA',
-        Admission_number: shhhh,
-        Batch: Batch.text,
-        BloodGroup: blood.text ?? 'NA',
-        Class: Class.text,
-        Con: " ",
-        Department: Department.text ?? 'NA',
-        Driver: " ",
-        Father_Name: Father.text,
-        Mobile: MobileNum.toString(),
+        Admission_number: AdmissionNumber.text ,
+        Batch: Batch.text ,
+        BloodGroup: blood.text ?? 'NA' ,
+        Class: Class.text ,
+        Con: " " ,
+        Department: Department.text ?? 'NA' ,
+        Driver: " " ,
+        Father_Name: Father.text ,
+        Mobile: MobileNum.toString() ,
         Mother_Name: Mother.text ?? 'NA',
         pic: pic,
-        Registration_number: Registration_number.text ?? "NA",
+        Registration_number: Registration_number.text , Classn : "X",
         Roll_number: rollNumber,
         Section: Section.text,
         Session: Session.text,
@@ -1101,17 +1219,18 @@ class _AddState extends State<Add> {
         Other3: Other3.text ?? 'NA',
         Other4: Other4.text ?? 'NA',
         state: "Editing",
-        dob: dob.text,
-        Pic_Name: jh, newdob: dateofbirth , School_id_one: pichj );
+        dob: dob.text, Leave : [],
+        Pic_Name: jh, newdob: dateofbirth , School_id_one: Registration_number.text, present: [] );
 
-    await collection.doc(shhhh).set(student1.toJson());
+    await collection.doc(Registration_number.text).set(student1.toJson());
 
-    StudentModel2 hghh7 = StudentModel2(Name: Name.text, id: pichj,
+    StudentModel2 hghh7 = StudentModel2(Name: Name.text, id: Registration_number.text,
         Mobile: MobileNum.toString(), pic: pic, newdob: dateofbirth, dne : false ,
-        School_id_one: pichj, par: false);
+        School_id_one: Registration_number.text, par: false
+    );
 
     await FirebaseFirestore.instance.collection("School").doc(widget.id)
-        .collection("Students").doc(pichj).set(hghh7.toJson());
+        .collection("Students").doc(Registration_number.text).set(hghh7.toJson());
 
     CollectionReference collection22 = FirebaseFirestore.instance.collection(
         'Admin'); //Update Student in Admin Panel
@@ -1129,6 +1248,8 @@ class _AddState extends State<Add> {
         .collection('Class').doc(widget.classid).update({
       'total': FieldValue.increment(1),
     }); //Update Class Panel
+    await FirebaseFirestore.instance.collection("School").doc(widget.id).collection('Session')
+        .doc(widget.session_id).collection("Students").doc(Registration_number.text).set(student1.toJson());
   }
 
   Widget d(TextEditingController c, String label, String hint, bool number,) {
@@ -1161,6 +1282,27 @@ class _AddState extends State<Add> {
         controller: c,
         keyboardType: number ? TextInputType.number : TextInputType.text,
         maxLength: max,
+        decoration: InputDecoration(
+          labelText: label,
+          hintText: hint,
+          isDense: true,
+          border: OutlineInputBorder(),
+        ),
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'Please type It';
+          }
+          return null;
+        },
+      ),
+    );
+  }
+  Widget dc(TextEditingController c, String label, String hint, bool number,) {
+    return Padding(
+      padding: const EdgeInsets.all(14.0),
+      child: TextFormField(
+        controller: c, readOnly: true,
+        keyboardType: number ? TextInputType.number : TextInputType.text,
         decoration: InputDecoration(
           labelText: label,
           hintText: hint,

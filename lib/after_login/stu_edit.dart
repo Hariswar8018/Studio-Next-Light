@@ -7,10 +7,13 @@ import 'package:page_transition/page_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:studio_next_light/admin/Student_Data_Update.dart';
 import 'package:studio_next_light/admin/student_profile_view.dart';
+import 'package:studio_next_light/after_login/calender.dart';
+import 'package:studio_next_light/attendance/Qr_code.dart';
 import 'package:studio_next_light/model/birthday_student.dart';
 import 'package:studio_next_light/model/student_model.dart';
 import 'package:studio_next_light/model/orders_model.dart';
@@ -18,25 +21,25 @@ import 'package:studio_next_light/picture.dart';
 import 'dart:typed_data';
 import 'package:studio_next_light/upload/storage.dart';
 import 'package:intl/intl.dart';
-import 'package:checkbox_formfield/checkbox_formfield.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
+import '../Parents_Portal/as.dart';
 
 
 class StudentProfile extends StatefulWidget {
   bool parent;
-
+  String str ;
   StudentModel user;
-
   String class_id;
-  String session_id;
+  String session_id ;
   String school_id;
 
   StudentProfile({super.key,
-    required this.user,
+    required this.user,required this.str ,
     required this.class_id,
     required this.session_id,
     required this.school_id,
-    required this.parent});
+    required this.parent
+  });
 
   @override
   State<StudentProfile> createState() => _StudentProfileState();
@@ -83,10 +86,8 @@ class _StudentProfileState extends State<StudentProfile> {
   ];
 
 
-  String _getValueText(
-      CalendarDatePicker2Type datePickerType,
-      List<DateTime?> values,
-      ) {
+  String _getValueText(CalendarDatePicker2Type datePickerType,
+      List<DateTime?> values,) {
     values =
         values.map((e) => e != null ? DateUtils.dateOnly(e) : null).toList();
     var valueText = (values.isNotEmpty ? values[0] : null)
@@ -138,7 +139,8 @@ class _StudentProfileState extends State<StudentProfile> {
                       .collection('Class')
                       .doc(widget.class_id)
                       .collection("Student");
-                  await collection.doc(widget.user.Admission_number).delete();
+                  await collection.doc(widget.user.Registration_number)
+                      .delete();
                   CollectionReference collection22 =
                   FirebaseFirestore.instance.collection('Admin');
                   await collection22.doc("Order").update({
@@ -153,98 +155,251 @@ class _StudentProfileState extends State<StudentProfile> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Center(
-                child: InkWell(
-                  onLongPress: (){
-                    Navigator.push(
-                        context,
-                        PageTransition(
-                            child: Pic(str : widget.user.pic, name : widget.user.Name),
-                            type: PageTransitionType.rightToLeft,
-                            duration: Duration(milliseconds: 400)));
-                  },
-                  onTap: () async {
-                    try{
-                      Uint8List? _file = await pickImage(ImageSource.gallery);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text("Uploading..."),
-                        ),
-                      );
-                      String photoUrl = await StorageMethods()
-                          .uploadImageToStorage('students', _file!, true);
-                      await FirebaseFirestore.instance
-                        ..collection('School')
-                            .doc(widget.school_id).collection('Session')
-                            .doc(widget.session_id)
-                            .collection('Class')
-                            .doc(widget.class_id)
-                            .collection("Student")
-                            .doc(widget.user.Admission_number)
-                            .update({
-                          "pic": photoUrl,
-                        });
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text("Profile Pic updated"),
-                        ),
-                      );
-                    }catch(e){
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text("${e}"),
-                        ),
-                      );
-                    }
-                  },
-                  onDoubleTap: () async {
-                    try{
-                      Uint8List? _file = await pickImage(ImageSource.camera);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text("Uploading..."),
-                        ),
-                      );
-                      String photoUrl = await StorageMethods()
-                          .uploadImageToStorage('students', _file!, true);
-                      await FirebaseFirestore.instance
-                        ..collection('School')
-                            .doc(widget.school_id).collection('Session')
-                            .doc(widget.session_id)
-                            .collection('Class')
-                            .doc(widget.class_id)
-                            .collection("Student")
-                            .doc(widget.user.Admission_number)
-                            .update({
-                          "pic": photoUrl,
-                        });
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text("Profile Pic updated"),
-                        ),
-                      );
-                    }catch(e){
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text("${e}"),
-                        ),
-                      );
-                    }
-                  },
-                  child: CircleAvatar(
-                    backgroundImage: NetworkImage(widget.user.pic),
-                    radius: 120,
+            Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Center(
+                    child: InkWell(
+                      onLongPress: () {
+                        Navigator.push(
+                            context,
+                            PageTransition(
+                                child: Pic(str: widget.user.pic,
+                                    name: widget.user.Name),
+                                type: PageTransitionType.rightToLeft,
+                                duration: Duration(milliseconds: 400)));
+                      },
+                      onTap: () async {
+                        try {
+                          Uint8List? _file = await pickImage(
+                              ImageSource.gallery);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("Uploading..."),
+                            ),
+                          );
+                          String photoUrl = await StorageMethods()
+                              .uploadImageToStorage('students', _file!, true);
+                          await FirebaseFirestore.instance
+                            ..collection('School')
+                                .doc(widget.school_id).collection('Session')
+                                .doc(widget.session_id)
+                                .collection('Class')
+                                .doc(widget.class_id)
+                                .collection("Student")
+                                .doc(widget.user.Registration_number)
+                                .update({
+                              "pic": photoUrl,
+                            });
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("Profile Pic updated"),
+                            ),
+                          );
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("${e}"),
+                            ),
+                          );
+                        }
+                      },
+                      onDoubleTap: () async {
+                        try {
+                          Uint8List? _file = await pickImage(
+                              ImageSource.camera);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("Uploading..."),
+                            ),
+                          );
+                          String photoUrl = await StorageMethods()
+                              .uploadImageToStorage('students', _file!, true);
+                          await FirebaseFirestore.instance
+                            ..collection('School')
+                                .doc(widget.school_id).collection('Session')
+                                .doc(widget.session_id)
+                                .collection('Class')
+                                .doc(widget.class_id)
+                                .collection("Student")
+                                .doc(widget.user.Registration_number)
+                                .update({
+                              "pic": photoUrl,
+                            });
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("Profile Pic updated"),
+                            ),
+                          );
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("${e}"),
+                            ),
+                          );
+                        }
+                      },
+                      child: CircleAvatar(
+                        backgroundImage: NetworkImage(widget.user.pic),
+                        radius: 120,
+                      ),
+                    ),
                   ),
                 ),
-              ),
+                Container(
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width,
+                  child: Row(
+                      children: [
+                        Spacer(),
+                        Column(
+                            children: [
+                              SizedBox(height: 20),
+                              InkWell(
+                                onTap: ()  async {
+                                  final Uri _url = Uri.parse(
+                                      "tel:" + widget.user.Mobile);
+                                  if (!await launchUrl (_url)
+                                  ) {
+                                  throw Exception('Could not launch $_url');
+                                  }
+                                },
+                                child: CircleAvatar(radius: 24,
+                                  child: Icon(Icons.call, color: Colors.white,
+                                      size: 20),
+                                  backgroundColor: Colors.greenAccent,),
+
+                              ),
+                              SizedBox(height: 5),
+                              InkWell(
+                                onTap: () async  {
+                                  final Uri _url = Uri.parse(
+                                      "mailto:" + widget.user.Email);
+                                  if (!await launchUrl (_url)
+                                  ) {
+                                  throw Exception('Could not launch $_url');
+                                  }
+                                }, child:
+                              CircleAvatar(radius: 24,
+                                child: Icon(
+                                    Icons.mail, color: Colors.white, size: 20),
+                                backgroundColor: Colors.red,),
+                              ), SizedBox(height: 5),
+                              InkWell(
+                                onTap: () async {
+                                  final Uri _url = Uri.parse(
+                                      "https://www.google.com/maps/search/?api=1&query=${widget.user.Address}");
+                                  if (!await launchUrl (_url)) {
+                                  throw Exception('Could not launch $_url');
+                                  }
+                                }, child:
+                              CircleAvatar(radius: 24,
+                                child: Icon(
+                                    Icons.map_sharp, color: Colors.white,
+                                    size: 20),
+                                backgroundColor: Colors.purple,),
+                              ),
+                            ]
+                        ),
+                        SizedBox(width: 8),
+                      ]
+                  ),
+                ),
+              ],
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Center(child: Text("Single Tap to open Gallery and Double Tap to open Camera", textAlign : TextAlign.center, style : TextStyle(fontSize : 9, color : Colors.blue))),
             ),
             Center(child: Text(widget.user.Pic_Name)),
+            SizedBox(height: 10),
+            Container(
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width,
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    SizedBox(width: 10),
+                    TextButton.icon(onPressed: () {
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              child: MyCalenderPage(idi: widget.user
+                                  .Registration_number, df: widget.school_id,
+                                classi: widget.class_id, sessioni: widget
+                                    .session_id, user: widget.user,
+                              ),
+                              type: PageTransitionType.rightToLeft,
+                              duration: Duration(milliseconds: 400)));
+                    },
+                      icon: Icon(Icons.how_to_reg, size: 25),
+                      label: Text("Attendance"),
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Colors.blue),
+                        // Set the background color of the button
+                        foregroundColor: MaterialStateProperty.all<Color>(
+                            Colors.white), // Set the text color of the button
+                      ),),
+                    SizedBox(width: 10),
+                    TextButton.icon(
+                      onPressed: () => Global.As(widget.user, false, widget.str),
+                      icon: Icon(Icons.receipt, size: 25),
+                      label: Text("Reminder"),
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Colors.lightGreen),
+                        // Set the background color of the button
+                        foregroundColor: MaterialStateProperty.all<Color>(
+                            Colors.white), // Set the text color of the button
+                      ),),
+                    SizedBox(width: 10),
+                  ]
+              ),
+            ),
+            SizedBox(height: 5),
+            Container(
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width,
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    SizedBox(width: 10),
+                    TextButton.icon(onPressed: () {},
+                      icon: Icon(Icons.receipt, size: 25),
+                      label: Text("Fee Report"),
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Colors.orange),
+                        // Set the background color of the button
+                        foregroundColor: MaterialStateProperty.all<Color>(
+                            Colors.white), // Set the text color of the button
+                      ),),
+                    SizedBox(width: 10),
+                    TextButton.icon(onPressed: () {
+
+                    },
+                      icon: Icon(Icons.credit_score, size: 25),
+                      label: Text("Notices "),
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Colors.deepPurple),
+                        // Set the background color of the button
+                        foregroundColor: MaterialStateProperty.all<Color>(
+                            Colors.white), // Set the text color of the button
+                      ),),
+
+                    SizedBox(width: 10),
+                  ]
+              ),
+            ),
             SizedBox(height: 10),
             GestureDetector(
                 onTap: () {
@@ -256,7 +411,7 @@ class _StudentProfileState extends State<StudentProfile> {
                             session_id: widget.session_id,
                             pic: widget.user.pic,
                             school_id: widget.school_id,
-                            student_id: widget.user.Admission_number,
+                            student_id: widget.user.Registration_number,
                             change_change: 'Name',
                             to_change: 'Name',
                           ),
@@ -274,7 +429,7 @@ class _StudentProfileState extends State<StudentProfile> {
                             session_id: widget.session_id,
                             pic: widget.user.pic,
                             school_id: widget.school_id,
-                            student_id: widget.user.Admission_number,
+                            student_id: widget.user.Registration_number,
                             change_change: 'Father Name',
                             to_change: 'Father_Name',
                           ),
@@ -292,7 +447,7 @@ class _StudentProfileState extends State<StudentProfile> {
                             session_id: widget.session_id,
                             pic: widget.user.pic,
                             school_id: widget.school_id,
-                            student_id: widget.user.Admission_number,
+                            student_id: widget.user.Registration_number,
                             change_change: 'Mother Name',
                             to_change: 'Mother_Name',
                           ),
@@ -310,7 +465,7 @@ class _StudentProfileState extends State<StudentProfile> {
                             session_id: widget.session_id,
                             pic: widget.user.pic,
                             school_id: widget.school_id,
-                            student_id: widget.user.Admission_number,
+                            student_id: widget.user.Registration_number,
                             change_change: 'Blood Group',
                             to_change: 'BloodGroup',
                           ),
@@ -328,7 +483,27 @@ class _StudentProfileState extends State<StudentProfile> {
                             session_id: widget.session_id,
                             pic: widget.user.pic,
                             school_id: widget.school_id,
-                            student_id: widget.user.Admission_number,
+                            student_id: widget.user.Registration_number,
+                            change_change: 'Fees',
+                            to_change: 'Mf',
+                          ),
+                          type: PageTransitionType.rightToLeft,
+                          duration: Duration(milliseconds: 800)));
+                },
+                child: s(
+                    "Total Fees", "₹ " + widget.user.Myfee.toString(), false,
+                    true)),
+            GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          child: Student_Data_Update(
+                            class_id: widget.class_id,
+                            session_id: widget.session_id,
+                            pic: widget.user.pic,
+                            school_id: widget.school_id,
+                            student_id: widget.user.Registration_number,
                             change_change: 'Mobile',
                             to_change: 'Mobile',
                           ),
@@ -346,7 +521,7 @@ class _StudentProfileState extends State<StudentProfile> {
                             session_id: widget.session_id,
                             pic: widget.user.pic,
                             school_id: widget.school_id,
-                            student_id: widget.user.Admission_number,
+                            student_id: widget.user.Registration_number,
                             change_change: 'Email',
                             to_change: 'Email',
                           ),
@@ -355,8 +530,27 @@ class _StudentProfileState extends State<StudentProfile> {
                 },
                 child: s("Email", widget.user.Email, true, true)),
             SizedBox(height: 20),
-            s("Admission Number", widget.user.Admission_number, false, false),
-            s("Registration Number", widget.user.Registration_number, true, false),
+            s("Registration Number", widget.user.Registration_number, false,
+                false),
+            InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          child: Student_Data_Update(
+                            class_id: widget.class_id,
+                            session_id: widget.session_id,
+                            pic: widget.user.pic,
+                            school_id: widget.school_id,
+                            student_id: widget.user.Registration_number,
+                            change_change: 'Admission Number',
+                            to_change: 'Admission_number',
+                          ),
+                          type: PageTransitionType.rightToLeft,
+                          duration: Duration(milliseconds: 800)));
+                },
+                child: s("Admission Number", widget.user.Admission_number, true,
+                    true)),
             s("ID", widget.user.id, false, false),
             s("Session", widget.user.Session, true, false),
             s("Roll Number", widget.user.Roll_number.toString(), false, false),
@@ -375,7 +569,7 @@ class _StudentProfileState extends State<StudentProfile> {
                             session_id: widget.session_id,
                             pic: widget.user.pic,
                             school_id: widget.school_id,
-                            student_id: widget.user.Admission_number,
+                            student_id: widget.user.Registration_number,
                             change_change: 'Address',
                             to_change: 'Address',
                           ),
@@ -406,7 +600,7 @@ class _StudentProfileState extends State<StudentProfile> {
                     .collection('Class')
                     .doc(widget.class_id)
                     .collection("Student");
-                await collection.doc(widget.user.Admission_number).update({
+                await collection.doc(widget.user.Registration_number).update({
                   "State": "Confirm by Parent",
                 });
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -425,7 +619,7 @@ class _StudentProfileState extends State<StudentProfile> {
                     .collection('Class')
                     .doc(widget.class_id)
                     .collection("Student");
-                await collection.doc(widget.user.Admission_number).update({
+                await collection.doc(widget.user.Registration_number).update({
                   "State": "Confirm by Inst.",
                 });
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -591,7 +785,7 @@ class _StudentProfileState extends State<StudentProfile> {
                 .collection('Class')
                 .doc(widget.class_id)
                 .collection("Student")
-                .doc(widget.user.Admission_number)
+                .doc(widget.user.Registration_number)
                 .update({
               "newdob": dateTimeString,
             });
@@ -604,7 +798,7 @@ class _StudentProfileState extends State<StudentProfile> {
                   .collection('Class')
                   .doc(widget.class_id)
                   .collection("Student")
-                  .doc(widget.user.Admission_number)
+                  .doc(widget.user.Registration_number)
                   .update({
                 "SCHOOLID" : pichj ,
               });

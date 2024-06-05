@@ -12,6 +12,7 @@ class Student_Data_Update extends StatelessWidget {
   String change_change ;
   String pic ;
 
+
   Student_Data_Update({ required this.class_id, required this.session_id, required this.pic,
   required this.school_id, required this.student_id, required this.change_change, required this.to_change
   });
@@ -56,15 +57,29 @@ class Student_Data_Update extends StatelessWidget {
                 buttonType: SocialLoginButtonType.generalLogin,
                 onPressed: () async {
                   CollectionReference collection = FirebaseFirestore.instance.collection('School').doc(school_id).collection('Session').doc(session_id).collection('Class').doc(class_id).collection("Student");
-                  await collection.doc(student_id).update({
-                    "$to_change" : Admission.text,
-                  });
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Success ! Updating ! It may take a While'),
-                    ),
-                  );
-                  Navigator.pop(context);
+                  if ( change_change == "Fees" ){
+                    int gst = int.tryParse(Admission.text) ?? 0;
+                    await collection.doc(student_id).update({
+                      "$to_change" : gst,
+                    });
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Success ! Updating ! It may take a While'),
+                      ),
+                    );
+                    Navigator.pop(context);
+                  }else{
+                    await collection.doc(student_id).update({
+                      "$to_change" : Admission.text,
+                    });
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Success ! Updating ! It may take a While'),
+                      ),
+                    );
+                    Navigator.pop(context);
+                  }
+
                 },
               ),
             ),
@@ -77,7 +92,7 @@ class Student_Data_Update extends StatelessWidget {
       padding: const EdgeInsets.all(14.0),
       child: TextFormField(
         controller: c,
-        keyboardType: number ? TextInputType.number : TextInputType.text,
+        keyboardType: change_change == "Fees" ? TextInputType.number : TextInputType.text,
         decoration: InputDecoration(
           labelText: label,
           hintText: hint,

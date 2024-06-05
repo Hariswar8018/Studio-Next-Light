@@ -6,10 +6,13 @@ import 'package:studio_next_light/before_check/admin.dart';
 import 'package:studio_next_light/before_check/first2.dart';
 import 'package:studio_next_light/before_check/login.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:studio_next_light/before_check/our_works.dart';
 import 'package:studio_next_light/super_admin/carousel.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:convert';
 
 class First extends StatelessWidget {
+
   First({super.key});
   List<Carousell> list = [];
 
@@ -42,11 +45,23 @@ class First extends StatelessWidget {
             );
           },
         );
-
-        // Return false to prevent the app from being closed immediately
         return false;
       },
       child: Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          actions : [
+            TextButton.icon( onPressed : (){
+              Navigator.push(
+                  context,
+                  PageTransition(
+                      child: Our_Works(),
+                      type: PageTransitionType.rightToLeft,
+                      duration: Duration(milliseconds: 100)));
+            }, icon : Icon(Icons.remove_red_eye), label : Text("Check Our Valuable Clients")),
+          ]
+        ),
         floatingActionButton: FloatingActionButton(
           onPressed: ()  async {
             String phoneNumber = '917000994158';
@@ -77,10 +92,12 @@ class First extends StatelessWidget {
               ),
             ),
             SizedBox(height: 10,),
-            Center(
-              child: Text("Welcome to Studio Next Light", style : TextStyle(
-                  fontWeight: FontWeight.w800, fontSize: 21
-              ), textAlign: TextAlign.center,),
+            InkWell(
+              child: Center(
+                child: Text("Welcome to Studio Next Light", style : TextStyle(
+                    fontWeight: FontWeight.w800, fontSize: 21
+                ), textAlign: TextAlign.center,),
+              ),
             ),
             Center(
               child: Text("We make Different types of Students ID Card - Attractive, Error Free and at Good Price", style : TextStyle(

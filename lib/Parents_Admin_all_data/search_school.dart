@@ -260,55 +260,13 @@ class ChatUserState extends State<ChatUser> {
             },
           );
         }
-
       },
       onLongPress: (){
         if(widget.b){
-          showDialog(
+          showModalBottomSheet<void>(
             context: context,
             builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text('Download '),
-                content: Text('Click on which School doc you had to download !'),
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          PageTransition(
-                              child: Pic(str: widget.user.Pic_link,name : widget.user.Chief),
-                              type: PageTransitionType.rightToLeft,
-                              duration: Duration(milliseconds: 400)));
-                    },
-                    child: Text('LOGO'),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          PageTransition(
-                              child: Pic(str: widget.user.AuthorizeSignature, name : widget.user.Chief),
-                              type: PageTransitionType.rightToLeft,
-                              duration: Duration(milliseconds: 400)));
-                    },
-                    child: Text('Pricipal SIgnature'),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          PageTransition(
-                              child: Birthdayv(
-                                logo: widget.user.Pic_link,
-                                id : widget.user.id ,
-                                School: widget.user.Name, address: widget.user.Address,                            ),
-                              type: PageTransitionType.rightToLeft,
-                              duration: Duration(milliseconds: 400)));
-                    },
-                    child: Text('Birthday'),
-                  ),
-                ],
-              );
+              return ra(context);
             },
           );
         }
@@ -346,18 +304,225 @@ class ChatUserState extends State<ChatUser> {
                 widget.user.Address,
                 maxLines: 1,
               ),
-              leading: CircleAvatar(
-                backgroundImage: NetworkImage(widget.user.Pic_link),
+              leading: Container(
+                decoration: BoxDecoration(
+                  color : widget.user.premium ? Colors.blue: Colors.white,
+                  shape: BoxShape.circle,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: CircleAvatar(
+                    backgroundColor: Colors.blue, radius : 30,
+                    backgroundImage: NetworkImage(widget.user.Pic_link),
+                  ),
+                ),
               ),
               trailing: TextButton.icon(
                   onPressed: () {
 
                   },
                   icon: Icon(Icons.person_pin),
-                  label: Text(widget.user.Students.toString())),
+                  label: Text(widget.user.total.toString())),
             ),
             SizedBox(height: 10),
           ],
+        ),
+      ),
+    );
+  }
+  Widget ra(BuildContext context){
+    return Container(
+      color: Colors.white,
+      height: 310,
+      width: MediaQuery.of(context).size.width,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          height: 200,
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            children: [
+              SizedBox(height: 10),
+              Text("Advance Functions for School !",
+                  style: TextStyle(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 19)),
+              SizedBox(height: 15),
+              Row(
+                  mainAxisAlignment:
+                  MainAxisAlignment.spaceEvenly,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            PageTransition(
+                                child: Pic(str: widget.user.Pic_link,name : widget.user.Chief),
+                                type: PageTransitionType.rightToLeft,
+                                duration: Duration(milliseconds: 400)));
+                      },
+                      child: Container(
+                          color: Colors.white,
+                          width: MediaQuery.of(
+                              context)
+                              .size
+                              .width /
+                              3 -
+                              30,
+                          height: MediaQuery.of(context)
+                              .size
+                              .width /
+                              3 -
+                              30,
+                          child: Column(
+                              mainAxisAlignment:
+                              MainAxisAlignment.center,
+                              children: [
+                                Image.network(
+                                    height: MediaQuery.of(context)
+                                        .size
+                                        .width /
+                                        3 -
+                                        50,  widget.user.Pic_link),
+                                Text("Download LOGO",
+                                    style: TextStyle(
+                                        fontWeight:
+                                        FontWeight.w700))
+                              ])),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            PageTransition(
+                                child: Pic(str: widget.user.AuthorizeSignature, name : widget.user.Chief),
+                                type: PageTransitionType.rightToLeft,
+                                duration: Duration(milliseconds: 400)));
+                      },
+                      child: Container(
+                          color: Colors.white,
+                          width: MediaQuery.of(
+                              context)
+                              .size
+                              .width /
+                              3 -
+                              30,
+                          height: MediaQuery.of(context)
+                              .size
+                              .width /
+                              3 -
+                              30,
+                          child: Column(
+                              mainAxisAlignment:
+                              MainAxisAlignment.center,
+                              children: [
+                                Image.network(
+                                    height: MediaQuery.of(context)
+                                        .size
+                                        .width /
+                                        3 -
+                                        50,   widget.user.AuthorizeSignature),
+                                Text("Download Sign",
+                                    style: TextStyle(
+                                        fontWeight:
+                                        FontWeight.w700))
+                              ])),
+                    )
+                  ]),
+              SizedBox(height: 20),
+              Row(
+                  mainAxisAlignment:
+                  MainAxisAlignment.spaceEvenly,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            PageTransition(
+                                child: Birthdayv(
+                                  logo: widget.user.Pic_link,
+                                  id : widget.user.id ,
+                                  School: widget.user.Name, address: widget.user.Address,                            ),
+                                type: PageTransitionType.rightToLeft,
+                                duration: Duration(milliseconds: 400)));
+                      },
+                      child: Container(
+                          color: Colors.white,
+                          width: MediaQuery.of(context).size.width / 3 - 30,
+                          height: MediaQuery.of(context).size.width / 3 - 30,
+                          child: Column(
+                              mainAxisAlignment:
+                              MainAxisAlignment.center,
+                              children: [
+                                Image.network(
+                                    height: MediaQuery.of(context)
+                                        .size
+                                        .width /
+                                        3 -
+                                        50,  "https://i.pinimg.com/736x/3f/b5/34/3fb5340a30599c16b050ed5060d77bfa.jpg"),
+                                Text("Birthdays",
+                                    style: TextStyle(
+                                        fontWeight:
+                                        FontWeight.w700))
+                              ])),
+                    ),
+                    InkWell(
+                      onTap: () async  {
+                        if(widget.user.premium){
+                          CollectionReference collection = FirebaseFirestore.instance.collection('School');
+                          await collection.doc(widget.user.id).update({
+                            'premium' : false ,
+                          });
+                          final snackBar = SnackBar(
+                            content: Text('School Now can\'t Avail Preium Service'),
+                            duration: Duration(seconds: 3),
+
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                          Navigator.of(context).pop();
+                        }else{
+                          CollectionReference collection = FirebaseFirestore.instance.collection('School');
+                          await collection.doc(widget.user.id).update({
+                            'premium' : true ,
+                          });
+                          final snackBar = SnackBar(
+                            content: Text('Yey ! School can Now Avail Premium Services !'),
+                            duration: Duration(seconds: 3),
+
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                          Navigator.of(context).pop();
+                        }
+                      },
+                      child: Container(
+                          width: MediaQuery.of(context).size.width / 3 - 25,
+                          height: MediaQuery.of(context).size.width / 3 - 25,
+                          decoration : BoxDecoration(
+                            borderRadius : BorderRadius.circular(10),
+                            color: widget.user.premium ? Colors.blue.shade400 : Colors.white,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Column(
+                                mainAxisAlignment:
+                                MainAxisAlignment.center,
+                                children: [
+                                  Image.network(
+                                      height: MediaQuery.of(context)
+                                          .size
+                                          .width /
+                                          3 -
+                                          50,  "https://www.pngmart.com/files/13/Premium-PNG-Image.png",),
+                                  Text("Premium Service",
+                                      style: TextStyle(
+                                          fontWeight:
+                                          FontWeight.w700, color: widget.user.premium ? Colors.white : Colors.black,))
+                                ]),
+                          )),
+                    )
+                  ]),
+            ],
+          ),
         ),
       ),
     );

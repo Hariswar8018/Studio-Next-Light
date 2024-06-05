@@ -87,18 +87,10 @@ class ChatUser extends StatelessWidget {
                 child: StudentsP(id: id, session_id: sessionid, class_id: user.id, b : b), type: PageTransitionType.rightToLeft, duration: Duration(milliseconds: 800)
             ));
           }else{
-            if(user.status == "Still Uploading"){
               Navigator.push(
                   context, PageTransition(
                   child: StudentsP(id: id, session_id: sessionid, class_id: user.id, b : b), type: PageTransitionType.rightToLeft, duration: Duration(milliseconds: 800)
               ));
-            }else{
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text("This Class had already Place Order and can\'t be Edited Now"),
-                ),
-              );
-            }
           }
         },
         trailing: user.status == "Still Uploading" ? Icon(

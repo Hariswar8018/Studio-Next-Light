@@ -159,6 +159,63 @@ class _LoginScreenState extends State<LoginScreen> {
                           }
                         },
                       ),
+                      SizedBox(height: 10,),
+                      SocialLoginButton(
+                        backgroundColor:  Colors.white,
+                        height: 40,
+                        text: 'Login with Google',
+                        borderRadius: 20,
+                        fontSize: 21,
+                        buttonType: SocialLoginButtonType.google,
+                        onPressed: () async {
+                          const List<String> scopes = <String>[
+                            'email',
+                            'https://www.googleapis.com/auth/contacts.readonly',
+                          ];
+                          GoogleSignIn _googleSignIn = GoogleSignIn(
+                            scopes: scopes,
+                          );
+                          try {
+                            final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+                            // Obtain the auth details from the request
+                            final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+                            // Create a new credential
+                            final credential = GoogleAuthProvider.credential(
+                              accessToken: googleAuth?.accessToken,
+                              idToken: googleAuth?.idToken,
+                            );
+                            await FirebaseAuth.instance.signInWithCredential(credential);
+                            print(credential);
+                            Navigator.push(
+                                context, PageTransition(
+                                child: Schoo_Name(), type: PageTransitionType.rightToLeft, duration: Duration(milliseconds: 800)
+                            ));
+                          }on FirebaseAuthException catch (e) {
+                            if (e.code == 'user-not-found') {
+                              print('No user found for that email.');
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('No User found for this Email'),
+                                ),
+                              );
+                            } else if (e.code == 'wrong-password') {
+                              print('Wrong password provided for that user.');
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                      'Wrong password provided for that user.'),
+                                ),
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text("${e}"),
+                                ),
+                              );
+                            }
+                          }
+                        },
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

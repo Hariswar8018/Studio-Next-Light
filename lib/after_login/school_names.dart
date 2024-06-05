@@ -7,10 +7,13 @@ import 'package:social_login_buttons/social_login_buttons.dart';
 import 'package:social_media_buttons/social_media_button.dart';
 import 'package:social_media_buttons/social_media_buttons.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:studio_next_light/Parents_Portal/as.dart';
 import 'package:studio_next_light/after_login/Birthdays.dart';
 import 'package:studio_next_light/after_login/options.dart';
 import 'package:studio_next_light/after_login/session.dart';
 import 'package:flutter/material.dart';
+import 'package:studio_next_light/attendance/attendance_register.dart';
+import 'package:studio_next_light/attendance/stpassword.dart';
 import 'package:studio_next_light/before_check/first.dart';
 import 'package:studio_next_light/service.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -34,7 +37,7 @@ class Schoo_Name extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: buildDrawer(context),
+      drawer: Global.buildDrawer(context),
       appBar: AppBar(
         iconTheme: IconThemeData(
           color: Colors.black,
@@ -126,173 +129,7 @@ class Schoo_Name extends StatelessWidget {
     );
   }
 
-  Widget buildDrawer(BuildContext context) {
-    return Drawer(
-      backgroundColor: Colors.black,
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          Container(
-              width: MediaQuery.of(context).size.width,
-              height: 200,
-              child: Image.asset(
-                  "assets/WhatsApp_Image_2023-11-22_at_17.13.30_388ceeb5-transformed.png")),
-          ListTile(
-            leading: Icon(
-              Icons.language,
-              color: Colors.black,
-              size: 30,
-            ),
-            title: Text("Our Website"),
-            onTap: () async {
-              final Uri _url = Uri.parse('https://wingtrix.in/');
-              if (!await launchUrl(_url)) {
-                throw Exception('Could not launch $_url');
-              }
-            },
-            splashColor: Colors.orange.shade200,
-            trailing: Icon(
-              Icons.arrow_forward_ios_sharp,
-              color: Colors.black,
-              size: 20,
-            ),
-            tileColor: Colors.grey.shade50,
-          ),
-          ListTile(
-            leading: Icon(Icons.work, color: Colors.redAccent, size: 30),
-            title: Text("Our Services"),
-            onTap: () async {
-              Navigator.push(
-                  context, PageTransition(
-                  child: Servie(), type: PageTransitionType.rightToLeft, duration: Duration(milliseconds: 800)
-              ));
-            },
-            splashColor: Colors.orange.shade300,
-            trailing: Icon(
-              Icons.arrow_forward_ios_sharp,
-              color: Colors.redAccent,
-              size: 20,
-            ),
-            tileColor: Colors.grey.shade50,
-          ),
-          ListTile(
-            leading: Icon(Icons.map, color: Colors.greenAccent, size: 30),
-            title: Text("Locate on Map"),
-            onTap: () async {
-              final Uri _url = Uri.parse(
-                  'https://www.google.com/maps?q=15.2803236,73.9558804');
-              if (!await launchUrl(_url)) {
-                throw Exception('Could not launch $_url');
-              }
-            },
-            trailing: Icon(
-              Icons.arrow_forward_ios_sharp,
-              color: Colors.greenAccent,
-              size: 20,
-            ),
-            splashColor: Colors.orange.shade300,
-            tileColor: Colors.grey.shade50,
-          ),
-          ListTile(
-            leading: Icon(Icons.mail, color: Colors.redAccent, size: 30),
-            title: Text("Mail Us"),
-            onTap: () async {
-              final Uri _url = Uri.parse(
-                  'mailto:nextlight000@gmail.com?subject=Known_more_about_services&body=New%20plugin');
-              if (!await launchUrl(_url)) {
-                throw Exception('Could not launch $_url');
-              }
-            },
-            splashColor: Colors.orange.shade300,
-            trailing: Icon(
-              Icons.arrow_forward_ios_sharp,
-              color: Colors.redAccent,
-              size: 20,
-            ),
-            tileColor: Colors.grey.shade50,
-          ),
-          ListTile(
-            leading: SocialMediaButton.whatsapp(
-              onTap: () {
-                print('or just use onTap callback');
-              },
-              size: 35,
-              color: Colors.green,
-            ),
-            title: Text("Whatsapp"),
-            onTap: () async {
-              final Uri _url = Uri.parse(
-                  'https://wa.me/917000994158?text=Hello!%20We%20are%20contacting%20you%20for%20Students%20ID%20Card%20Services!');
-              if (!await launchUrl(_url)) {
-                throw Exception('Could not launch $_url');
-              }
-            },
-            subtitle: Text("Inquire in Whatsapp"),
-            trailing: Icon(
-              Icons.arrow_forward_ios_sharp,
-              color: Colors.green,
-              size: 20,
-            ),
-            splashColor: Colors.orange.shade300,
-            tileColor: Colors.grey.shade50,
-          ),
-          ListTile(
-            leading: SocialMediaButton.instagram(
-              onTap: () {
-                print('or just use onTap callback');
-              },
-              size: 35,
-              color: Colors.red,
-            ),
-            title: Text("Instagram"),
-            onTap: () async {
-              final Uri _url = Uri.parse(
-                  'https://instagram.com/studio_next_light?igshid=MTNiYzNiMzkwZA==');
-              if (!await launchUrl(_url)) {
-                throw Exception('Could not launch $_url');
-              }
-            },
-            subtitle: Text("Follow on Instagram"),
-            trailing: Icon(
-              Icons.arrow_forward_ios_sharp,
-              color: Colors.purpleAccent,
-              size: 20,
-            ),
-            splashColor: Colors.orange.shade300,
-            tileColor: Colors.grey.shade50,
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.logout,
-              color: Colors.red,
-              size: 30,
-            ),
-            title: Text("Log Out"),
-            onTap: () async {
-              await FirebaseAuth.instance.signOut();
-              print('User signed out');
-              // Navigate to the login screen
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => First()),
-              );
-            },
-            splashColor: Colors.orange.shade200,
-            trailing: Icon(
-              Icons.arrow_forward_ios_sharp,
-              color: Colors.black,
-              size: 20,
-            ),
-            tileColor: Colors.grey.shade50,
-            subtitle: Text("Log out "),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-        ],
-      ),
-    );
-  }
+
 }
 
 class ChatUser extends StatefulWidget {
@@ -305,6 +142,44 @@ class ChatUser extends StatefulWidget {
 }
 
 class ChatUserState extends State<ChatUser> {
+  int i = 0;
+  void initState(){
+    countTotalMfValue();
+  }
+  void countTotalMfValue() async {
+    int totalMfValue = 0;
+    try {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('School')
+          .doc(widget.user.id)
+          .collection('Session')
+          .get();
+      // Iterate over each document in the collection
+      querySnapshot.docs.forEach((doc) {
+        // Check if the document data is not null and is of type Map<String, dynamic>
+        if (doc.data() != null && doc.data() is Map<String, dynamic>) {
+          Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+          // Check if the document contains the 'Mf' field
+          if (data.containsKey('feet')) {
+            // Get the value of the 'Mf' field and add it to the totalMfValue
+            dynamic mfValue = data['feet'];
+            if (mfValue is int) {
+              totalMfValue += mfValue;
+            } else if (mfValue is double) {
+              totalMfValue += mfValue.toInt();
+            }
+          }
+        }
+      });
+
+      setState(() {
+        i = totalMfValue;
+      });
+      print("Total value of 'Mf' across all documents: $totalMfValue");
+    } catch (error) {
+      print("Error counting total 'Mf' value: $error");
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -313,7 +188,7 @@ class ChatUserState extends State<ChatUser> {
           Navigator.push(
               context,
               PageTransition(
-                  child: Session(
+                  child: Session( csession : widget.user.csession,
                     id: widget.user.id,
                     School: widget.user.Name,
                     EmailB: widget.user.EmailB,
@@ -386,7 +261,10 @@ class ChatUserState extends State<ChatUser> {
             ),
             Divider(),
             SizedBox(height: 5),
-            Text("   Total Students : " + widget.user.total.toString(),
+            Text("   Total Students : " + i.toString(),
+                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+                textAlign: TextAlign.start),
+            Text("   Total Students ( This Session ) : " + widget.user.totse.toString(),
                 style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
                 textAlign: TextAlign.start),
             Text("   Completed Data : " +  widget.user.complete.toString(),
@@ -460,6 +338,25 @@ class ChatUserState extends State<ChatUser> {
               child: SocialLoginButton(
                 backgroundColor: Color(0xff50008e),
                 height: 40,
+                text: 'Attendance / Fee Registery',
+                borderRadius: 20,
+                fontSize: 18,
+                buttonType: SocialLoginButtonType.generalLogin,
+                onPressed: () async {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => CheckJ(user: widget.user,)
+                    ),
+                  );
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SocialLoginButton(
+                backgroundColor: Color(0xff50008e),
+                height: 40,
                 text: 'Upload Student Data',
                 borderRadius: 20,
                 fontSize: 18,
@@ -469,7 +366,7 @@ class ChatUserState extends State<ChatUser> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Session(
+                        builder: (context) => Session( csession : widget.user.csession,
                           id: widget.user.id,
                           School: widget.user.Name,
                           EmailB: widget.user.EmailB,
@@ -505,6 +402,7 @@ class ChatUserState extends State<ChatUser> {
                 },
               ),
             ),
+
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: SocialLoginButton(
@@ -524,6 +422,7 @@ class ChatUserState extends State<ChatUser> {
                 },
               ),
             ),
+
             SizedBox(height: 10),
           ],
         ),

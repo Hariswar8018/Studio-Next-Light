@@ -14,6 +14,7 @@ class Session extends StatelessWidget {
   String id;
   String School ;
   bool EmailB;
+  String csession ;
     bool BloodB;
     bool DepB;
     bool MotherB;
@@ -22,7 +23,7 @@ class Session extends StatelessWidget {
     bool Other2B;
     bool Other3B;
     bool Other4B;
-  Session({super.key, required this.id, required this.School,
+  Session({super.key, required this.id, required this.School, required this.csession,
     required this.EmailB, required this.RegisB, required this.Other4B, required this.Other3B,
     required this.Other2B, required this.Other1B, required this.MotherB, required this.DepB, required this.BloodB
   });
@@ -73,7 +74,7 @@ class Session extends StatelessWidget {
                       id : id,
                       School : School, EmailB: EmailB, RegisB: RegisB, Other4B: Other4B,
                       Other3B: Other3B, Other2B: Other2B, Other1B: Other1B,
-                      MotherB: MotherB, DepB: DepB, BloodB: BloodB,
+                      MotherB: MotherB, DepB: DepB, BloodB: BloodB, csession : csession,
                     );
                   },
                 );
@@ -84,27 +85,109 @@ class Session extends StatelessWidget {
   }
 }
 
-class ChatUser extends StatelessWidget {
-  SessionModel user;
+class ChatUser extends StatefulWidget {
+  SessionModel user ; String csession ;
   String id ;
   String School ;
-  bool EmailB;
-  bool BloodB;
-  bool DepB;
-  bool MotherB;
-  bool RegisB;
-  bool Other1B;
-  bool Other2B;
-  bool Other3B;
-  bool Other4B;
-  ChatUser({super.key, required this.user, required this.id, required this.School,
-    required this.EmailB, required this.RegisB, required this.Other4B, required this.Other3B,
-    required this.Other2B, required this.Other1B, required this.MotherB, required this.DepB, required this.BloodB});
+  bool EmailB ;
+  bool BloodB ;
+  bool DepB ;
+  bool MotherB ;
+  bool RegisB ;
+  bool Other1B ;
+  bool Other2B ;
+  bool Other3B ;
+  bool Other4B ;
+
+  ChatUser({super.key , required this.user , required this.id , required this.School , required this.csession,
+    required this.EmailB , required this.RegisB , required this.Other4B , required this.Other3B ,
+    required this.Other2B , required this.Other1B , required this.MotherB , required this.DepB , required this.BloodB});
+
+  @override
+  State<ChatUser> createState() => _ChatUserState();
+}
+
+class _ChatUserState extends State<ChatUser> {
+  int i = 0 ;
+  void initState(){
+    countTotalMfValue("h");
+  }
+
+  void countTotalMfValue(String id) async {
+    int totalMfValue = 0;
+    try {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('School')
+          .doc(widget.id)
+          .collection('Session')
+          .doc( widget.user.id)
+          .collection('Class')
+          .get();
+      // Iterate over each document in the collection
+      querySnapshot.docs.forEach((doc) {
+        // Check if the document data is not null and is of type Map<String, dynamic>
+        if (doc.data() != null && doc.data() is Map<String, dynamic>) {
+          Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+          // Check if the document contains the 'Mf' field
+          if (data.containsKey('total')) {
+            // Get the value of the 'Mf' field and add it to the totalMfValue
+            dynamic mfValue = data['total'];
+            if (mfValue is int) {
+              totalMfValue += mfValue;
+            } else if (mfValue is double) {
+              totalMfValue += mfValue.toInt();
+            }
+          }
+        }
+      });
+
+      setState(() {
+        i = totalMfValue;
+      });
+      if ( widget.user.feet != totalMfValue ){
+        CollectionReference collection = FirebaseFirestore.instance.collection('School').doc(widget.id).collection('Session');
+        await collection.doc(widget.user.id).update({
+          "feet" : totalMfValue,
+        });
+
+      }
+      if ( widget.csession == widget.user.id){
+        CollectionReference collectionn = FirebaseFirestore.instance.collection('School');
+        await collectionn.doc(widget.id).update({
+          "totse" : totalMfValue,
+        });
+      }
+
+
+      print("Total value of 'Mf' across all documents: $totalMfValue");
+    } catch (error) {
+      print("Error counting total 'Mf' value: $error");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(user.Name), onLongPress: (){
+      title: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Text(widget.user.Name),
+          SizedBox(width : 8),
+          widget.csession == widget.user.id ? Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10), // Adjust the radius as needed
+                border: Border.all(
+                  color: Colors.red, // Set border color here
+                  width: 2, // Set border width here
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(3.0),
+                child: Text("Current Session", style : TextStyle(color : Colors.red, fontSize: 12)),
+              )) : SizedBox(width : 1),
+        ],
+      ),
+      onLongPress: (){
         showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -114,8 +197,8 @@ class ChatUser extends StatelessWidget {
             actions: [
               TextButton(
                 onPressed: () async {
-                  CollectionReference collection1 = FirebaseFirestore.instance.collection('School').doc(id).collection('Session');
-                  await collection1.doc(user.id).delete() ;
+                  CollectionReference collection1 = FirebaseFirestore.instance.collection('School').doc(widget.id).collection('Session');
+                  await collection1.doc(widget.user.id).delete() ;
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text('This Session Deleted'),
@@ -133,20 +216,47 @@ class ChatUser extends StatelessWidget {
                 },
                 child: Text('No'),
               ),
+              TextButton(
+                onPressed: () async  {
+                  CollectionReference collection1 = FirebaseFirestore.instance.collection('School');
+                  await collection1.doc(widget.id).update({
+                    "cse" : widget.user.id,
+                  }) ;
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('This Session is now CURRENT SESSION'),
+                    ),
+                  );
+                  Navigator.of(context).pop();
+                },
+                child: Text('Make Current Session'),
+              ),
             ],
           );
         },
       );
     },
-      onTap: () {
+      onTap: () async {
+
         Navigator.push(
         context, PageTransition(
-       child: Class(id: id, session_id: user.id, Session : user.Name, School: School,
-         EmailB: EmailB, RegisB: RegisB, Other4B: Other4B,
-         Other3B: Other3B, Other2B: Other2B, Other1B: Other1B,
-         MotherB: MotherB, DepB: DepB, BloodB: BloodB,
+       child: Class(id: widget.id, session_id: widget.user.id, Session : widget.user.Name, School: widget.School,
+         EmailB: widget.EmailB, RegisB: widget.RegisB, Other4B: widget.Other4B,
+         Other3B: widget.Other3B, Other2B: widget.Other2B, Other1B: widget.Other1B,
+         MotherB: widget.MotherB, DepB: widget.DepB, BloodB: widget.BloodB,
        ), type: PageTransitionType.rightToLeft, duration: Duration(milliseconds: 800)
        ));
+        if ( widget.csession == "" || widget.csession == " "){
+          CollectionReference collection1 = FirebaseFirestore.instance.collection('School');
+          await collection1.doc(widget.id).update({
+            "cse" : widget.user.id,
+          }) ;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('This Session is now CURRENT SESSION'),
+            ),
+          );
+        }
       },
       trailing: Icon(
         Icons.arrow_forward_ios_sharp,
@@ -217,10 +327,7 @@ class Add extends StatelessWidget {
                 onPressed: () async {
                   try {
                     CollectionReference collection = FirebaseFirestore.instance.collection('School').doc(id).collection('Session');
-
-
                     String customDocumentId = DateTime.now().millisecondsSinceEpoch.toString(); // Replace with your own custom ID
-
                     await collection.doc(customDocumentId).set({
                       'Name': sessionNameController.text,
                       'id' : customDocumentId ,
@@ -251,13 +358,16 @@ class SessionModel {
   SessionModel({
     required this.Name,
     required this.id,
+    required this.feet,
   });
 
   late final String Name;
   late final String id;
+  late final int feet ;
 
   SessionModel.fromJson(Map<String, dynamic> json) {
     Name = json['Name'] ?? 'samai';
+    feet = json['feet'] ?? 6 ;
     id = json['id'] ?? 'Xhqo6S2946pNlw8sRSKd';
   }
 
@@ -265,6 +375,7 @@ class SessionModel {
     final data = <String, dynamic>{};
     data['Name'] = Name;
     data['id'] = id ;
+    data['feet'] = feet ;
     return data;
   }
 }

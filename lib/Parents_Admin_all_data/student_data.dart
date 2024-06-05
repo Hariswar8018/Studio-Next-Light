@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:studio_next_light/Parents_Portal/home.dart';
 import 'package:studio_next_light/after_login/stu_edit.dart';
 import 'dart:convert';
 import 'dart:io';
@@ -145,7 +147,8 @@ class ChatUser extends StatelessWidget {
           user.Roll_number.toString() +
           "   " +
           user.Class +
-          user.Section ),
+          user.Section
+      ),
       onTap: () {
         if(b){
           Navigator.push(
@@ -154,7 +157,7 @@ class ChatUser extends StatelessWidget {
                   child: StudentProfile(
                     user: user,
                     class_id: c,
-                    session_id: s,
+                    session_id: s, str : " ",
                     school_id: school,
                     parent: false,
                   ),
@@ -302,22 +305,35 @@ String session_id;
                 borderRadius: 20,
                 fontSize: 21,
                 buttonType: SocialLoginButtonType.generalLogin,
-                onPressed: () {
+                onPressed: () async {
                   if (Registration.text == user.Registration_number ||
                       Admission.text == user.Admission_number) {
+                    SharedPreferences prefs = await SharedPreferences.getInstance();
+                    prefs.setBool('Parent', true);
+                    prefs.setString("id", user.id);
+                    prefs.setString("class", class_id);
+                    prefs.setString("session", session_id);
+                    prefs.setString("school", school_id);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(
-                            'Success ! You could Now Edit your Child Info'),
+                            'Success ! Taking you to Parent\'s Portal'),
                       ),
+
                     );
                     Navigator.push(
+                        context,
+                        PageTransition(
+                            child: HomePa(),
+                            type: PageTransitionType.rightToLeft,
+                            duration: Duration(milliseconds: 400)));
+                   /* Navigator.push(
                         context,
                         PageTransition(
                             child: StudentProfile(user: user, class_id: class_id,
                               session_id: session_id, school_id: school_id, parent : true),
                             type: PageTransitionType.rightToLeft,
-                            duration: Duration(milliseconds: 400)));
+                            duration: Duration(milliseconds: 400)));*/
                   } else {
                     print('${user.Admission_number}');
                     ScaffoldMessenger.of(context).showSnackBar(

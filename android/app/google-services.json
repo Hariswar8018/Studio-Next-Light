@@ -12,7 +12,28 @@
           "package_name": "com.heavenonthisearth.studio_next_light"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "727734347697-cnh4ji4568hl1cu65ei9ca68le9u456h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.heavenonthisearth.studio_next_light",
+            "certificate_hash": "b2026e5c7c788cd6b7b07620138e086a8abfac40"
+          }
+        },
+        {
+          "client_id": "727734347697-g0fq1vannqs81h0tb9t3gl2k5eglm57e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.heavenonthisearth.studio_next_light",
+            "certificate_hash": "c309cfd2d2fffc93a1dce3685655b49e8a0bb963"
+          }
+        },
+        {
+          "client_id": "727734347697-c1us15qf1ak9m4dvfr449q7am2ip8sca.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyD2kHM3_X0ONDGMTkWBqdlp_WpWksUpxyo"
@@ -20,7 +41,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "727734347697-c1us15qf1ak9m4dvfr449q7am2ip8sca.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "727734347697-ethu5fjosd1lr7fstlrk7t5usau3r86u.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.heavenonthisearth.studioNextLight"
+              }
+            }
+          ]
         }
       }
     }

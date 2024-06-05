@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
 import 'package:studio_next_light/model/student_model.dart';
@@ -18,6 +19,7 @@ import 'dart:ui' as ui ;
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart' ;
+import 'package:studio_next_light/upload/download_qr.dart';
 
 class Download extends StatelessWidget {
 
@@ -89,6 +91,27 @@ class Download extends StatelessWidget {
       persistentFooterButtons: [
         Column(
           children: [
+            SocialLoginButton(
+              backgroundColor: Color(0xff50008e),
+              height: 40,
+              text: 'DOWNLOAD QR Codes',
+              borderRadius: 20,
+              fontSize: 21,
+              buttonType: SocialLoginButtonType.generalLogin,
+              onPressed: () async {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                        'Downloading QR....'),
+                  ),
+                );
+                Navigator.push(
+                    context, PageTransition(
+                    child: Download2(id: id, session: session, classu: classu,), type: PageTransitionType.topToBottom, duration: Duration(milliseconds: 800)
+                ));
+              },
+            ),
+            SizedBox(height : 10),
             SocialLoginButton(
               backgroundColor: Color(0xff50008e),
               height: 40,
@@ -198,6 +221,7 @@ class Download extends StatelessWidget {
       print("Permission denied for storage.");
     }
   }
+
  Future downloadPic(List<StudentModel>? docs) async{
     docs = docs ?? [] ;
     var status = await Permission.storage.status;

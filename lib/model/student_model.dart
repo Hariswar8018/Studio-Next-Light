@@ -5,6 +5,7 @@ class StudentModel {
     required this.id,
     required this.Address,
     required this.Email,
+    required this.Leave ,
     required this.Admission_number,
     required this.Batch,
     required this.BloodGroup,
@@ -12,6 +13,7 @@ class StudentModel {
     required this.Con,
     required this.Department ,
     required this.Driver,
+    required this.Classn ,
     required this.Father_Name,
     required this.Mobile ,
     required this.Mother_Name ,
@@ -29,9 +31,14 @@ class StudentModel {
     required this.Pic_Name,
     required this.newdob,
     required this.School_id_one,
+    required this.present,
+    required this.LastUpdate,
+    required this.Myfee,
   });
 
   late final String Name;
+  late final String LastUpdate;
+  late final int Myfee;
   late final String Admission_number ;
   late final int Roll_number ;
   late final String Father_Name ;
@@ -42,6 +49,7 @@ class StudentModel {
   late final String Class ;
   late final String Section ;
   late final String Con ;
+  late final List students ;
   late final String Driver ;
   late final String Session ;
   late final String Batch ;
@@ -59,9 +67,17 @@ class StudentModel {
   late final String Pic_Name ;
   late final String School_id_one ;
   late final String newdob ;
-
+  late final List present ;
+  late final String Classn ;
+  late final List Leave ;
   StudentModel.fromJson(Map<String, dynamic> json) {
-    Name= json['Name'] ?? "Ayus";
+    Name = json['Name'] ?? "Ayus";
+    Leave = json['Leave'] ?? [];
+    Classn = json['Classn'] ?? "u";
+    students = json['Present'] ?? [] ;
+    Myfee = json['Mf'] ?? 0 ;
+    LastUpdate = json['LU'] ?? "Dec-21" ;
+    present = json['Present'] ?? [];
     Admission_number= json['Admission_number'] ?? "NA";
     Roll_number= json['Roll_number'] ?? 0;
     Father_Name= json['Father_Name'] ?? "Afhh";
@@ -93,7 +109,10 @@ class StudentModel {
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
+     data['Mf'] = Myfee  ;
+     data['LU'] = LastUpdate  ;
     data['Name'] = Name;
+    data['Present'] = present ;
     data['newdob'] = newdob ;
     data['SCHOOLID'] = School_id_one ;
     data['Admission_number'] = Admission_number;
@@ -118,9 +137,11 @@ class StudentModel {
     data['Mother_Name'] = Mother_Name;
     data['Other1'] = Other1;
     data['Other2'] = Other2;
+    data['Classn'] = Classn ;
     data['Other3'] = Other3;
     data['Other4'] = Other4;
     data['State'] = state ;
+    data['Leave'] = Leave ;
     return data;
   }
 }

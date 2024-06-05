@@ -419,7 +419,7 @@ class _Add_SchoolState extends State<Add_School> {
   final TextEditingController id = TextEditingController();
   final TextEditingController Chief = TextEditingController();
   final TextEditingController Uidse = TextEditingController();
-
+  final TextEditingController sp = TextEditingController();
   pickImage(ImageSource source) async {
     final ImagePicker _imagePicker = ImagePicker();
     XFile? _file = await _imagePicker.pickImage(source: source);
@@ -750,6 +750,12 @@ class _Add_SchoolState extends State<Add_School> {
               false,
             ),
             d(
+              sp,
+              "Password for Special Access",
+              "THHU66789",
+              false,
+            ),
+            d(
               Address,
               "Address of School",
               "A-20, Jhirpani, Rourkela, Odisha",
@@ -781,8 +787,10 @@ class _Add_SchoolState extends State<Add_School> {
                   String g = FirebaseAuth.instance.currentUser!.email ?? "h";
                   String hhh = DateTime.now().millisecondsSinceEpoch.toString();
                   SchoolModel sh = SchoolModel(
-                    Address: Address.text,
-                    Email: Email.text,
+                    Address: Address.text, csession : "hg", SpName : sp.text,
+                    premium : false,
+                    Email: Email.text, stampp : "https://freerangestock.com/sample/75419/technical-school-shows-stamp-print-and-stamped.jpg",
+                    paidp : "https://www.pngall.com/wp-content/uploads/14/Signature-PNG-Picture.png",
                     Name: Name.text,
                     Pic_link: pic,
                     Students: 0,
@@ -1141,7 +1149,21 @@ class _StudentProfileState extends State<StudentProfile> {
                   },
                   child: s("Chief Coordinator Name", widget.user.Chief, false,
                       false)),
-              s("UDISE CODE", widget.user.uidise, true, true),
+              InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        PageTransition(
+                            child: School_Data_Update(
+                              pic: widget.user.Pic_link,
+                              school_id: widget.user.id,
+                              change_change: 'UIDISE Code',
+                              to_change: 'UIDSE',
+                            ),
+                            type: PageTransitionType.rightToLeft,
+                            duration: Duration(milliseconds: 800)));
+                  },
+                  child: s("UIDISE Code", widget.user.uidise, false, false)),
               InkWell(
                   onTap: () {
                     Navigator.push(
@@ -1157,6 +1179,21 @@ class _StudentProfileState extends State<StudentProfile> {
                             duration: Duration(milliseconds: 800)));
                   },
                   child: s("Address", widget.user.Address, false, false)),
+              InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        PageTransition(
+                            child: School_Data_Update(
+                              pic: widget.user.Pic_link,
+                              school_id: widget.user.id,
+                              change_change: 'Special Access Password',
+                              to_change: 'SpName',
+                            ),
+                            type: PageTransitionType.rightToLeft,
+                            duration: Duration(milliseconds: 800)));
+                  },
+                  child: s("Special Access Password", widget.user.SpName, false, false)),
               s("Phone", widget.user.Phone, true, true),
               s("No. of Students", widget.user.Students.toString(), true, true),
               s("Authorize Signature here ", " ", false, true),
