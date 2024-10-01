@@ -1,0 +1,21 @@
+{
+  "title": "Bonjour",
+  "greeting": "Bienvenue",
+
+  "first_select": "Sélectionnons une langue",
+  "first_select2": "Commençons par sélectionner la langue pour l'application",
+  "availablein": "Nous sommes disponibles dans 8 pays",
+
+  "New1": "Choisissez votre accès ?",
+  "New2": "Veuillez sélectionner celui pour lequel vous êtes ici !",
+
+  "Parents1": "Parents",
+  "Parents2": "Parents/Gardiens/Étudiants",
+  "SchoolService1": "Service scolaire",
+  "SchoolService2": "Bus/Auto/Scan",
+  "School": "École",
+  "School2": "Enseignant/École",
+
+  "Admin": "Admin",
+  "Admin2": "Admin/SuperAdmin"
+}

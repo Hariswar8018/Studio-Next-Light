@@ -1,0 +1,21 @@
+{
+  "title": "Hello",
+  "greeting": "Welcome",
+
+  "first_select": "Let's Select a Language",
+  "first_select2": "Let's Start by selecting Language for the App",
+  "availablein": "We are available in 8 Countries",
+
+  "New1": "Pick your Access ?",
+  "New2": "Please select the one you are here for !",
+
+  "Parents1": "Parents",
+  "Parents2": "Parents/Guardian/Students",
+  "SchoolService1": "School Service",
+  "SchoolService2": "Bus/Auto/Scan",
+  "School": "School",
+  "School2": "Teacher/School",
+
+  "Admin": "Admin",
+  "Admin2": "Admin/SuperAdmin"
+}

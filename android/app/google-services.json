@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "727734347697",
+    "project_id": "studio-next-light",
+    "storage_bucket": "studio-next-light.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:727734347697:android:68d268f37a0b5c14c43f90",
+        "android_client_info": {
+          "package_name": "com.heavenonthisearth.studio_next_light"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "727734347697-cnh4ji4568hl1cu65ei9ca68le9u456h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.heavenonthisearth.studio_next_light",
+            "certificate_hash": "b2026e5c7c788cd6b7b07620138e086a8abfac40"
+          }
+        },
+        {
+          "client_id": "727734347697-g0fq1vannqs81h0tb9t3gl2k5eglm57e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.heavenonthisearth.studio_next_light",
+            "certificate_hash": "c309cfd2d2fffc93a1dce3685655b49e8a0bb963"
+          }
+        },
+        {
+          "client_id": "727734347697-c1us15qf1ak9m4dvfr449q7am2ip8sca.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2kHM3_X0ONDGMTkWBqdlp_WpWksUpxyo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "727734347697-c1us15qf1ak9m4dvfr449q7am2ip8sca.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "727734347697-ethu5fjosd1lr7fstlrk7t5usau3r86u.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.heavenonthisearth.studioNextLight"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:727734347697:android:1bbdf34d0b9d4679c43f90",
+        "android_client_info": {
+          "package_name": "com.starwish.student_managment_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "727734347697-c1us15qf1ak9m4dvfr449q7am2ip8sca.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2kHM3_X0ONDGMTkWBqdlp_WpWksUpxyo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "727734347697-c1us15qf1ak9m4dvfr449q7am2ip8sca.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "727734347697-ethu5fjosd1lr7fstlrk7t5usau3r86u.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.heavenonthisearth.studioNextLight"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

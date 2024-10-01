@@ -1,0 +1,21 @@
+{
+  "title": "こんにちは",
+  "greeting": "ようこそ",
+
+  "first_select": "言語を選択しましょう",
+  "first_select2": "アプリの言語を選択して開始します",
+  "availablein": "私たちは8か国で利用可能です",
+
+  "New1": "アクセスを選択しますか？",
+  "New2": "あなたの目的を選んでください！",
+
+  "Parents1": "保護者",
+  "Parents2": "保護者/監護者/学生",
+  "SchoolService1": "学校サービス",
+  "SchoolService2": "バス/オート/スキャン",
+  "School1": "学校",
+  "School2": "教師/学校",
+
+  "Admin": "管理者",
+  "Admin2": "管理者/スーパ管理者"
+}

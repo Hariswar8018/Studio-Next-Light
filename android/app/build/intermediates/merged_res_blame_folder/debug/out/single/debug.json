@@ -1,0 +1,46 @@
+[
+    {
+        "merged": "com.starwish.student_managment_app-merged_res-85:/drawable-v21_launch_background.xml.flat",
+        "source": "com.starwish.student_managment_app-main-87:/drawable-v21/launch_background.xml"
+    },
+    {
+        "merged": "com.starwish.student_managment_app-merged_res-85:/mipmap-mdpi_launcher_icon.png.flat",
+        "source": "com.starwish.student_managment_app-main-87:/mipmap-mdpi/launcher_icon.png"
+    },
+    {
+        "merged": "com.starwish.student_managment_app-merged_res-85:/mipmap-xxxhdpi_launcher_icon.png.flat",
+        "source": "com.starwish.student_managment_app-main-87:/mipmap-xxxhdpi/launcher_icon.png"
+    },
+    {
+        "merged": "com.starwish.student_managment_app-merged_res-85:/mipmap-mdpi_ic_launcher.png.flat",
+        "source": "com.starwish.student_managment_app-main-87:/mipmap-mdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.starwish.student_managment_app-merged_res-85:/mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "com.starwish.student_managment_app-main-87:/mipmap-xhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.starwish.student_managment_app-merged_res-85:/mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "com.starwish.student_managment_app-main-87:/mipmap-xxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.starwish.student_managment_app-merged_res-85:/mipmap-xhdpi_launcher_icon.png.flat",
+        "source": "com.starwish.student_managment_app-main-87:/mipmap-xhdpi/launcher_icon.png"
+    },
+    {
+        "merged": "com.starwish.student_managment_app-merged_res-85:/mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "com.starwish.student_managment_app-main-87:/mipmap-xxxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.starwish.student_managment_app-merged_res-85:/mipmap-hdpi_ic_launcher.png.flat",
+        "source": "com.starwish.student_managment_app-main-87:/mipmap-hdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.starwish.student_managment_app-merged_res-85:/mipmap-hdpi_launcher_icon.png.flat",
+        "source": "com.starwish.student_managment_app-main-87:/mipmap-hdpi/launcher_icon.png"
+    },
+    {
+        "merged": "com.starwish.student_managment_app-merged_res-85:/mipmap-xxhdpi_launcher_icon.png.flat",
+        "source": "com.starwish.student_managment_app-main-87:/mipmap-xxhdpi/launcher_icon.png"
+    }
+]

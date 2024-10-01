@@ -1,0 +1,21 @@
+{
+  "title": "你好",
+  "greeting": "欢迎",
+
+  "first_select": "让我们选择一种语言",
+  "first_select2": "首先为应用选择一种语言",
+  "availablein": "我们在 8 个国家可用",
+
+  "New1": "选择您的访问方式？",
+  "New2": "请选择您的访问身份！",
+
+  "Parents1": "家长",
+  "Parents2": "家长/监护人/学生",
+  "SchoolService1": "学校服务",
+  "SchoolService2": "巴士/自动/扫描",
+  "School1": "学校",
+  "School2": "教师/学校",
+
+  "Admin": "管理员",
+  "Admin2": "管理员/超级管理员"
+}
