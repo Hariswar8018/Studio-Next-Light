@@ -55,10 +55,10 @@
             android:value="@string/facebook_client_token"/>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCtHj9WZxasG8sRNOPyPKao7Y_tiTqxpcE"/>
+            android:value="Youe key"/>
         <meta-data
             android:name="AdaptyPublicSdkKey"
-            android:value="public_live_W5jMSFqq.gitf0XIgDjRP7JjwFJN8" />
+            android:value="your key" />
         <meta-data android:name="android:requestLegacyExternalStorage"
             android:value="true" />
         <activity android:name="com.facebook.FacebookActivity" />
