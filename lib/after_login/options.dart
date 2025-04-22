@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:student_managment_app/after_login/school_history.dart';
+=======
+import 'package:studio_next_light/after_login/school_history.dart';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
 class Options extends StatelessWidget {
   String id ;

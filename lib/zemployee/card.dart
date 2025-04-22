@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:student_managment_app/model/employee_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -442,6 +443,16 @@ class School_Data_Update extends StatelessWidget {
           return null;
         },
       ),
+=======
+
+class EmpC extends StatelessWidget {
+  const EmpC({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
     );
   }
 }

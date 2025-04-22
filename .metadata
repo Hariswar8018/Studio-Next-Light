@@ -4,7 +4,11 @@
 # This file should be version controlled and should not be manually edited.
 
 version:
+<<<<<<< HEAD
   revision: "a14f74ff3a1cbd521163c5f03d68113d50af93d3"
+=======
+  revision: "2f708eb8396e362e280fac22cf171c2cb467343c"
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   channel: "stable"
 
 project_type: app
@@ -13,6 +17,7 @@ project_type: app
 migration:
   platforms:
     - platform: root
+<<<<<<< HEAD
       create_revision: a14f74ff3a1cbd521163c5f03d68113d50af93d3
       base_revision: a14f74ff3a1cbd521163c5f03d68113d50af93d3
     - platform: android
@@ -21,6 +26,19 @@ migration:
     - platform: ios
       create_revision: a14f74ff3a1cbd521163c5f03d68113d50af93d3
       base_revision: a14f74ff3a1cbd521163c5f03d68113d50af93d3
+=======
+      create_revision: 2f708eb8396e362e280fac22cf171c2cb467343c
+      base_revision: 2f708eb8396e362e280fac22cf171c2cb467343c
+    - platform: android
+      create_revision: 2f708eb8396e362e280fac22cf171c2cb467343c
+      base_revision: 2f708eb8396e362e280fac22cf171c2cb467343c
+    - platform: ios
+      create_revision: 2f708eb8396e362e280fac22cf171c2cb467343c
+      base_revision: 2f708eb8396e362e280fac22cf171c2cb467343c
+    - platform: web
+      create_revision: 2f708eb8396e362e280fac22cf171c2cb467343c
+      base_revision: 2f708eb8396e362e280fac22cf171c2cb467343c
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
   # User provided section
 

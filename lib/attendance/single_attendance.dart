@@ -15,7 +15,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+<<<<<<< HEAD
 import 'package:student_managment_app/model/student_model.dart';
+=======
+import 'package:studio_next_light/model/student_model.dart';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
 import 'dart:typed_data';
 import 'dart:ui' as ui;

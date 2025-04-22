@@ -9,11 +9,18 @@ import 'package:flutter/material.dart';
 
 import 'package:page_transition/page_transition.dart';
 
+<<<<<<< HEAD
 import 'package:student_managment_app/after_login/session.dart';
 import 'package:student_managment_app/model/birthday_student.dart';
 
 import '../after_login/b2.dart';
 import '../model/student_model.dart';
+=======
+import 'package:studio_next_light/after_login/session.dart';
+import 'package:studio_next_light/model/birthday_student.dart';
+
+import '../after_login/b2.dart';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
 class BDay extends StatelessWidget {
   String id;
@@ -22,7 +29,11 @@ class BDay extends StatelessWidget {
   String address ;
   BDay({super.key, required this.id, required this.School, required this.logo, required this.address });
 
+<<<<<<< HEAD
   List<StudentModel> list = [];
+=======
+  List<StudentModel2> list = [];
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   late Map<String, dynamic> userMap;
   TextEditingController ud = TextEditingController();
 
@@ -111,7 +122,11 @@ class BDay extends StatelessWidget {
               children: birthdayDocs.map((DocumentSnapshot document) {
                 Map<String, dynamic> data = document.data() as Map<String, dynamic>;
                 return ChatUser(
+<<<<<<< HEAD
                   user: StudentModel.fromJson(data),
+=======
+                  user: StudentModel2.fromJson(data),
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
                   logo: logo,
                   School: School,
                   address: address,
@@ -127,7 +142,11 @@ class BDay extends StatelessWidget {
 }
 
 class ChatUser extends StatelessWidget {
+<<<<<<< HEAD
   StudentModel user;
+=======
+  StudentModel2 user;
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   String logo ;
   String School ;
   String Schoolid ;
@@ -140,6 +159,7 @@ class ChatUser extends StatelessWidget {
       leading: CircleAvatar(
         backgroundImage: NetworkImage(user.pic),
       ),
+<<<<<<< HEAD
       title: Text(user.Name, style : TextStyle( fontWeight: FontWeight.w700)),
       // subtitle:
       subtitle: Column(
@@ -150,6 +170,10 @@ class ChatUser extends StatelessWidget {
           Text("Class : " + user.Class+ " (${user.Section})",style: TextStyle(fontSize: 12),),
         ],
       ),
+=======
+      title: Text(user.Name, style : TextStyle( fontWeight: FontWeight.w600)),
+      subtitle: Text("Born on : " + hjk ( user.newdob)),
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
       onTap: () {
         showDialog(
           context: context,
@@ -182,13 +206,25 @@ class ChatUser extends StatelessWidget {
         );
 
       },
+<<<<<<< HEAD
       trailing:   Icon(
+=======
+      trailing: user.dne ?   Icon(
+        Icons.sentiment_very_satisfied,
+        color: Colors.green,
+        size: 25,
+      ) :  Icon(
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
         Icons.sentiment_satisfied_alt,
         color: Colors.red,
         size: 25,
       ),
       splashColor: Colors.orange.shade300,
+<<<<<<< HEAD
       tileColor:  Colors.white,
+=======
+      tileColor: user.dne ? Colors.grey.shade100 : Colors.white,
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
     );
   }
 
@@ -212,7 +248,11 @@ class BDay2 extends StatelessWidget {
   String address ;
   BDay2({super.key, required this.id, required this.School, required this.logo, required this.address });
 
+<<<<<<< HEAD
   List<StudentModel> list = [];
+=======
+  List<StudentModel2> list = [];
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   late Map<String, dynamic> userMap;
   TextEditingController ud = TextEditingController();
 
@@ -239,7 +279,11 @@ class BDay2 extends StatelessWidget {
             case ConnectionState.active:
             case ConnectionState.done:
               final data = snapshot.data?.docs;
+<<<<<<< HEAD
               list = data?.map((e) => StudentModel.fromJson(e.data())).toList() ?? [];
+=======
+              list = data?.map((e) => StudentModel2.fromJson(e.data())).toList() ?? [];
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
               return ListView.builder(
                 itemCount: list.length,
                 padding: EdgeInsets.only(top: 10),

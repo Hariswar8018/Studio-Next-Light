@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
+<<<<<<< HEAD
 import 'package:student_managment_app/attendance/attendance_register.dart';
 import 'package:student_managment_app/model/school_model.dart';
+=======
+import 'package:studio_next_light/attendance/attendance_register.dart';
+import 'package:studio_next_light/model/school_model.dart';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
 class CheckJ extends StatelessWidget {
    CheckJ({super.key, required this.user});

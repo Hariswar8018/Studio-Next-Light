@@ -1,14 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:rotated_corner_decoration/rotated_corner_decoration.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
 import 'package:student_managment_app/model/school_model.dart';
+=======
+import 'package:social_login_buttons/social_login_buttons.dart';
+import 'package:studio_next_light/model/school_model.dart';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 
+<<<<<<< HEAD
 import 'package:student_managment_app/after_login/session.dart';
 import 'package:student_managment_app/model/birthday_student.dart';
+=======
+import 'package:studio_next_light/after_login/session.dart';
+import 'package:studio_next_light/model/birthday_student.dart';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 import 'package:url_launcher/url_launcher.dart';
 
 class Declare_Holi extends StatefulWidget {
@@ -401,12 +411,18 @@ class _Declare_HoliState extends State<Declare_Holi> {
 
   final Fire = FirebaseFirestore.instance;
 
+<<<<<<< HEAD
   bool sms=false,whatsapp=false,inapp=true;
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
+=======
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
       appBar: AppBar(
         automaticallyImplyLeading: true,
         iconTheme: IconThemeData(
@@ -418,6 +434,7 @@ class _Declare_HoliState extends State<Declare_Holi> {
       body : Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children : [
+<<<<<<< HEAD
           Image.asset("assets/images/school/holidaycelebrate.jpg",width: w,height: 250,),
           SizedBox(height: 20,),
           Text("   Choose Date of Holiday",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w800),),
@@ -473,6 +490,10 @@ class _Declare_HoliState extends State<Declare_Holi> {
               )
             ],
           ),
+=======
+          max(dob, "Date of Holiday", "Date of Holiday", true, 1),
+          max(dob1, "Date of Re-Opening", "Date of Holiday", true, 1),
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
           Container(
             width : MediaQuery.of(context).size.width,
             child: Row(
@@ -483,6 +504,10 @@ class _Declare_HoliState extends State<Declare_Holi> {
               ]
             ),
           ),
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
           max(Textt, "Reason for Holiday", "Diwali", false, 1),
           SizedBox(height : 15),
           Text("   List of Students who will get Notification"),
@@ -558,6 +583,7 @@ class _Declare_HoliState extends State<Declare_Holi> {
       ],
     );
   }
+<<<<<<< HEAD
   Widget as(String str2, bool hem, double w,String str){
     return  Column(
       children: [
@@ -579,6 +605,8 @@ class _Declare_HoliState extends State<Declare_Holi> {
       ],
     );
   }
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
   Future<void> sendNotification(String contact) async {
     final url = Uri.parse('https://sms.autobysms.com/app/smsapi/index.php?key=365E176C71F352&campaign=0&routeid=9&type=text&senderid=JAWRAM&template_id=1407171031437770667');

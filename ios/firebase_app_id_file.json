@@ -1,7 +1,11 @@
 {
   "file_generated_by": "FlutterFire CLI",
   "purpose": "FirebaseAppID & ProjectID for this Firebase app in this directory",
+<<<<<<< HEAD
   "GOOGLE_APP_ID": "1:727734347697:ios:9f741d6ff1f26b26c43f90",
+=======
+  "GOOGLE_APP_ID": "1:727734347697:ios:98d06cf6a0039b6dc43f90",
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   "FIREBASE_PROJECT_ID": "studio-next-light",
   "GCM_SENDER_ID": "727734347697"
 }

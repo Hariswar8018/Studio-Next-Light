@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 import 'package:appinio_animated_toggle_tab/appinio_animated_toggle_tab.dart';
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,6 +11,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:student_managment_app/after_login/my_fee_report_report.dart';
 import 'package:student_managment_app/attendance/notice.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -24,6 +28,21 @@ import 'package:student_managment_app/model/orders_model.dart';
 import 'package:student_managment_app/picture.dart';
 import 'dart:typed_data';
 import 'package:student_managment_app/upload/storage.dart';
+=======
+import 'package:url_launcher/url_launcher.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:studio_next_light/admin/Student_Data_Update.dart';
+import 'package:studio_next_light/admin/student_profile_view.dart';
+import 'package:studio_next_light/after_login/calender.dart';
+import 'package:studio_next_light/attendance/Qr_code.dart';
+import 'package:studio_next_light/model/birthday_student.dart';
+import 'package:studio_next_light/model/student_model.dart';
+import 'package:studio_next_light/model/orders_model.dart';
+import 'package:studio_next_light/picture.dart';
+import 'dart:typed_data';
+import 'package:studio_next_light/upload/storage.dart';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 import 'package:intl/intl.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import '../Parents_Portal/as.dart';
@@ -123,7 +142,10 @@ class _StudentProfileState extends State<StudentProfile> {
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     double w=MediaQuery.of(context).size.width;
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.user.Name),
@@ -145,10 +167,19 @@ class _StudentProfileState extends State<StudentProfile> {
                       .doc(widget.class_id)
                       .collection("Student");
                   await collection.doc(widget.user.Registration_number)
+<<<<<<< HEAD
                       .update({
                     "ou":"Waiting",
                   });
                   Navigator.pop(context);
+=======
+                      .delete();
+                  CollectionReference collection22 =
+                  FirebaseFirestore.instance.collection('Admin');
+                  await collection22.doc("Order").update({
+                    'Students': FieldValue.increment(-1),
+                  });
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
                 },
                 icon: Icon(Icons.delete, color: Colors.white)),
           ),
@@ -375,6 +406,7 @@ class _StudentProfileState extends State<StudentProfile> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     SizedBox(width: 10),
+<<<<<<< HEAD
                     TextButton.icon(onPressed: () {
                       Navigator.push(
                           context,
@@ -383,6 +415,9 @@ class _StudentProfileState extends State<StudentProfile> {
                               type: PageTransitionType.rightToLeft,
                               duration: Duration(milliseconds: 400)));
                     },
+=======
+                    TextButton.icon(onPressed: () {},
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
                       icon: Icon(Icons.receipt, size: 25),
                       label: Text("Fee Report"),
                       style: ButtonStyle(
@@ -394,12 +429,16 @@ class _StudentProfileState extends State<StudentProfile> {
                       ),),
                     SizedBox(width: 10),
                     TextButton.icon(onPressed: () {
+<<<<<<< HEAD
                       Navigator.push(
                           context,
                           PageTransition(
                               child: Noticee(id: widget.school_id, classid: widget.class_id, sessionid: widget.session_id, studentid: widget.user.Registration_number, tokens:widget.user.token),
                               type: PageTransitionType.rightToLeft,
                               duration: Duration(milliseconds: 400)));
+=======
+
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
                     },
                       icon: Icon(Icons.credit_score, size: 25),
                       label: Text("Notices "),
@@ -416,6 +455,7 @@ class _StudentProfileState extends State<StudentProfile> {
               ),
             ),
             SizedBox(height: 10),
+<<<<<<< HEAD
             SizedBox(height: 10),
             AppinioAnimatedToggleTab(
               callback: (int i) {
@@ -455,6 +495,184 @@ class _StudentProfileState extends State<StudentProfile> {
             SizedBox(height: 10),
             col(j,w),
 
+=======
+            GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          child: Student_Data_Update(
+                            class_id: widget.class_id,
+                            session_id: widget.session_id,
+                            pic: widget.user.pic,
+                            school_id: widget.school_id,
+                            student_id: widget.user.Registration_number,
+                            change_change: 'Name',
+                            to_change: 'Name',
+                          ),
+                          type: PageTransitionType.rightToLeft,
+                          duration: Duration(milliseconds: 800)));
+                },
+                child: s("Name", widget.user.Name, false, true)),
+            GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          child: Student_Data_Update(
+                            class_id: widget.class_id,
+                            session_id: widget.session_id,
+                            pic: widget.user.pic,
+                            school_id: widget.school_id,
+                            student_id: widget.user.Registration_number,
+                            change_change: 'Father Name',
+                            to_change: 'Father_Name',
+                          ),
+                          type: PageTransitionType.rightToLeft,
+                          duration: Duration(milliseconds: 800)));
+                },
+                child: s("Father Name", widget.user.Father_Name, true, true)),
+            GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          child: Student_Data_Update(
+                            class_id: widget.class_id,
+                            session_id: widget.session_id,
+                            pic: widget.user.pic,
+                            school_id: widget.school_id,
+                            student_id: widget.user.Registration_number,
+                            change_change: 'Mother Name',
+                            to_change: 'Mother_Name',
+                          ),
+                          type: PageTransitionType.rightToLeft,
+                          duration: Duration(milliseconds: 800)));
+                },
+                child: s("Mother Name", widget.user.Mother_Name, false, true)),
+            GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          child: Student_Data_Update(
+                            class_id: widget.class_id,
+                            session_id: widget.session_id,
+                            pic: widget.user.pic,
+                            school_id: widget.school_id,
+                            student_id: widget.user.Registration_number,
+                            change_change: 'Blood Group',
+                            to_change: 'BloodGroup',
+                          ),
+                          type: PageTransitionType.rightToLeft,
+                          duration: Duration(milliseconds: 800)));
+                },
+                child: s("Blood Group", widget.user.BloodGroup, true, true)),
+            GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          child: Student_Data_Update(
+                            class_id: widget.class_id,
+                            session_id: widget.session_id,
+                            pic: widget.user.pic,
+                            school_id: widget.school_id,
+                            student_id: widget.user.Registration_number,
+                            change_change: 'Fees',
+                            to_change: 'Mf',
+                          ),
+                          type: PageTransitionType.rightToLeft,
+                          duration: Duration(milliseconds: 800)));
+                },
+                child: s(
+                    "Total Fees", "₹ " + widget.user.Myfee.toString(), false,
+                    true)),
+            GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          child: Student_Data_Update(
+                            class_id: widget.class_id,
+                            session_id: widget.session_id,
+                            pic: widget.user.pic,
+                            school_id: widget.school_id,
+                            student_id: widget.user.Registration_number,
+                            change_change: 'Mobile',
+                            to_change: 'Mobile',
+                          ),
+                          type: PageTransitionType.rightToLeft,
+                          duration: Duration(milliseconds: 800)));
+                }, child: s("Mobile", widget.user.Mobile.toString(), false, true)),
+            _buildCalendarDialogButton(),
+            InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          child: Student_Data_Update(
+                            class_id: widget.class_id,
+                            session_id: widget.session_id,
+                            pic: widget.user.pic,
+                            school_id: widget.school_id,
+                            student_id: widget.user.Registration_number,
+                            change_change: 'Email',
+                            to_change: 'Email',
+                          ),
+                          type: PageTransitionType.rightToLeft,
+                          duration: Duration(milliseconds: 800)));
+                },
+                child: s("Email", widget.user.Email, true, true)),
+            SizedBox(height: 20),
+            s("Registration Number", widget.user.Registration_number, false,
+                false),
+            InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          child: Student_Data_Update(
+                            class_id: widget.class_id,
+                            session_id: widget.session_id,
+                            pic: widget.user.pic,
+                            school_id: widget.school_id,
+                            student_id: widget.user.Registration_number,
+                            change_change: 'Admission Number',
+                            to_change: 'Admission_number',
+                          ),
+                          type: PageTransitionType.rightToLeft,
+                          duration: Duration(milliseconds: 800)));
+                },
+                child: s("Admission Number", widget.user.Admission_number, true,
+                    true)),
+            s("ID", widget.user.id, false, false),
+            s("Session", widget.user.Session, true, false),
+            s("Roll Number", widget.user.Roll_number.toString(), false, false),
+            SizedBox(height: 20),
+            s("Batch", widget.user.Batch, true, false),
+            s("Class", widget.user.Class, false, false),
+            s("Section", widget.user.Section, true, false),
+            s("Department", widget.user.Department, false, false),
+            InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          child: Student_Data_Update(
+                            class_id: widget.class_id,
+                            session_id: widget.session_id,
+                            pic: widget.user.pic,
+                            school_id: widget.school_id,
+                            student_id: widget.user.Registration_number,
+                            change_change: 'Address',
+                            to_change: 'Address',
+                          ),
+                          type: PageTransitionType.rightToLeft,
+                          duration: Duration(milliseconds: 800)));
+                },
+                child: s("Address", widget.user.Address, true, true)),
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
           ],
         ),
       ),
@@ -514,6 +732,7 @@ class _StudentProfileState extends State<StudentProfile> {
       ],
     );
   }
+<<<<<<< HEAD
   int j=0;
   col(int j,double  w){
     if(j==0){
@@ -962,6 +1181,8 @@ class _StudentProfileState extends State<StudentProfile> {
       );*/
     }
   }
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   _buildCalendarDialogButton() {
     const dayTextStyle =  TextStyle(color: Colors.black, fontWeight: FontWeight.w700);
     final weekendTextStyle =
@@ -1152,8 +1373,11 @@ class _StudentProfileState extends State<StudentProfile> {
     );
   }
 
+<<<<<<< HEAD
   List<MarksheetModal> list = [];
   late Map<String, dynamic> userMap;
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   Widget s(String s, String n, bool b, bool j) {
     return ListTile(
       leading: j
@@ -1179,6 +1403,7 @@ class _StudentProfileState extends State<StudentProfile> {
     return formattedDate ;
   }
 }
+<<<<<<< HEAD
 class MarksheetModal {
   // Fields for y series
   late final double y1, y2, y3, y4, y5, y6, y7, y8, y9, y10;
@@ -1295,3 +1520,5 @@ class MarksheetModal {
     };
   }
 }
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056

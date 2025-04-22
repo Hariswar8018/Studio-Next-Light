@@ -5,12 +5,21 @@ import 'package:page_transition/page_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:student_managment_app/after_login/class.dart' as d;
 import 'package:page_transition/page_transition.dart';
 import 'package:student_managment_app/aextra/class.dart';
 import 'package:student_managment_app/after_login/session.dart';
 import 'package:student_managment_app/after_login/session.dart';
 import 'package:student_managment_app/model/student_model.dart';
+=======
+import 'package:studio_next_light/after_login/class.dart' as d;
+import 'package:page_transition/page_transition.dart';
+import 'package:studio_next_light/aextra/class.dart';
+import 'package:studio_next_light/after_login/session.dart';
+import 'package:studio_next_light/after_login/session.dart';
+import 'package:studio_next_light/model/student_model.dart';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
 class SessionJust extends StatelessWidget {
   String id; bool student ; bool reminder ; String sname ;

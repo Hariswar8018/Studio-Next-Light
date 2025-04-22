@@ -9,7 +9,11 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pretty_qr_code/pretty_qr_code.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
+<<<<<<< HEAD
 import 'package:student_managment_app/model/student_model.dart';
+=======
+import 'package:studio_next_light/model/student_model.dart';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 import 'package:download/download.dart' ;
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:async';
@@ -26,6 +30,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:flutter/rendering.dart';
 
+<<<<<<< HEAD
 class Download2 extends StatefulWidget {
   final String id;
   final String session;
@@ -94,10 +99,22 @@ class _Download2State extends State<Download2> {
     });
   }
 
+=======
+class Download2 extends StatelessWidget {
+
+  String id ;
+  String session ;
+  String classu ;
+  Download2({super.key, required this.id , required this.session, required this.classu});
+  List<StudentModel> list = [];
+  late Map<String, dynamic> userMap;
+  final Fire = FirebaseFirestore.instance;
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+<<<<<<< HEAD
         title: Text("Download all Student Data"),
       ),
       body: Column(
@@ -139,6 +156,59 @@ class _Download2State extends State<Download2> {
               },
             ),
           ),
+=======
+          title : Text("Download all Student Data")
+      ),
+      body : Column(
+        children: [
+          Container(
+            height : 220,
+            child: Center(
+              child: CircleAvatar(
+                radius: 68,
+                backgroundColor: Colors.blue.shade500,
+                child: Icon(Icons.download_for_offline, size : 55, color : Colors.white),
+              ),
+            ),
+          ),
+          Container(
+            height : MediaQuery.of(context).size.height - 220,
+            child : StreamBuilder(
+              stream: Fire.collection('School')
+                  .doc(id)
+                  .collection('Session')
+                  .doc(session)
+                  .collection("Class")
+                  .doc(classu)
+                  .collection("Student")
+                  .snapshots(),
+              builder: (context, snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting:
+                  case ConnectionState.none:
+                    return Center(child: CircularProgressIndicator());
+                  case ConnectionState.active:
+                  case ConnectionState.done:
+                    final data = snapshot.data?.docs;
+                    list = data?.map((e) => StudentModel.fromJson(e.data())).toList() ?? [];
+                    return ListView.builder(
+                      itemCount: list.length,
+                      padding: EdgeInsets.only(top: 10),
+                      physics: BouncingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return ChatUser(
+                          user: list[index],
+                          c : classu,
+                          s : session,
+                          school: id,
+                        );
+                      },
+                    );
+                }
+              },
+            ),
+          )
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
         ],
       ),
     );
@@ -162,16 +232,23 @@ class ChatUser extends StatefulWidget {
 class _ChatUserState extends State<ChatUser> {
   final GlobalKey boundaryKey = GlobalKey();
   @protected
+<<<<<<< HEAD
   late QrImage qrImage;
 
   @override
   void initState() {
+=======
+  late QrImage qrImage ;
+
+  void initState(){
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
     super.initState();
     final qrCode = QrCode(
       8,
       QrErrorCorrectLevel.H,
     )..addData('${widget.school}/${widget.s}/${widget.c}/${widget.user.Registration_number}');
     qrImage = QrImage(qrCode);
+<<<<<<< HEAD
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       // Wait for the QR code saving to complete before proceeding
@@ -240,6 +317,18 @@ class _ChatUserState extends State<ChatUser> {
 
 
 
+=======
+    WidgetsBinding.instance!.addPostFrameCallback((_) => a());
+  }
+  void a() async {
+    RenderRepaintBoundary boundary = boundaryKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+    ui.Image image = await boundary.toImage(pixelRatio: 3.0); // Adjust the pixelRatio as needed
+    ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+    Uint8List pngBytes = byteData!.buffer.asUint8List();
+    final result = await ImageGallerySaver.saveImage(Uint8List.fromList(pngBytes));
+  }
+
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -249,13 +338,22 @@ class _ChatUserState extends State<ChatUser> {
             backgroundImage: NetworkImage(widget.user.pic),
           ),
           title: Text(widget.user.Name, style: TextStyle(fontWeight: FontWeight.w700)),
+<<<<<<< HEAD
           subtitle: Text("Registration no : " + widget.user.Registration_number),
+=======
+          subtitle: Text("Roll no : " +
+              widget.user.Roll_number.toString() +
+              "   " +
+              widget.user.Class +
+              widget.user.Section ),
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
           splashColor: Colors.orange.shade300,
           tileColor: Colors.grey.shade50,
         ),
         RepaintBoundary(
           key: boundaryKey,
           child: Container(
+<<<<<<< HEAD
             color: Colors.white,
             child: Padding(
               padding: EdgeInsets.all(45),
@@ -268,10 +366,24 @@ class _ChatUserState extends State<ChatUser> {
                 ),
               ),
             ),
+=======
+            color : Colors.white,
+            child: Padding ( padding : EdgeInsets.all(45), child : PrettyQrView(
+              qrImage: qrImage,
+              decoration: const PrettyQrDecoration(
+                image: PrettyQrDecorationImage(
+                  image: AssetImage('assets/WhatsApp_Image_2023-11-22_at_17.13.30_388ceeb5-transformed.png'),
+                ),
+              ),
+            ), ),
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
           ),
         ),
       ],
     );
   }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 }

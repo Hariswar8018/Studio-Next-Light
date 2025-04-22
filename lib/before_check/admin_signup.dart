@@ -4,8 +4,13 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
+<<<<<<< HEAD
 import 'package:student_managment_app/admin/admin_panel.dart';
 import 'package:student_managment_app/before_check/forgot_password.dart';
+=======
+import 'package:studio_next_light/admin/admin_panel.dart';
+import 'package:studio_next_light/before_check/forgot_password.dart';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
 class AdminC extends StatefulWidget {
 

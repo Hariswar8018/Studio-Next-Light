@@ -2,9 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
+<<<<<<< HEAD
 import 'package:student_managment_app/Parents_Admin_all_data/search_school.dart';
 import 'package:student_managment_app/super_admin/carousel.dart';
 import 'package:student_managment_app/super_admin/superhome.dart';
+=======
+import 'package:studio_next_light/Parents_Admin_all_data/search_school.dart';
+import 'package:studio_next_light/super_admin/carousel.dart';
+import 'package:studio_next_light/super_admin/superhome.dart';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
 class Incoming extends StatelessWidget {
   Incoming({super.key});

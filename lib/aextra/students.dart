@@ -9,6 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
+<<<<<<< HEAD
 import 'package:student_managment_app/Parents_Portal/as.dart';
 import 'package:student_managment_app/admin/Student_Data_Update.dart';
 import 'package:student_managment_app/admin/student_profile_view.dart';
@@ -19,6 +20,18 @@ import 'package:student_managment_app/model/orders_model.dart';
 import 'package:student_managment_app/after_login/stu_edit.dart';
 import 'dart:typed_data';
 import 'package:student_managment_app/upload/storage.dart';
+=======
+import 'package:studio_next_light/Parents_Portal/as.dart';
+import 'package:studio_next_light/admin/Student_Data_Update.dart';
+import 'package:studio_next_light/admin/student_profile_view.dart';
+import 'package:studio_next_light/after_login/student_shift.dart';
+import 'package:studio_next_light/model/birthday_student.dart';
+import 'package:studio_next_light/model/student_model.dart';
+import 'package:studio_next_light/model/orders_model.dart';
+import 'package:studio_next_light/after_login/stu_edit.dart';
+import 'dart:typed_data';
+import 'package:studio_next_light/upload/storage.dart';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 import 'package:intl/intl.dart';
 
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
@@ -156,8 +169,16 @@ class _ChatUserState extends State<ChatUser> {
       ),
       title:
           Text(widget.user.Name, style: TextStyle(fontWeight: FontWeight.w700)),
+<<<<<<< HEAD
       subtitle:widget.sname=="NA"?Text("Father Name :"+widget.user.Father_Name): Text("Roll no : " +
           widget.user.Roll_number.toString() ),
+=======
+      subtitle: Text("Roll no : " +
+          widget.user.Roll_number.toString() +
+          "   " +
+          widget.user.Class +
+          widget.user.Section),
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
       onLongPress: () {
         Navigator.push(
             context,
@@ -290,8 +311,12 @@ class _ChatUserState extends State<ChatUser> {
           Navigator.pop(context, widget.user);
         }
       },
+<<<<<<< HEAD
       trailing: widget.sname=="NA"?Text(widget.user.Roll_number.toString(),
           style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12)):Text("₹" + addCommas(widget.user.Myfee),
+=======
+      trailing: Text("₹" + addCommas(widget.user.Myfee),
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
           style: TextStyle(fontWeight: FontWeight.w700, fontSize: 19)),
       splashColor: Colors.orange.shade300,
       tileColor: Colors.grey.shade50,

@@ -4,12 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+<<<<<<< HEAD
 import 'package:student_managment_app/Parents_Portal/as.dart';
 import 'package:student_managment_app/attendance/notice.dart';
 import 'package:student_managment_app/model/student_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+=======
+import 'package:studio_next_light/Parents_Portal/as.dart';
+import 'package:studio_next_light/model/student_model.dart';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
 class HomePa extends StatefulWidget {
    HomePa({super.key});
@@ -85,7 +90,11 @@ class _HomePaState extends State<HomePa> {
           title: Text('Parents Portal', style : TextStyle(color : Colors.white)),
         ),
         body : StreamBuilder(
+<<<<<<< HEAD
           stream: Fire.collection('School').doc(school).collection('Session').doc(session).collection("Class").doc(clas).collection("Student").where("Registration_number", isEqualTo: id).snapshots(),
+=======
+          stream: Fire.collection('School').doc(school).collection('Session').doc(session).collection("Class").doc(clas).collection("Student").where("id", isEqualTo: id).snapshots(),
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:
@@ -101,7 +110,11 @@ class _HomePaState extends State<HomePa> {
                   physics: BouncingScrollPhysics(),
                   itemBuilder: (context, index) {
                     return ChatUser(
+<<<<<<< HEAD
                       user: list[index],st:school,
+=======
+                      user: list[index],
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
                     );
                   },
                 );
@@ -114,8 +127,13 @@ class _HomePaState extends State<HomePa> {
 }
 
 class ChatUser extends StatefulWidget {
+<<<<<<< HEAD
   StudentModel user ; String st;
   ChatUser({super.key, required this.user,required this.st});
+=======
+  StudentModel user ;
+  ChatUser({super.key, required this.user});
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
   @override
   State<ChatUser> createState() => _ChatUserState();
@@ -128,7 +146,11 @@ class _ChatUserState extends State<ChatUser> {
     List<Date> firestoreDates = [];
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('School').doc(widget.user.School_id_one).collection("Students")
+<<<<<<< HEAD
         .doc(widget.user.Registration_number)
+=======
+        .doc(widget.user.id)
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
         .collection("Colors")
         .get();
     querySnapshot.docs.forEach((doc) {
@@ -158,6 +180,7 @@ class _ChatUserState extends State<ChatUser> {
   }
 
   late List<Date> dates  ;
+<<<<<<< HEAD
  late final String id,clas,session,school;
   Future<void> gh() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -185,6 +208,9 @@ class _ChatUserState extends State<ChatUser> {
     await Firebase.initializeApp();
     // Handle background message
   }
+=======
+
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   @override
   void initState() {
     super.initState();
@@ -193,7 +219,10 @@ class _ChatUserState extends State<ChatUser> {
         dates = firestoreDates;
       });
     });
+<<<<<<< HEAD
     gh();
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   }
   String hjk( String g ) {
     String dateTimeString = g; // Replace with your DateTime string
@@ -207,7 +236,10 @@ class _ChatUserState extends State<ChatUser> {
     return formattedDate ;
   }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -256,6 +288,32 @@ class _ChatUserState extends State<ChatUser> {
           SizedBox(height : 15),
           Text("Attendance Registery", style : TextStyle(fontSize: 20, fontWeight: FontWeight.w700),),
           SizedBox(height : 15),
+<<<<<<< HEAD
+=======
+          Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children : [
+                TextButton.icon(onPressed: (){
+
+                },
+                    icon: Icon(Icons.person_add_alt_rounded, color : Colors.blue),
+                    label: Text("Present : " + pre.toString())
+                ),
+                TextButton.icon(onPressed: (){
+
+                },
+                    icon: Icon(Icons.person_remove_alt_1, color : Colors.red),
+                    label: Text("Absent : " + abs.toString())
+                ),
+                TextButton.icon(onPressed: (){
+
+                },
+                    icon: Icon(Icons.view_in_ar, color : Colors.green),
+                    label: Text(nt.toString())
+                ),
+              ]
+          ),
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
           CustomCalendarViewer(
             dates: dates,
             ranges: ranges ,
@@ -313,17 +371,23 @@ class _ChatUserState extends State<ChatUser> {
                 ),
               ]
           ),
+<<<<<<< HEAD
           SizedBox(height : 25),
           Divider(),
           SizedBox(height : 15),
           Text("Notices", style : TextStyle(fontSize: 20, fontWeight: FontWeight.w700),),
           SizedBox(height : 15),
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
         ],
       ),
     );
   }
+<<<<<<< HEAD
   List<Notice> list = [];
   late Map<String, dynamic> userMap;
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   Widget a(BuildContext context, String s1, String s2, String s3, String s4){
     return Padding(
       padding: const EdgeInsets.all(10.0),
@@ -344,6 +408,7 @@ class _ChatUserState extends State<ChatUser> {
     );
   }
 }
+<<<<<<< HEAD
 
 class UserService {
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -363,3 +428,5 @@ class UserService {
     // Handle background message
   }
 }
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056

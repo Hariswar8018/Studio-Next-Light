@@ -7,14 +7,24 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
+<<<<<<< HEAD
 import 'package:student_managment_app/after_login/calender.dart';
 import 'package:student_managment_app/model/student_model.dart';
+=======
+import 'package:studio_next_light/after_login/calender.dart';
+import 'package:studio_next_light/model/student_model.dart';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 import 'package:audioplayers/audioplayers.dart';
 import 'package:http/http.dart' as http;
 
 class QRViewExample extends StatefulWidget {
+<<<<<<< HEAD
   String str ; String id ; String status ; bool sms ;
   QRViewExample({Key? key, required this.str, required this.id, required this.status,required this.sms}) : super(key: key);
+=======
+  String str ; String id ; String status ;
+  QRViewExample({Key? key, required this.str, required this.id, required this.status}) : super(key: key);
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
   @override
   State<StatefulWidget> createState() => _QRViewExampleState();
@@ -26,6 +36,11 @@ class _QRViewExampleState extends State<QRViewExample> {
   QRViewController? controller ;
   bool b = false ;
 
+<<<<<<< HEAD
+=======
+  // In order to get hot reload to work we need to pause the camera if the platform
+  // is android, or resume the camera if the platform is iOS.
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   @override
   void reassemble() {
     super.reassemble();
@@ -149,12 +164,15 @@ class _QRViewExampleState extends State<QRViewExample> {
     );
   }
 
+<<<<<<< HEAD
   void as()async{
     await controller!.pauseCamera();
     Future.delayed(Duration(seconds: 2), () async {
       await controller!.resumeCamera();
     });
   }
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   Widget sdg(String? sd) {
     String s77 = sd ?? "y";
     String input = s77;
@@ -165,13 +183,25 @@ class _QRViewExampleState extends State<QRViewExample> {
       // Handle the case where input does not contain enough parts
       return Text('Input does not contain enough parts');
     }
+<<<<<<< HEAD
     as();
+=======
+
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
     String sid = parts[0];
     String ssid = parts[1];
     String classid = parts[2];
     String studentid = parts[3];
+<<<<<<< HEAD
     List<StudentModel> list = [];
     late Map<String, dynamic> userMap;
+=======
+    print(studentid);
+    List<StudentModel> list = [];
+    late Map<String, dynamic> userMap;
+    TextEditingController ud = TextEditingController();
+
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
     final Fire = FirebaseFirestore.instance;
     return StreamBuilder(
       stream: Fire.collection('School')
@@ -203,7 +233,11 @@ class _QRViewExampleState extends State<QRViewExample> {
                     return ChatUser(
                         user: list[index],
                         bgi: bgi,
+<<<<<<< HEAD
                         school: widget.id,smsend:widget.sms,
+=======
+                        school: widget.id,
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
                         id: sid,
                         st: widget.str,
                       status : widget.status, sid : sid , ssid : ssid , clasid : classid , studentid : studentid,
@@ -246,16 +280,25 @@ class _QRViewExampleState extends State<QRViewExample> {
     Colors.purple,
   ];
 }
+<<<<<<< HEAD
 class ChatUser extends StatefulWidget {
   StudentModel user; bool bgi ; String id ;
   String st ; String school ; String status ; String sid ;
   String ssid ; String clasid ; String studentid ;
   bool smsend;
   ChatUser({super.key, required this.smsend, required this.user, required this.bgi, required this.id, required this.st, required this.school, required this.status, required this.clasid, required this.sid, required this.ssid, required this.studentid});
+=======
+
+class ChatUser extends StatefulWidget {
+  StudentModel user; bool bgi ; String id ;  String st ; String school ; String status ; String sid ; String ssid ; String clasid ; String studentid ;
+
+  ChatUser({super.key, required this.user, required this.bgi, required this.id, required this.st, required this.school, required this.status, required this.clasid, required this.sid, required this.ssid, required this.studentid});
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
   @override
   State<ChatUser> createState() => _ChatUserState();
 }
+<<<<<<< HEAD
 Set<String> processedQRs = {}; // Track processed QR codes
 Set<String> processedQRsout = {}; // Track processed QR codes
 class _ChatUserState extends State<ChatUser> {
@@ -268,10 +311,27 @@ class _ChatUserState extends State<ChatUser> {
 
     if (widget.bgi && !b) {
       checkDatePresence();
+=======
+
+class _ChatUserState extends State<ChatUser> {
+
+  bool b = false;
+
+  void initState() {
+    checkDatePresence();
+    if (widget.bgi) {
+      DateTime now = DateTime.now();
+      String n = DateFormat('yyyy-MM-dd 00:00:00.000').format(now);
+      _storeColorInFirestore(now, Colors.blue);
+      setState(() {
+        b = true;
+      });
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
     }
   }
 
   void checkDatePresence() async {
+<<<<<<< HEAD
     DateTime now = DateTime.now();
     String stm = '${now.day}-${now.month}-${now.year}';
     final schoolDocRef = FirebaseFirestore.instance
@@ -299,6 +359,23 @@ class _ChatUserState extends State<ChatUser> {
             _storeColorInFirestore(now, Colors.blue);
           }
           print('String does not exist in the "Present" array: $stm');
+=======
+    DateTime date = DateTime.now();
+    String st = '${date.day}-${date.month}-${date.year}';
+    final schoolDocRef = FirebaseFirestore.instance.collection('School').doc(
+        widget.id).collection("Students").doc(widget.user.School_id_one);
+    schoolDocRef.get().then((docSnapshot) {
+      if (docSnapshot.exists) {
+        final presentArray = docSnapshot.data()!['Present'] as List<dynamic>? ??
+            [];
+        if (presentArray.contains(st)) {
+          print('String already exists in the "Present" array: $st');
+          setState(() {
+            b = true;
+          });
+        } else {
+          print('String does not exist in the "Present" array: $st');
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
         }
       } else {
         print('Document does not exist');
@@ -308,6 +385,7 @@ class _ChatUserState extends State<ChatUser> {
     });
   }
 
+<<<<<<< HEAD
   send(String str12) async {
     DateTime date = DateTime.now();
     String st = '${date.day}-${date.month}-${date.year}';
@@ -353,6 +431,143 @@ class _ChatUserState extends State<ChatUser> {
           .collection('Students')
           .doc(widget.user.Registration_number)
           .collection('Colors')
+=======
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: MediaQuery
+          .of(context)
+          .size
+          .width,
+      height: 130,
+      child: Column(
+        children: [
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  PageTransition(
+                      child: MyCalenderPage(
+                        idi: widget.user.School_id_one,
+                        df: widget.id, sessioni: widget.clasid, classi: widget.ssid, user: widget.user,
+                      ),
+                      type: PageTransitionType.rightToLeft,
+                      duration: Duration(milliseconds: 400)));
+            },
+            child: Container(
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width,
+                height: 90,
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundImage: NetworkImage(widget.user.pic,),
+                      child: b
+                          ? Icon(Icons.verified, color: Colors.blue, size: 60)
+                          : SizedBox(width: 1),
+                      radius: 90,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(widget.user.Name,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w900, fontSize: 22)),
+                        Text("Mobile no. : " + widget.user.Mobile),
+                        Text(
+                            "Roll no. : " + widget.user.Roll_number.toString()),
+                        Text("Class : " +
+                            widget.user.Class +
+                            "  Section (" +
+                            widget.user.Section +
+                            ")"),
+                      ],
+                    ),
+                  ],
+                )),
+          ),
+          SizedBox(height: 20),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            SocialLoginButton(
+              backgroundColor: Colors.green,
+              height: 40,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width / 2 - 30,
+              text: 'Present',
+              borderRadius: 20,
+              fontSize: 21,
+              buttonType: SocialLoginButtonType.generalLogin,
+              onPressed: () async {
+                DateTime date = DateTime.now();
+                /*await _storeColorInFirestore(now, Colors.blue);*/
+                String st = '${date.day}-${date.month}-${date.year}';
+                try{
+                  await FirebaseFirestore.instance.collection('School').doc(widget.sid)
+                      .collection("Session")
+                      .doc(widget.ssid).collection("Class").doc(widget.clasid).collection("Student").doc(widget.studentid)
+                      .update({
+                    'Present': FieldValue.arrayUnion([st]),
+                  });
+                  DateTime now = DateTime.now();
+                  await _storeColorInFirestore(now, Colors.blue);
+                }catch(e){
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text("${e}"),
+                    ),
+                  );
+                }
+              },
+            ),
+            SocialLoginButton(
+              backgroundColor: Colors.redAccent,
+              height: 40,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width / 2 - 30,
+              text: 'Absent',
+              borderRadius: 20,
+              fontSize: 21,
+              buttonType: SocialLoginButtonType.generalLogin,
+              onPressed: () async {
+                DateTime now = DateTime.now();
+                String st = '${now.day}-${now.month}-${now.year}';
+                await FirebaseFirestore.instance.collection('School').doc(widget.sid)
+                    .collection("Session")
+                    .doc(widget.ssid).collection("Class").doc(widget.clasid).collection("Student").doc(widget.studentid)
+                    .update({
+                  'Absent': FieldValue.arrayUnion([st]),
+                });
+                _storeColorInFirestore(now, Colors.red);
+                Navigator.of(context).pop();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("${widget.user.Name} marked as Absent"),
+                  ),
+                );
+              },
+            ),
+          ])
+        ],
+      ),
+    );
+  }
+
+  Future<void> _storeColorInFirestore(DateTime date, Color color) async {
+    try {
+      String st = '${date.day}-${date.month}-${date.year}';
+      await FirebaseFirestore.instance.collection('School').doc(widget.id)
+          .collection("Students")
+          .doc(widget.user.Registration_number)
+          .collection("Colors")
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
           .doc(st)
           .set({
         'color': color.value,
@@ -361,6 +576,7 @@ class _ChatUserState extends State<ChatUser> {
       });
       final player = AudioPlayer();
       await player.play(AssetSource("beep-04.mp3"));
+<<<<<<< HEAD
       if (widget.smsend) {
         String apiUrl = 'https://sms.autobysms.com/app/smsapi/index.php';
         DateTime currentTime = DateTime.now();
@@ -569,3 +785,42 @@ class _ChatUserState extends State<ChatUser> {
     );
   }
 }
+=======
+      String apiUrl = 'https://sms.autobysms.com/app/smsapi/index.php';
+      DateTime currentTime = DateTime.now();
+      String formattedTime = DateFormat('h:mm a').format(currentTime);
+      Map<String, String> queryParams = {
+        'key': '365E176C71F352',
+        'campaign': '0',
+        'routeid': '9',
+        'type': 'text',
+        'contacts': widget.user.Mobile,
+        'senderid': 'WAHRAM',
+        'msg':
+        'Dear Parents, Your ${widget.user.Name} of Class ${widget.user
+            .Class} Check ${widget
+            .status} Time $formattedTime in our institute ${widget.st} JRAM',
+        'template_id': '1407171212391331672',
+      };
+
+      String fullUrl = '$apiUrl?' +
+          queryParams.entries.map((e) => '${e.key}=${Uri.encodeComponent(
+              e.value)}').join('&');
+
+      try {
+        var response = await http.get(Uri.parse(fullUrl));
+        if (response.statusCode == 200) {
+          print('SMS sent successfully');
+          print('Response: ${response.body}');
+        } else {
+          print('Failed to send SMS. Status code: ${response.statusCode}');
+        }
+      } catch (e) {
+        print('Error sending SMS: $e');
+      }
+    } catch (e) {
+      print('Error sending SMS: $e');
+    }
+  }
+}
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056

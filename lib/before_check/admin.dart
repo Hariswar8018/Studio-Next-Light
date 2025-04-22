@@ -4,9 +4,15 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
+<<<<<<< HEAD
 import 'package:student_managment_app/admin/admin_panel.dart';
 import 'package:student_managment_app/before_check/admin_signup.dart';
 import 'package:student_managment_app/before_check/forgot_password.dart';
+=======
+import 'package:studio_next_light/admin/admin_panel.dart';
+import 'package:studio_next_light/before_check/admin_signup.dart';
+import 'package:studio_next_light/before_check/forgot_password.dart';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 import 'package:url_launcher/url_launcher.dart';
 
 class Admin extends StatefulWidget {
@@ -31,6 +37,28 @@ class _SuperAdminState extends State<Admin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+<<<<<<< HEAD
+=======
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          String phoneNumber = '917000994158';
+          String message =
+              'Hi, Studio Next Light! We are contacting you regarding your App as Admin';
+
+          String url =
+              'https://wa.me/$phoneNumber?text=${Uri.encodeComponent(message)}';
+
+          if (await canLaunch(url)) {
+            await launch(url);
+          } else {
+            // Handle error
+            print('Could not launch WhatsApp');
+          }
+        },
+        tooltip: 'Open WhatsApp',
+        child: Icon(Icons.chat),
+      ),
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         automaticallyImplyLeading: true,
@@ -248,12 +276,15 @@ class _SuperAdminState extends State<Admin> {
                     GoogleSignIn _googleSignIn = GoogleSignIn(
                       scopes: scopes,
                     );
+<<<<<<< HEAD
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content:
                         Text('This will work in next update !'),
                       ),
                     );
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
                     try {
                       final GoogleSignInAccount? googleUser =
                           await GoogleSignIn().signIn();

@@ -7,8 +7,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:page_transition/page_transition.dart';
+<<<<<<< HEAD
 import 'package:student_managment_app/after_login/class.dart';
 import 'package:student_managment_app/after_login/session.dart';
+=======
+import 'package:studio_next_light/after_login/class.dart';
+import 'package:studio_next_light/after_login/session.dart';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
 class Session extends StatelessWidget {
   String id;
@@ -198,12 +203,19 @@ class _ChatUserState extends State<ChatUser> {
               TextButton(
                 onPressed: () async {
                   CollectionReference collection1 = FirebaseFirestore.instance.collection('School').doc(widget.id).collection('Session');
+<<<<<<< HEAD
                   await collection1.doc(widget.user.id).update({
                     "ou":"Under Admin Approval for Delete",
                   });
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text('Success ! This Session will be Deleted once SuperAdmin confirms it'),
+=======
+                  await collection1.doc(widget.user.id).delete() ;
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('This Session Deleted'),
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
                     ),
                   );
                   Navigator.of(context).pop();
@@ -239,6 +251,7 @@ class _ChatUserState extends State<ChatUser> {
       );
     },
       onTap: () async {
+<<<<<<< HEAD
         if(widget.user.ou=="Under Admin Approval for Delete"){
           showDialog(
             context: context,
@@ -303,6 +316,30 @@ class _ChatUserState extends State<ChatUser> {
         color: Colors.red,
         size: 20,
       ):Icon(
+=======
+
+        Navigator.push(
+        context, PageTransition(
+       child: Class(id: widget.id, session_id: widget.user.id, Session : widget.user.Name, School: widget.School,
+         EmailB: widget.EmailB, RegisB: widget.RegisB, Other4B: widget.Other4B,
+         Other3B: widget.Other3B, Other2B: widget.Other2B, Other1B: widget.Other1B,
+         MotherB: widget.MotherB, DepB: widget.DepB, BloodB: widget.BloodB,
+       ), type: PageTransitionType.rightToLeft, duration: Duration(milliseconds: 800)
+       ));
+        if ( widget.csession == "" || widget.csession == " "){
+          CollectionReference collection1 = FirebaseFirestore.instance.collection('School');
+          await collection1.doc(widget.id).update({
+            "cse" : widget.user.id,
+          }) ;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('This Session is now CURRENT SESSION'),
+            ),
+          );
+        }
+      },
+      trailing: Icon(
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
         Icons.arrow_forward_ios_sharp,
         color: Colors.black,
         size: 20,
@@ -408,11 +445,17 @@ class SessionModel {
   late final String Name;
   late final String id;
   late final int feet ;
+<<<<<<< HEAD
   late final String ou;
 
   SessionModel.fromJson(Map<String, dynamic> json) {
     Name = json['Name'] ?? 'samai';
     ou=json['ou']??"No";
+=======
+
+  SessionModel.fromJson(Map<String, dynamic> json) {
+    Name = json['Name'] ?? 'samai';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
     feet = json['feet'] ?? 6 ;
     id = json['id'] ?? 'Xhqo6S2946pNlw8sRSKd';
   }

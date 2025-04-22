@@ -27,6 +27,10 @@ migrate_working_dir/
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
+<<<<<<< HEAD
+=======
+.packages
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 .pub-cache/
 .pub/
 /build/

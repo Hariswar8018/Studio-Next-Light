@@ -17,10 +17,14 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
+<<<<<<< HEAD
       throw UnsupportedError(
         'DefaultFirebaseOptions have not been configured for web - '
         'you can reconfigure this by running the FlutterFire CLI again.',
       );
+=======
+      return web;
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -49,9 +53,25 @@ class DefaultFirebaseOptions {
     }
   }
 
+<<<<<<< HEAD
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyD2kHM3_X0ONDGMTkWBqdlp_WpWksUpxyo',
     appId: '1:727734347697:android:1bbdf34d0b9d4679c43f90',
+=======
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyAfFZh77wuuhSBydtrqz6dyJZgPp4GMviM',
+    appId: '1:727734347697:web:7a7076f4eb5b36fec43f90',
+    messagingSenderId: '727734347697',
+    projectId: 'studio-next-light',
+    authDomain: 'studio-next-light.firebaseapp.com',
+    storageBucket: 'studio-next-light.appspot.com',
+    measurementId: 'G-F7QD9R5GD2',
+  );
+
+  static const FirebaseOptions android = FirebaseOptions(
+    apiKey: 'AIzaSyD2kHM3_X0ONDGMTkWBqdlp_WpWksUpxyo',
+    appId: '1:727734347697:android:68d268f37a0b5c14c43f90',
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
     messagingSenderId: '727734347697',
     projectId: 'studio-next-light',
     storageBucket: 'studio-next-light.appspot.com',
@@ -59,6 +79,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDtzeWOl_v8bYxLAmBgxu5hlM14AN1Cl6U',
+<<<<<<< HEAD
     appId: '1:727734347697:ios:9f741d6ff1f26b26c43f90',
     messagingSenderId: '727734347697',
     projectId: 'studio-next-light',
@@ -66,5 +87,12 @@ class DefaultFirebaseOptions {
     androidClientId: '727734347697-cnh4ji4568hl1cu65ei9ca68le9u456h.apps.googleusercontent.com',
     iosClientId: '727734347697-99d33vt1ibmaj7ap0idb6c4noubh9ree.apps.googleusercontent.com',
     iosBundleId: 'com.starwish.studentManagmentApp',
+=======
+    appId: '1:727734347697:ios:98d06cf6a0039b6dc43f90',
+    messagingSenderId: '727734347697',
+    projectId: 'studio-next-light',
+    storageBucket: 'studio-next-light.appspot.com',
+    iosBundleId: 'com.heavenonthisearth.studioNextLight',
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   );
 }

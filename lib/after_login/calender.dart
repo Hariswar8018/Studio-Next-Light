@@ -8,8 +8,13 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+<<<<<<< HEAD
 import 'package:student_managment_app/attendance/single_attendance.dart';
 import 'package:student_managment_app/model/student_model.dart';
+=======
+import 'package:studio_next_light/attendance/single_attendance.dart';
+import 'package:studio_next_light/model/student_model.dart';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
 class MyCalenderPage extends StatefulWidget {
   const MyCalenderPage({super.key, required this.idi, required this.df, required this.classi, required this.sessioni, required this.user});
@@ -103,12 +108,21 @@ class _MyCalenderPageState extends State<MyCalenderPage> {
         'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul',
         'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
       ];
+<<<<<<< HEAD
       rows.add(['Month', ...List.generate(31, (index) => index + 1)]);
+=======
+
+      // Add header row with months
+      rows.add(['Month', ...List.generate(31, (index) => index + 1)]);
+
+      // Fetch attendance data for the student
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
       DocumentSnapshot snapshot = await FirebaseFirestore.instance
           .collection('School').doc(df).collection("Students")
           .doc(idi).collection("Colors")
           .doc("Attendance") // Assuming attendance is stored under a document named "Attendance"
           .get();
+<<<<<<< HEAD
       if (snapshot.data() is Map<String, dynamic>) {
         Map<String, dynamic> attendanceData = snapshot.data() as Map<String, dynamic>;
         for (String month in months) {
@@ -116,6 +130,22 @@ class _MyCalenderPageState extends State<MyCalenderPage> {
           for (int day = 1; day <= 31; day++) {
             String dayKey = '$month $day';
             bool isPresent = attendanceData.containsKey(dayKey) && attendanceData[dayKey] == true;
+=======
+
+      // Ensure snapshot.data() is of type Map<String, dynamic>
+      if (snapshot.data() is Map<String, dynamic>) {
+        Map<String, dynamic> attendanceData = snapshot.data() as Map<String, dynamic>;
+        // Iterate over each month
+        for (String month in months) {
+          List<dynamic> row = [month];
+          // Iterate over each day of the month
+          for (int day = 1; day <= 31; day++) {
+            // Construct the key for this day (e.g., "Jan 1", "Jan 2", ...)
+            String dayKey = '$month $day';
+            // Check if attendance data contains this day and if it's present
+            bool isPresent = attendanceData.containsKey(dayKey) && attendanceData[dayKey] == true;
+            // Add 'P' if present, else add empty string
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
             row.add(isPresent ? 'P' : '');
           }
           rows.add(row);

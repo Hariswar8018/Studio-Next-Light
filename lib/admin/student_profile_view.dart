@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 import 'package:appinio_animated_toggle_tab/appinio_animated_toggle_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -14,6 +15,17 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:appinio_animated_toggle_tab/appinio_animated_toggle_tab.dart';
 
 class StudentProfileN extends StatefulWidget {
+=======
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:studio_next_light/after_login/calender.dart';
+import 'package:studio_next_light/attendance/Qr_code.dart';
+import 'package:studio_next_light/model/student_model.dart';
+import 'package:studio_next_light/picture.dart';
+
+class StudentProfileN extends StatelessWidget {
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   String schoolid, sessionid, classid ;
   StudentModel user;
   StudentProfileN(
@@ -21,6 +33,7 @@ class StudentProfileN extends StatefulWidget {
         required this.user, required this.schoolid, required this.classid, required this.sessionid});
 
   @override
+<<<<<<< HEAD
   State<StudentProfileN> createState() => _StudentProfileNState();
 }
 
@@ -33,12 +46,19 @@ class _StudentProfileNState extends State<StudentProfileN> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.user.Name),
+=======
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(user.Name),
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
         backgroundColor: Colors.orange,
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+<<<<<<< HEAD
             Stack(
               children: [
                 Padding(
@@ -259,11 +279,74 @@ class _StudentProfileNState extends State<StudentProfileN> {
             ),
             SizedBox(height: 10),
             col(j,w),
+=======
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Center(
+                child: InkWell(
+                  onLongPress: (){
+                    Navigator.push(
+                        context,
+                        PageTransition(
+                            child: Pic(str : user.pic, name : user.Name),
+                            type: PageTransitionType.rightToLeft,
+                            duration: Duration(milliseconds: 400)));
+                  },
+                  child: CircleAvatar(
+                    backgroundImage: NetworkImage(user.pic),
+                    radius: 120,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 10),
+             Text(user.Pic_Name),
+            SizedBox(height: 10),
+             ElevatedButton( onPressed : (){
+               Navigator.push(
+                   context,
+                   PageTransition(
+                       child: MyCalenderPage(idi: user.School_id_one, df: schoolid, classi: classid, sessioni: sessionid, user: user,),
+                       type: PageTransitionType.rightToLeft,
+                       duration: Duration(milliseconds: 400)
+                   )
+               );
+             }, child : Text("Attendance Register")),
+            ElevatedButton( onPressed : (){
+              Navigator.push(
+                  context,
+                  PageTransition(
+                      child: Qrcode(idi: user.Admission_number, school_id: schoolid, class_id: classid, sesiion : sessionid),
+                      type: PageTransitionType.rightToLeft,
+                      duration: Duration(milliseconds: 400)));
+            }, child : Text("QR Code")),
+            SizedBox(height: 10),
+             s("Name", user.Name, false, true),
+             s("Father Name", user.Father_Name, true, true),
+            user.Mother_Name == " " ? s("Mother Name", user.Mother_Name, false, true): SizedBox(),
+            user.BloodGroup == " " ? s("Blood Group", user.BloodGroup, true, true) : SizedBox(),
+            s("Mobile", user.Mobile.toString(), false, true),
+            s("Date of Birth : " , hjk(user.newdob) , false, true),
+            user.Email == " " ?  s("Email", user.Email, true, true) : SizedBox(),
+            SizedBox(height: 20),
+            user.Admission_number == " " ? s("Admission Number", user.Admission_number, false, true): SizedBox(),
+            s("Registration Number", user.Registration_number, true, true),
+            s("ID", user.id, false, true),
+            s("Session", user.Session, true, true),
+            s("Roll Number", user.Roll_number.toString(), false, true),
+            SizedBox(height: 20),
+            s("Batch", user.Batch, true,true),
+            s("Class", user.Class, false, true),
+            s("Section", user.Section, true, true),
+            user.Department == " " ? s("Department", user.Department, false, true): SizedBox(),
+             s("Address", user.Address, true, true),
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
           ],
         ),
       ),
     );
   }
+<<<<<<< HEAD
   Widget col(int y,double w){
     if(y==0){
       return Column(
@@ -325,6 +408,8 @@ class _StudentProfileNState extends State<StudentProfileN> {
       );
     }
   }
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
   Widget s(String s, String n, bool b, bool j) {
     return ListTile(
@@ -336,7 +421,10 @@ class _StudentProfileNState extends State<StudentProfileN> {
       tileColor: b ? Colors.grey.shade50 : Colors.white,
     );
   }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   String hjk( String g ) {
     String dateTimeString = g; // Replace with your DateTime string
     print(g);

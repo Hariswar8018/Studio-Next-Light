@@ -9,6 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart' ;
 import 'package:flutter/material.dart' ;
 import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
+<<<<<<< HEAD
 import 'package:student_managment_app/admin/Student_Data_Update.dart';
 import 'package:student_managment_app/admin/student_profile_view.dart';
 import 'package:student_managment_app/after_login/student_shift.dart';
@@ -21,6 +22,19 @@ import 'package:student_managment_app/upload/storage.dart';
 import 'package:intl/intl.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
+=======
+import 'package:studio_next_light/admin/Student_Data_Update.dart';
+import 'package:studio_next_light/admin/student_profile_view.dart';
+import 'package:studio_next_light/after_login/student_shift.dart';
+import 'package:studio_next_light/model/birthday_student.dart';
+import 'package:studio_next_light/model/student_model.dart';
+import 'package:studio_next_light/model/orders_model.dart';
+import 'package:studio_next_light/after_login/stu_edit.dart';
+import 'dart:typed_data';
+import 'package:studio_next_light/upload/storage.dart';
+import 'package:intl/intl.dart';
+import 'package:calendar_date_picker2/calendar_date_picker2.dart';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
 class Students extends StatelessWidget {
   bool EmailB;
@@ -299,6 +313,7 @@ class _ChatUserState extends State<ChatUser> {
   void initState(){
     v();
     sd();
+<<<<<<< HEAD
     df();
   }
 
@@ -310,6 +325,8 @@ class _ChatUserState extends State<ChatUser> {
       await FirebaseFirestore.instance.collection("School").doc(widget.id)
           .collection("Students").doc(widget.user.Registration_number).set(widget.user.toJson());
     }
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   }
 
 
@@ -405,8 +422,11 @@ class _ChatUserState extends State<ChatUser> {
       }
     }
   }
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   String getCurrentMonthYear() {
     DateTime now = DateTime.now();
     String month = DateFormat.MMM().format(now); // Get abbreviated month name (e.g., Dec, Jan, Feb)
@@ -421,6 +441,7 @@ class _ChatUserState extends State<ChatUser> {
         backgroundImage: NetworkImage(widget.user.pic),
       ),
       title: Text(widget.user.Name, style: TextStyle(fontWeight: FontWeight.w700)),
+<<<<<<< HEAD
       subtitle: Text("Father's Name : " + widget.user.Father_Name ),
       onLongPress: (){
         if( widget.user.ou=="Waiting"){
@@ -518,6 +539,53 @@ class _ChatUserState extends State<ChatUser> {
         color: Colors.red,
         size: 20,
       ):widget.feeo
+=======
+      subtitle: Text("Roll no : " +
+          widget.user.Roll_number.toString() +
+          "   " ),
+      onLongPress: (){
+        Navigator.push(
+            context,
+            PageTransition(child: Class1(
+              uder: widget.user,
+              class_id: widget.class_id,
+              session_id: widget.session_id,
+              id: widget.id,
+            ),
+                type: PageTransitionType.rightToLeft,
+                duration: Duration(milliseconds: 800)));
+      },
+      onTap: () {
+        if (widget.b) {
+            Navigator.push(
+                context,
+                PageTransition(child: StudentProfile( str : widget.School,
+                      user: widget.user,
+                      class_id: widget.class_id,
+                      session_id: widget.session_id,
+                      school_id: widget.id,
+                      parent: false,
+                    ),
+                    type: PageTransitionType.rightToLeft ,
+                    duration: Duration(
+                        milliseconds: 800
+                    )
+                )
+            );
+
+        } else {
+          Navigator.push(
+              context,
+              PageTransition(
+                  child: StudentProfileN(
+                    user: widget.user, schoolid: widget.id, classid: widget.class_id, sessionid: widget.session_id,
+                  ),
+                  type: PageTransitionType.rightToLeft,
+                  duration: Duration(milliseconds: 800)));
+        }
+      },
+      trailing: widget.feeo
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
           ? acheck()
           : Text("₹" + addCommas(widget.user.Myfee), style : TextStyle(fontWeight : FontWeight.w700, fontSize : widget.user.Myfee > 2500  ? 20 : 18, color : widget.user.Myfee > 2500 ? Colors.red : Colors.black)),
       splashColor: Colors.orange.shade300,
@@ -620,7 +688,11 @@ class _AddState extends State<Add> {
 
   String s = " ";
 
+<<<<<<< HEAD
   Future<Uint8List?> pickImage( ImageSource source) async {
+=======
+  pickImage(ImageSource source) async {
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
     final ImagePicker _imagePicker = ImagePicker();
     XFile? _file = await _imagePicker.pickImage(source: source);
 
@@ -636,6 +708,7 @@ class _AddState extends State<Add> {
         ],
         uiSettings: [
           AndroidUiSettings(
+<<<<<<< HEAD
             toolbarTitle: 'Crop Student Image',
             toolbarColor: Colors.deepOrange,
             toolbarWidgetColor: Colors.white,
@@ -652,12 +725,31 @@ class _AddState extends State<Add> {
         final Uint8List data = await croppedFile.readAsBytes();
         final Uint8List compressedData = await compressImage(data);
         return compressedData;
+=======
+              toolbarTitle: 'Crop Student Image',
+              toolbarColor: Colors.deepOrange,
+              toolbarWidgetColor: Colors.white,
+              initAspectRatio: CropAspectRatioPreset.original,
+              lockAspectRatio: false),
+          IOSUiSettings(
+            title: 'Cropper',
+          ),
+          WebUiSettings(
+            context: context,
+          ),
+        ],
+      );
+      if (croppedFile != null) {
+        final Uint8List data = await croppedFile.readAsBytes();
+        return data;
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
       }
     }
     print('No Image Selected');
     return null;
   }
 
+<<<<<<< HEAD
   Future<Uint8List> compressImage(Uint8List list) async {
     var result = await FlutterImageCompress.compressWithList(
       list,
@@ -670,6 +762,8 @@ class _AddState extends State<Add> {
     print('Compressed length: ${result.length}');
     return result;
   }
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   Uint8List? _file2;
 
   List<DateTime?> _singleDatePickerValueWithDefaultValue = [
@@ -1298,6 +1392,7 @@ class _AddState extends State<Add> {
         Other4: Other4.text ?? 'NA',
         state: "Editing",
         dob: dob.text, Leave : [],
+<<<<<<< HEAD
         Pic_Name: jh, newdob: dateofbirth , School_id_one: Registration_number.text,
         present: [], token: '', present1: [], secode: '123456', backcod: [], sttoken: '',
         dict1: [], dict2: [], busid: '', dormitoryid: '', dorin: "", dorout: false, busin: "", busout: false,
@@ -1307,6 +1402,19 @@ class _AddState extends State<Add> {
 
     await FirebaseFirestore.instance.collection("School").doc(widget.id)
         .collection("Students").doc(Registration_number.text).set(student1.toJson());
+=======
+        Pic_Name: jh, newdob: dateofbirth , School_id_one: Registration_number.text, present: [] );
+
+    await collection.doc(Registration_number.text).set(student1.toJson());
+
+    StudentModel2 hghh7 = StudentModel2(Name: Name.text, id: Registration_number.text,
+        Mobile: MobileNum.toString(), pic: pic, newdob: dateofbirth, dne : false ,
+        School_id_one: Registration_number.text, par: false
+    );
+
+    await FirebaseFirestore.instance.collection("School").doc(widget.id)
+        .collection("Students").doc(Registration_number.text).set(hghh7.toJson());
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
     CollectionReference collection22 = FirebaseFirestore.instance.collection(
         'Admin'); //Update Student in Admin Panel

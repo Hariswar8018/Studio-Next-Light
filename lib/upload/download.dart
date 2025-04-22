@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
+<<<<<<< HEAD
 import 'package:intl/intl.dart';
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
@@ -8,11 +11,15 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
+<<<<<<< HEAD
 import 'package:student_managment_app/anew/school_service/click_photo/direcy/download_pic.dart';
 import 'package:student_managment_app/attendance/Qr_code.dart';
 import 'package:student_managment_app/function/send.dart';
 import 'package:student_managment_app/model/school_model.dart';
 import 'package:student_managment_app/model/student_model.dart';
+=======
+import 'package:studio_next_light/model/student_model.dart';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 import 'package:download/download.dart' ;
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:async';
@@ -24,6 +31,7 @@ import 'dart:ui' as ui ;
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart' ;
+<<<<<<< HEAD
 import 'package:student_managment_app/upload/download_qr.dart';
 
 class Download extends StatefulWidget {
@@ -67,10 +75,39 @@ class _DownloadState extends State<Download> {
                 radius: 50,
                 backgroundColor: Colors.blue.shade500,
                 child: Icon(Icons.download_for_offline, size: 55, color: Colors.white),
+=======
+import 'package:studio_next_light/upload/download_qr.dart';
+
+class Download extends StatelessWidget {
+
+  String id ;
+  String session ;
+  String classu ;
+   Download({super.key, required this.id , required this.session, required this.classu});
+  List<StudentModel> list = [];
+  late Map<String, dynamic> userMap;
+  final Fire = FirebaseFirestore.instance;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title : Text("Download all Student Data")
+      ),
+      body : Column(
+        children: [
+          Container(
+            height : 220,
+            child: Center(
+              child: CircleAvatar(
+                radius: 68,
+                backgroundColor: Colors.blue.shade500,
+                child: Icon(Icons.download_for_offline, size : 55, color : Colors.white),
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
               ),
             ),
           ),
           Container(
+<<<<<<< HEAD
             height: h-260,width: w,
             child: ListView.builder(
                     itemCount: widget.list.length,
@@ -238,6 +275,140 @@ class _DownloadState extends State<Download> {
               ),)),
             ),
           ),
+=======
+            height : MediaQuery.of(context).size.height - 220,
+            child : StreamBuilder(
+              stream: Fire.collection('School')
+                  .doc(id)
+                  .collection('Session')
+                  .doc(session)
+                  .collection("Class")
+                  .doc(classu)
+                  .collection("Student")
+                  .snapshots(),
+              builder: (context, snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting:
+                  case ConnectionState.none:
+                    return Center(child: CircularProgressIndicator());
+                  case ConnectionState.active:
+                  case ConnectionState.done:
+                    final data = snapshot.data?.docs;
+                    list = data?.map((e) => StudentModel.fromJson(e.data())).toList() ?? [];
+
+                    return ListView.builder(
+                      itemCount: list.length,
+                      padding: EdgeInsets.only(top: 10),
+                      physics: BouncingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return ChatUser(
+                          user: list[index],
+                          c : classu,
+                          s : session,
+                          school: id,
+                        );
+                      },
+                    );
+                }
+              },
+            ),
+          )
+        ],
+      ),
+      persistentFooterButtons: [
+        Column(
+          children: [
+            SocialLoginButton(
+              backgroundColor: Color(0xff50008e),
+              height: 40,
+              text: 'DOWNLOAD QR Codes',
+              borderRadius: 20,
+              fontSize: 21,
+              buttonType: SocialLoginButtonType.generalLogin,
+              onPressed: () async {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                        'Downloading QR....'),
+                  ),
+                );
+                Navigator.push(
+                    context, PageTransition(
+                    child: Download2(id: id, session: session, classu: classu,), type: PageTransitionType.topToBottom, duration: Duration(milliseconds: 800)
+                ));
+              },
+            ),
+            SizedBox(height : 10),
+            SocialLoginButton(
+              backgroundColor: Color(0xff50008e),
+              height: 40,
+              text: 'DOWNLOAD CSV ',
+              borderRadius: 20,
+              fontSize: 21,
+              buttonType: SocialLoginButtonType.generalLogin,
+              onPressed: () async {
+                try{
+                  ScaffoldMessenger.of(context).showSnackBar(
+
+                    SnackBar(
+                      content: Text(
+                          'Exporting....'),
+                    ),
+                  );
+                  await downloadCollection(list);
+                  ScaffoldMessenger.of(context).showSnackBar(
+
+                    SnackBar(
+                      content: Text(
+                          'Done ! File saved to: /storage/emulated/0/Android/data/com.heavenonthisearth.studio_next_light/files/list.csv'),
+                    ),
+                  );
+                }catch(e){
+                  ScaffoldMessenger.of(context).showSnackBar(
+
+                    SnackBar(
+                      content: Text(
+                          '${e}'),
+                    ),
+                  );
+                }
+              },
+            ),
+            SizedBox(height : 10),
+            SocialLoginButton(
+              backgroundColor: Color(0xff50008e),
+              height: 40,
+              text: 'DOWNLOAD PICTURES ',
+              borderRadius: 20,
+              fontSize: 21,
+              buttonType: SocialLoginButtonType.generalLogin,
+              onPressed: () async {
+                try{
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                          'Exporting....'),
+                    ),
+                  );
+                downloadPic(list);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                          'Done ! Images saved to Storage/Pictures'),
+                    ),
+                  );
+                }catch(e){
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                          '${e}'),
+                    ),
+                  );
+                }
+              },
+            ),
+          ],
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
         ),
       ],
     );
@@ -248,11 +419,16 @@ class _DownloadState extends State<Download> {
     String fileContent = "name, brand";
     List<List<dynamic>> rows = [];
     rows.add(["Roll Number", "Name", "Pic Name", "Father Name", "Mobile", "Address", "Class", "Section",
+<<<<<<< HEAD
     "Department", "DOB", "BloodGroup","Admission Number","Registration Number," "Email", "Mother Name", "Other 1", "Other 2", "Other 3", "Other 4"
+=======
+    "Department", "DOB", "BloodGroup", "Email", "Mother Name", "Other 1", "Other 2", "Other 3", "Other 4"
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
     ]);
     docs.asMap().forEach((index, record){
       fileContent = fileContent +
           "\n" +record.Name.toString()
+<<<<<<< HEAD
           + "," + record.Registration_number.toString();
       print("\n" +record.Name.toString()
           + "," + record.Pic_Name.toString());
@@ -260,6 +436,14 @@ class _DownloadState extends State<Download> {
       record.Father_Name, record.Mobile, record.Address , record.Class, record.Section, record.Department,
         hjk(record.newdob), record.BloodGroup, record.Admission_number,record.Registration_number,
         record.Email, record.Mother_Name, record.Other1,
+=======
+          + "," + record.Pic_Name.toString();
+      print("\n" +record.Name.toString()
+          + "," + record.Pic_Name.toString());
+      rows.add([record.Roll_number.toString(), record.Name, record.Pic_Name.toString(),
+      record.Father_Name, record.Mobile, record.Address , record.Class, record.Section, record.Department,
+        record.newdob, record.BloodGroup, record.Email, record.Mother_Name, record.Other1,
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
         record.Other2, record.Other3, record.Other4
       ]);
     } );
@@ -271,7 +455,11 @@ class _DownloadState extends State<Download> {
     }
     if (status.isGranted) {
       String dir = (await getExternalStorageDirectory())!.path;
+<<<<<<< HEAD
       String filePath = "$dir/id_${widget.id}_${widget.classu}_list.csv";
+=======
+      String filePath = "$dir/id_${id}_${classu}_list.csv";
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
       File file = File(filePath);
       await file.writeAsString(csv);
       print("File saved to: $filePath");
@@ -280,6 +468,7 @@ class _DownloadState extends State<Download> {
     }
   }
 
+<<<<<<< HEAD
   String hjk( String g ) {
     String dateTimeString = g; // Replace with your DateTime string
     print(g);
@@ -292,6 +481,8 @@ class _DownloadState extends State<Download> {
     return formattedDate ;
   }
 
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
  Future downloadPic(List<StudentModel>? docs) async{
     docs = docs ?? [] ;
     var status = await Permission.storage.status;
@@ -322,6 +513,7 @@ class _DownloadState extends State<Download> {
 
 
 class ChatUser extends StatelessWidget {
+<<<<<<< HEAD
   final String c;
   final String s;
   int il;
@@ -340,6 +532,14 @@ class ChatUser extends StatelessWidget {
     required this.isSelected,
     required this.onLongPress,
   }) : super(key: key);
+=======
+  String c;
+  String s;
+  String school;
+  StudentModel user;
+
+  ChatUser({super.key, required this.user, required this.school, required this.s ,required this.c});
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
   @override
   Widget build(BuildContext context) {
@@ -348,6 +548,7 @@ class ChatUser extends StatelessWidget {
         backgroundImage: NetworkImage(user.pic),
       ),
       title: Text(user.Name, style: TextStyle(fontWeight: FontWeight.w700)),
+<<<<<<< HEAD
       subtitle: Text("Updated "+timeAgoFromMilliseconds(user.Registration_number)+" ago",style: TextStyle(color: Colors.grey,fontSize: 15),),
       splashColor: Colors.orange.shade300,
       trailing: IconButton(
@@ -400,4 +601,15 @@ class ChatUser extends StatelessWidget {
       return "Long Time ago";
     }
   }
+=======
+      subtitle: Text("Roll no : " +
+          user.Roll_number.toString() +
+          "   " +
+          user.Class +
+          user.Section ),
+      splashColor: Colors.orange.shade300,
+      tileColor: Colors.grey.shade50,
+    );
+  }
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 }

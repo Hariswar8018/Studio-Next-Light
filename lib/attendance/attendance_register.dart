@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+<<<<<<< HEAD
 import 'package:student_managment_app/aextra2/Attendance/class_in_out.dart';
 import 'package:student_managment_app/aextra2/classi.dart';
 import 'package:student_managment_app/aextra/marksheet.dart';
@@ -19,6 +20,22 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:student_managment_app/aextra2/class.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+=======
+import 'package:studio_next_light/aextra2/classi.dart';
+import 'package:studio_next_light/afeeeeeee/all_employee.dart';
+import 'package:studio_next_light/afeeeeeee/declare_holiday.dart';
+import 'package:studio_next_light/afeeeeeee/absent.dart';
+import 'package:studio_next_light/afeeeeeee/fee.dart';
+import 'package:studio_next_light/attendance/make_leave.dart';
+import 'package:studio_next_light/attendance/sc.dart';
+import 'package:studio_next_light/attendance/sc2.dart';
+import 'package:studio_next_light/attendance/students.dart';
+import 'package:studio_next_light/model/school_model.dart';
+import 'package:studio_next_light/aextra/session.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:studio_next_light/aextra2/class.dart';
+
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
 class Atten extends StatefulWidget {
   Atten({super.key, required this.user, required this.admin});
@@ -35,6 +52,7 @@ class _AttenState extends State<Atten> {
   late String Dateiu;
 
   late String receive;
+<<<<<<< HEAD
   bool smsend = false ;
   void initState() {
     DateTime date = DateTime.now();
@@ -42,6 +60,13 @@ class _AttenState extends State<Atten> {
     countp1();
     countp();
     leavenow();
+=======
+
+  void initState() {
+    DateTime date = DateTime.now();
+    Dateiu = DateFormat('MMM, yyyy').format(date);
+    countp();
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
     if (widget.admin){
       String st = '${date.day}-${date.month}-${date.year}';
       countDocumentsWithPresent(widget.user.id, st);
@@ -49,8 +74,12 @@ class _AttenState extends State<Atten> {
       countTotalMfValue();
       countTotalMfValu();
       countTotalMfValue1();
+<<<<<<< HEAD
       coE();
       coi();
+=======
+      counttotalfee();
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
     }
   }
 
@@ -94,7 +123,10 @@ class _AttenState extends State<Atten> {
       print("Error counting total 'Mf' value: $error");
     }
   }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   void countTotalMfValue1() async {
     int totalMfValue = 0;
     DateTime now = DateTime.now();
@@ -132,8 +164,12 @@ class _AttenState extends State<Atten> {
       print("Error counting total 'Mf' value: $error");
     }
   }
+<<<<<<< HEAD
   int prc = 0 ,prc1=0;
   int v=0;
+=======
+  int prc = 0 ;
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   void countp() async {
     int totalMfValue = 0;
     try {
@@ -167,6 +203,7 @@ class _AttenState extends State<Atten> {
       print("Error counting total 'Mf' value: $error");
     }
   }
+<<<<<<< HEAD
   void countp1() async {
     int totalMfValue = 0;
     try {
@@ -201,6 +238,8 @@ class _AttenState extends State<Atten> {
     }
   }
 
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   void countTotalMfValu() async {
     int totalMfValue = 0;
     try {
@@ -218,7 +257,10 @@ class _AttenState extends State<Atten> {
             dynamic mfValue = data['feet'];
             if (mfValue is int) {
               totalMfValue += mfValue;
+<<<<<<< HEAD
               v+=1;
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
             } else if (mfValue is double) {
               totalMfValue += mfValue.toInt();
             }else{
@@ -236,6 +278,42 @@ class _AttenState extends State<Atten> {
     }
   }
   int o = 0;
+<<<<<<< HEAD
+=======
+  void counttotalfee() async {
+    int totalMfValue = 0;
+    try {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('School').doc(widget.user.id)
+          .collection('Session')
+          .doc(widget.user.csession).collection("Class").get();
+      // Iterate over each document in the collection
+      querySnapshot.docs.forEach((doc) {
+        // Check if the document data is not null and is of type Map<String, dynamic>
+        if (doc.data() != null && doc.data() is Map<String, dynamic>) {
+          Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+          // Check if the document contains the 'Mf' field
+          if (data.containsKey('sset')) {
+            // Get the value of the 'Mf' field and add it to the totalMfValue
+            dynamic mfValue = data['sset'];
+            if (mfValue is int) {
+              totalMfValue += mfValue;
+            } else if (mfValue is double) {
+              totalMfValue += mfValue.toInt();
+            }else{
+              totalMfValue += int.parse(mfValue) ;
+            }
+          }
+        }
+      });
+      setState(() {
+        o = totalMfValue ;
+      });
+      print("Total value of 'Mf' across all documents: $totalMfValue");
+    } catch (error) {
+      print("Error counting total 'Mf' value: $error");
+    }
+  }
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   void countDocumentsWithPresent(String id, String str) async {
     int count = 0;
     await FirebaseFirestore.instance
@@ -269,6 +347,7 @@ class _AttenState extends State<Atten> {
       print('Could not launch WhatsApp');
     }
   }
+<<<<<<< HEAD
   int em=0,emp=9,leave=0;
   void coE() async {
     int count = 0;
@@ -325,6 +404,8 @@ class _AttenState extends State<Atten> {
       print("Error counting documents: $error");
     });
   }
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
   @override
   Widget build(BuildContext context) {
@@ -393,10 +474,17 @@ class _AttenState extends State<Atten> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
+<<<<<<< HEAD
                               builder: (context) => Class_In_Out(
                                 id: widget.user.id, session_id: widget.user.csession, premium : widget.user.premium,
                                 rem: false, sname:
                               'Total Present',  r : false, name : widget.user.Name, showonly: false,)),
+=======
+                              builder: (context) => ClassJust1(
+                                id: widget.user.id, session_id: widget.user.csession, premium : widget.user.premium,
+                                rem: false, sname:
+                              'Total Students',  r : false, name : widget.user.Name)),
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
                         );
                       },
                       child: a(
@@ -404,9 +492,15 @@ class _AttenState extends State<Atten> {
                           Icon(Icons.person_add_alt_rounded,
                               size: 57, color: Colors.white),
                           prc.toString(),
+<<<<<<< HEAD
                           "Total Present",
                           "( Check IN )",
                           Colors.teal))
+=======
+                          "Total",
+                          "Present",
+                          Colors.green))
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
                 ],
               ),
             ),
@@ -444,6 +538,7 @@ class _AttenState extends State<Atten> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
+<<<<<<< HEAD
                                 builder: (context) => Class_In_Out(
                                     id: widget.user.id, session_id: widget.user.csession, premium : widget.user.premium,
                                     rem: false, sname:
@@ -475,12 +570,17 @@ class _AttenState extends State<Atten> {
                             MaterialPageRoute(
                                 builder: (context) =>
                                     LSee(user: widget.user)),
+=======
+                                builder: (context) =>
+                                    Att(id: widget.user.id, b: false)),
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
                           );
                         },
                         child: a(
                             context,
                             Icon(Icons.airplane_ticket_sharp,
                                 size: 57, color: Colors.white),
+<<<<<<< HEAD
                             leave.toString(),
                             "Applicable",
                             "Leave",
@@ -506,12 +606,127 @@ class _AttenState extends State<Atten> {
                             "Student Check",
                             "Out Left",
                             Colors.indigo))
+=======
+                            "0",
+                            "Applicable",
+                            "Leave",
+                            Color(0xffff9700)))
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
                   ],
                 )),
             ListTile(
               onTap: () {
                 if(widget.user.premium){
+<<<<<<< HEAD
                   soop(context);
+=======
+                  showModalBottomSheet<void>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Container(
+                        color: Colors.white,
+                        height: 210,
+                        width: MediaQuery.of(context).size.width,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            height: 200,
+                            width: MediaQuery.of(context).size.width,
+                            child: Column(
+                              children: [
+                                SizedBox(height: 10),
+                                Text("What are the Children doing ?",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 19)),
+                                SizedBox(height: 15),
+                                Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    QRViewExample(
+                                                        str: widget.user.Name,
+                                                        id: widget.user.id,
+                                                        status: "In")),
+                                          );
+                                        },
+                                        child: Container(
+                                            color: Colors.white,
+                                            width: MediaQuery.of(
+                                                context)
+                                                .size
+                                                .width /
+                                                3 -
+                                                30,
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .width /
+                                                3 -
+                                                30,
+                                            child: Column(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                                children: [
+                                                  Image.network(
+                                                      "https://img.freepik.com/premium-vector/outside-building-boys-student-back-school_24911-48530.jpg"),
+                                                  Text("Check IN",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                          FontWeight.w700))
+                                                ])),
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    QRViewExample(
+                                                        str: widget.user.Name,
+                                                        id: widget.user.id,
+                                                        status: "Out")),
+                                          );
+                                        },
+                                        child: Container(
+                                            color: Colors.white,
+                                            width: MediaQuery.of(
+                                                context)
+                                                .size
+                                                .width /
+                                                3 -
+                                                30,
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .width /
+                                                3 -
+                                                30,
+                                            child: Column(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                                children: [
+                                                  Image.network(
+                                                      "https://static.vecteezy.com/system/resources/thumbnails/005/710/735/small_2x/cartoon-the-children-going-home-after-school-vector.jpg"),
+                                                  Text("Check OUT",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                          FontWeight.w700))
+                                                ])),
+                                      )
+                                    ]),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  );
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
                   print(widget.user.Name);
                 }else{
                   final snackBar = SnackBar(
@@ -719,6 +934,7 @@ class _AttenState extends State<Atten> {
                         color: Colors.blueAccent, size: 35),
                     "Send / Download Receipt",
                     "Send / Download Receipt to Childrens")): SizedBox(width : 1),
+<<<<<<< HEAD
             widget.admin ?InkWell(
                 onTap: () {
                   Navigator.push(
@@ -732,6 +948,8 @@ class _AttenState extends State<Atten> {
                     Icon(Icons.receipt_long,
                         color: Colors.blueAccent, size: 35),
                     "Marksheet","See Marksheet of User")): SizedBox(width : 1),
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
             SizedBox(height: 10),
             widget.admin ?Divider(): SizedBox(width : 1),
             widget.admin ?ListTile(
@@ -754,13 +972,21 @@ class _AttenState extends State<Atten> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
+<<<<<<< HEAD
                               builder: (context) => UiE(user: widget.user,pres:false)),
+=======
+                              builder: (context) => UiE(user: widget.user)),
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
                         );
                       },
                       child: a(
                           context,
                           Icon(Icons.work, size: 57, color: Colors.white),
+<<<<<<< HEAD
                          em.toString(),
+=======
+                          widget.user.total.toString(),
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
                           "Total",
                           "Employee's",
                           Colors.blue)),
@@ -771,14 +997,22 @@ class _AttenState extends State<Atten> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
+<<<<<<< HEAD
                               builder: (context) => UiE(user: widget.user,pres:false)),
+=======
+                              builder: (context) => UiE(user: widget.user)),
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
                         );
                       },
                       child: a(
                           context,
                           Icon(Icons.verified_user,
                               size: 57, color: Colors.white),
+<<<<<<< HEAD
                           emp.toString(),
+=======
+                          i.toString(),
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
                           "Total",
                           "Present",
                           Colors.purple))
@@ -800,20 +1034,36 @@ class _AttenState extends State<Atten> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
+<<<<<<< HEAD
                                 builder: (context) => UiE(user: widget.user,pres:false)),
+=======
+                                builder: (context) => UiE(user: widget.user)),
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
                           );
                         },
                         child: a(
                             context,
                             Icon(Icons.work_off,
                                 size: 57, color: Colors.white),
+<<<<<<< HEAD
                             (em-emp).toString(),
+=======
+                            (widget.user.total - i).toString(),
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
                             "Total",
                             "Absent",
                             Colors.red)),
                     GestureDetector(
                         onTap: () {
+<<<<<<< HEAD
 
+=======
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => UiE(user: widget.user)),
+                          );
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
                         },
                         child: a(
                             context,
@@ -948,6 +1198,7 @@ class _AttenState extends State<Atten> {
                   color: Colors.blueAccent),
             ): SizedBox(width : 1),
             widget.admin ?InkWell(
+<<<<<<< HEAD
                 onTap: () {
                   Navigator.push(
                     context,
@@ -955,6 +1206,9 @@ class _AttenState extends State<Atten> {
                         builder: (context) => UiE(user: widget.user,pres:true)),
                   );
                 },
+=======
+                onTap: () {},
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
                 child: asd(
                     Icon(Icons.person_remove, color: Colors.red, size: 35),
                     "Mark Absent",
@@ -964,7 +1218,11 @@ class _AttenState extends State<Atten> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
+<<<<<<< HEAD
                         builder: (context) => UiE(user: widget.user,pres:false)),
+=======
+                        builder: (context) => UiE(user: widget.user)),
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
                   );
                 },
                 child: asd(
@@ -1101,6 +1359,7 @@ class _AttenState extends State<Atten> {
           ),
         ));
   }
+<<<<<<< HEAD
   void soop(BuildContext context){
     showModalBottomSheet<void>(
       context: context,
@@ -1244,6 +1503,8 @@ class _AttenState extends State<Atten> {
       },
     );
   }
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   Widget ac(context, Icon ah, String number, String st1, String st2, Color c) {
     return Container(
         color: c,

@@ -5,10 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
+<<<<<<< HEAD
 import 'package:student_managment_app/model/employee_model.dart';
 import 'package:student_managment_app/model/school_model.dart';
 import 'package:student_managment_app/upload/storage.dart';
 import 'package:student_managment_app/zemployee/card.dart';
+=======
+import 'package:studio_next_light/model/employee_model.dart';
+import 'package:studio_next_light/model/school_model.dart';
+import 'package:studio_next_light/upload/storage.dart';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:typed_data';
 import 'package:image/image.dart' as img;
@@ -30,10 +36,16 @@ import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+<<<<<<< HEAD
 
 class UiE extends StatelessWidget {
   SchoolModel user ; bool pres;
    UiE({super.key, required this.user,required this.pres});
+=======
+class UiE extends StatelessWidget {
+  SchoolModel user ;
+   UiE({super.key, required this.user});
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
    List<EmployeeModel> list = [];
    late Map<String, dynamic> userMap;
    TextEditingController ud = TextEditingController();
@@ -71,7 +83,11 @@ class UiE extends StatelessWidget {
                   physics: BouncingScrollPhysics(),
                   itemBuilder: (context, index) {
                     return ChatUser(
+<<<<<<< HEAD
                         user: list[index], SchoolId: user.id,pres:pres
+=======
+                        user: list[index], SchoolId: user.id,
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
                     );
                   });
           }
@@ -92,13 +108,19 @@ class UiE extends StatelessWidget {
 }
 
 class ChatUser extends StatelessWidget {
+<<<<<<< HEAD
   EmployeeModel user ; String SchoolId; bool pres;
    ChatUser({super.key, required this.user, required this.SchoolId,required this.pres});
+=======
+  EmployeeModel user ; String SchoolId;
+   ChatUser({super.key, required this.user, required this.SchoolId});
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       onTap : (){
+<<<<<<< HEAD
         if(pres){
           Navigator.push(
             context,
@@ -115,12 +137,21 @@ class ChatUser extends StatelessWidget {
           );
         }
 
+=======
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => Qrcode(idi: user.Id_number, school_id: SchoolId,    )
+          ),
+        );
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
       },
       leading : CircleAvatar(
         backgroundImage : NetworkImage(user.Pic),
       ),
         title : Text(user.Name, style : TextStyle(fontWeight : FontWeight.w900)),
         subtitle : Text(user.Profession, style : TextStyle(fontWeight : FontWeight.w700)),
+<<<<<<< HEAD
       trailing : acheck(),
     );
   }
@@ -133,6 +164,21 @@ class ChatUser extends StatelessWidget {
       return Text("A", style : TextStyle(fontSize: 21, fontWeight: FontWeight.w800, color : Colors.red));
     }
   }
+=======
+      trailing : IconButton(
+        onPressed : () async {
+          String whatsappUrl = "tel:" + user.Phone ;
+          if (await canLaunch(whatsappUrl)) {
+          await launch(whatsappUrl);
+          } else {
+          print("Could not launch WhatsApp.");
+          }
+        },
+        icon : Icon(Icons.call, color : Colors.green)
+      )
+    );
+  }
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 }
 
 class Qrcode extends StatefulWidget {
@@ -430,7 +476,11 @@ class _AddState extends State<Add> {
               String nj = DateTime.now().microsecondsSinceEpoch.toString() ;
               EmployeeModel u = EmployeeModel(Name: Name.text, Pic: pic, DOB: DOB.text, Profession: Profession.text,
                 Address: Address.text, Phone: Phone.text, Email: Email.text, BloodG: BloodG.text,
+<<<<<<< HEAD
                 Emergency_Contact: 'j', Father_Name: Father_Name.text, Id_number: nj,present:[],
+=======
+                Emergency_Contact: 'j', Father_Name: Father_Name.text, Id_number: nj,
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
                 Registration_Number: Id_number.text,
               );
               try {

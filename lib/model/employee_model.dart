@@ -11,11 +11,17 @@ class EmployeeModel {
   late final String Father_Name;
   late final String Id_number;
   late final String Registration_Number;
+<<<<<<< HEAD
   late final List present;
 
   EmployeeModel({
     required this.Name,
     required this.present,
+=======
+
+  EmployeeModel({
+    required this.Name,
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
     required this.Pic,
     required this.DOB,
     required this.Profession,
@@ -27,7 +33,10 @@ class EmployeeModel {
     required this.Father_Name,
     required this.Id_number,
     required this.Registration_Number,
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   });
 
   EmployeeModel.fromJson(Map<String, dynamic> json) {
@@ -42,6 +51,7 @@ class EmployeeModel {
     Emergency_Contact = json['Emergency_Contact'] ?? '';
     Father_Name = json['Father_Name'] ?? '';
     Id_number = json['Id_number'] ?? '';
+<<<<<<< HEAD
     present=json['Present']??[];
     Registration_Number = json['Registration_Number'] ?? '';
   }
@@ -51,6 +61,14 @@ class EmployeeModel {
     final Map<String, dynamic> data = {};
     data['Name'] = Name;
     data['Present']=present;
+=======
+    Registration_Number = json['Registration_Number'] ?? '';
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = {};
+    data['Name'] = Name;
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
     data['Pic'] = Pic;
     data['DOB'] = DOB;
     data['Profession'] = Profession;

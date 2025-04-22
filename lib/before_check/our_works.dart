@@ -7,6 +7,7 @@ import 'package:social_login_buttons/social_login_buttons.dart';
 import 'package:social_media_buttons/social_media_button.dart';
 import 'package:social_media_buttons/social_media_buttons.dart';
 import 'package:page_transition/page_transition.dart';
+<<<<<<< HEAD
 import 'package:student_managment_app/Parents_Portal/as.dart';
 import 'package:student_managment_app/after_login/Birthdays.dart';
 import 'package:student_managment_app/after_login/options.dart';
@@ -18,6 +19,19 @@ import 'package:student_managment_app/service.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:student_managment_app/model/school_model.dart';
+=======
+import 'package:studio_next_light/Parents_Portal/as.dart';
+import 'package:studio_next_light/after_login/Birthdays.dart';
+import 'package:studio_next_light/after_login/options.dart';
+import 'package:studio_next_light/after_login/session.dart';
+import 'package:flutter/material.dart';
+import 'package:studio_next_light/attendance/attendance_register.dart';
+import 'package:studio_next_light/before_check/first.dart';
+import 'package:studio_next_light/service.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/material.dart';
+import 'package:studio_next_light/model/school_model.dart';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 import 'package:url_launcher/url_launcher.dart';
 
 class Our_Works extends StatelessWidget{

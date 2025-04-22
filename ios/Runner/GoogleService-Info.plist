@@ -2,12 +2,15 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+<<<<<<< HEAD
 	<key>CLIENT_ID</key>
 	<string>727734347697-99d33vt1ibmaj7ap0idb6c4noubh9ree.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
 	<string>com.googleusercontent.apps.727734347697-99d33vt1ibmaj7ap0idb6c4noubh9ree</string>
 	<key>ANDROID_CLIENT_ID</key>
 	<string>727734347697-cnh4ji4568hl1cu65ei9ca68le9u456h.apps.googleusercontent.com</string>
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 	<key>API_KEY</key>
 	<string>AIzaSyDtzeWOl_v8bYxLAmBgxu5hlM14AN1Cl6U</string>
 	<key>GCM_SENDER_ID</key>
@@ -15,7 +18,11 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
+<<<<<<< HEAD
 	<string>com.starwish.studentManagmentApp</string>
+=======
+	<string>com.heavenonthisearth.studioNextLight</string>
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 	<key>PROJECT_ID</key>
 	<string>studio-next-light</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,6 +38,10 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
+<<<<<<< HEAD
 	<string>1:727734347697:ios:9f741d6ff1f26b26c43f90</string>
+=======
+	<string>1:727734347697:ios:98d06cf6a0039b6dc43f90</string>
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 </dict>
 </plist>

@@ -7,10 +7,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:page_transition/page_transition.dart';
+<<<<<<< HEAD
 import 'package:student_managment_app/aextra/students.dart';
 import 'package:student_managment_app/after_login/class.dart';
 import 'package:student_managment_app/after_login/students.dart';
 import 'package:student_managment_app/model/student_model.dart';
+=======
+import 'package:studio_next_light/aextra/students.dart';
+import 'package:studio_next_light/after_login/class.dart';
+import 'package:studio_next_light/after_login/students.dart';
+import 'package:studio_next_light/model/student_model.dart';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
 class ClassJust extends StatelessWidget {
   String id; bool st ;
@@ -120,7 +127,10 @@ class _ChatUserState extends State<ChatUser> {
       print("Error counting total 'Mf' value: $error");
     }
   }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -153,7 +163,11 @@ class _ChatUserState extends State<ChatUser> {
         }
 
       },
+<<<<<<< HEAD
       trailing :  widget.sname=="NA"?SizedBox():Text( addCommas(i),  style : TextStyle(fontSize: 19, fontWeight: FontWeight.w700)),
+=======
+      trailing :  Text( addCommas(i),  style : TextStyle(fontSize: 19, fontWeight: FontWeight.w700)),
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
       splashColor: Colors.orange.shade300,
       tileColor: Colors.grey.shade50,
     );

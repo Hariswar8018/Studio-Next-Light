@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
 import 'package:social_media_buttons/social_media_button.dart';
+<<<<<<< HEAD
 import 'package:student_managment_app/Parents_Portal/as.dart';
 import 'package:student_managment_app/admin/onoff.dart';
 import 'package:student_managment_app/admin/update_school.dart';
@@ -22,6 +23,21 @@ import 'package:student_managment_app/upload/storage.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:student_managment_app/after_login/session.dart';
 import 'package:student_managment_app/upload/storage.dart';
+=======
+import 'package:studio_next_light/admin/onoff.dart';
+import 'package:studio_next_light/admin/update_school.dart';
+import 'package:studio_next_light/after_login/session.dart';
+import 'package:studio_next_light/before_check/first.dart';
+import 'package:studio_next_light/model/school_model.dart';
+import 'package:studio_next_light/model/student_model.dart';
+import 'dart:typed_data';
+import 'package:crop_image/crop_image.dart';
+import 'package:studio_next_light/service.dart';
+import 'package:studio_next_light/upload/storage.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:studio_next_light/after_login/session.dart';
+import 'package:studio_next_light/upload/storage.dart';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 import 'package:url_launcher/url_launcher.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -36,11 +52,189 @@ class AdminP extends StatelessWidget {
   final Fire = FirebaseFirestore.instance;
   String s = FirebaseAuth.instance.currentUser!.email ?? "tt";
 
+<<<<<<< HEAD
+=======
+  Widget buildDrawer(BuildContext context) {
+    return Drawer(
+      backgroundColor: Colors.black,
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          Container(
+              width: MediaQuery.of(context).size.width,
+              height: 200,
+              child: Image.asset(
+                  "assets/WhatsApp_Image_2023-11-22_at_17.13.30_388ceeb5-transformed.png")),
+          ListTile(
+            leading: Icon(
+              Icons.language,
+              color: Colors.black,
+              size: 30,
+            ),
+            title: Text("Our Website"),
+            onTap: () async {
+
+            },
+            splashColor: Colors.orange.shade200,
+            trailing: Icon(
+              Icons.arrow_forward_ios_sharp,
+              color: Colors.black,
+              size: 20,
+            ),
+            tileColor: Colors.grey.shade50,
+          ),
+          ListTile(
+            leading: Icon(Icons.work, color: Colors.redAccent, size: 30),
+            title: Text("Our Services"),
+            onTap: () async {
+              Navigator.push(
+                  context, PageTransition(
+                  child: Servie(), type: PageTransitionType.rightToLeft, duration: Duration(milliseconds: 800)
+              ));
+            },
+            splashColor: Colors.orange.shade300,
+            trailing: Icon(
+              Icons.arrow_forward_ios_sharp,
+              color: Colors.redAccent,
+              size: 20,
+            ),
+            tileColor: Colors.grey.shade50,
+          ),
+          ListTile(
+            leading: Icon(Icons.map, color: Colors.greenAccent, size: 30),
+            title: Text("Locate on Map"),
+            onTap: () async {
+              final Uri _url = Uri.parse(
+                  'https://www.google.com/maps?q=15.2803236,73.9558804');
+              if (!await launchUrl(_url)) {
+                throw Exception('Could not launch $_url');
+              }
+            },
+            trailing: Icon(
+              Icons.arrow_forward_ios_sharp,
+              color: Colors.greenAccent,
+              size: 20,
+            ),
+            splashColor: Colors.orange.shade300,
+            tileColor: Colors.grey.shade50,
+          ),
+          ListTile(
+            leading: Icon(Icons.mail, color: Colors.redAccent, size: 30),
+            title: Text("Mail Us"),
+            onTap: () async {
+              final Uri _url = Uri.parse(
+                  'mailto:nextlight000@gmail.com?subject=Known_more_about_services&body=New%20plugin');
+              if (!await launchUrl(_url)) {
+                throw Exception('Could not launch $_url');
+              }
+            },
+            splashColor: Colors.orange.shade300,
+            trailing: Icon(
+              Icons.arrow_forward_ios_sharp,
+              color: Colors.redAccent,
+              size: 20,
+            ),
+            tileColor: Colors.grey.shade50,
+          ),
+          ListTile(
+            leading: SocialMediaButton.whatsapp(
+              onTap: () {
+                print('or just use onTap callback');
+              },
+              size: 35,
+              color: Colors.green,
+            ),
+            title: Text("Whatsapp"),
+            onTap: () async {
+
+                  String phoneNumber = '917000994158';
+                  String message = 'Hi, Studio Next Light! We are contacting you regarding your App';
+
+                  String url = 'https://wa.me/$phoneNumber?text=${Uri.encodeComponent(message)}';
+
+                  if (await canLaunch(url)) {
+                  await launch(url);
+                  } else {
+// Handle error
+                  print('Could not launch WhatsApp');
+                  }
+            },
+            subtitle: Text("Inquire in Whatsapp"),
+            trailing: Icon(
+              Icons.arrow_forward_ios_sharp,
+              color: Colors.green,
+              size: 20,
+            ),
+            splashColor: Colors.orange.shade300,
+            tileColor: Colors.grey.shade50,
+          ),
+          ListTile(
+            leading: SocialMediaButton.instagram(
+              onTap: () {
+                print('or just use onTap callback');
+              },
+              size: 35,
+              color: Colors.red,
+            ),
+            title: Text("Instagram"),
+            onTap: () async {
+              final Uri _url = Uri.parse(
+                  'https://instagram.com/studio_next_light?igshid=MTNiYzNiMzkwZA==');
+              if (!await launchUrl(_url)) {
+                throw Exception('Could not launch $_url');
+              }
+            },
+            subtitle: Text("Follow on Instagram"),
+            trailing: Icon(
+              Icons.arrow_forward_ios_sharp,
+              color: Colors.purpleAccent,
+              size: 20,
+            ),
+            splashColor: Colors.orange.shade300,
+            tileColor: Colors.grey.shade50,
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.logout,
+              color: Colors.red,
+              size: 30,
+            ),
+            title: Text("Log Out"),
+            onTap: () async {
+              await FirebaseAuth.instance.signOut();
+              print('User signed out');
+              // Navigate to the login screen
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => First()),
+              );
+            },
+            splashColor: Colors.orange.shade200,
+            trailing: Icon(
+              Icons.arrow_forward_ios_sharp,
+              color: Colors.black,
+              size: 20,
+            ),
+            tileColor: Colors.grey.shade50,
+            subtitle: Text("Log out "),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+        ],
+      ),
+    );
+  }
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+<<<<<<< HEAD
       drawer: Global.buildDrawer(context),
+=======
+      drawer: buildDrawer(context),
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
       floatingActionButton: FloatingActionButton(
           backgroundColor: Color(0xff50008e),
           onPressed: () {
@@ -67,6 +261,25 @@ class AdminP extends StatelessWidget {
             child: Text('School\'s You Operate',
                 style: TextStyle(color: Colors.white))),
         actions: [
+<<<<<<< HEAD
+=======
+          IconButton(
+            onPressed: () async {
+                  String phoneNumber = '917000994158';
+                  String message = 'Hi, Studio Next Light! We are contacting you regarding your App';
+
+                  String url = 'https://wa.me/$phoneNumber?text=${Uri.encodeComponent(message)}';
+
+                  if (await canLaunch(url)) {
+                  await launch(url);
+                  } else {
+// Handle error
+                  print('Could not launch WhatsApp');
+                  }
+            },
+            icon: Icon(Icons.waving_hand),
+          ),
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
           SizedBox(width: 7),
         ],
       ),
@@ -601,6 +814,7 @@ class _Add_SchoolState extends State<Add_School> {
                   String g = FirebaseAuth.instance.currentUser!.email ?? "h";
                   String hhh = DateTime.now().millisecondsSinceEpoch.toString();
                   SchoolModel sh = SchoolModel(
+<<<<<<< HEAD
                     Address: Address.text, csession : "hg", SpName : sp.text,premium : false,smsend:false,
                     Email: Email.text, stampp : "https://freerangestock.com/sample/75419/technical-school-shows-stamp-print-and-stamped.jpg", paidp : "https://www.pngall.com/wp-content/uploads/14/Signature-PNG-Picture.png", Name: Name.text, Pic_link: pic,
                     Students: 0, Pic: pic12, id: hhh, Adminemail: g, Phone: Mobile.text, Clientemail: ClientEmail.text, AuthorizeSignature: pic2, b: true, Chief: Chief.text, uidise: Uidse.text,
@@ -613,6 +827,39 @@ class _Add_SchoolState extends State<Add_School> {
                   CollectionReference collection = FirebaseFirestore.instance.collection('School');
                   await collection.doc(hhh).set(sh.toJson());
                   CollectionReference collection22 = FirebaseFirestore.instance.collection('Admin');
+=======
+                    Address: Address.text, csession : "hg", SpName : sp.text,
+                    premium : false,
+                    Email: Email.text, stampp : "https://freerangestock.com/sample/75419/technical-school-shows-stamp-print-and-stamped.jpg",
+                    paidp : "https://www.pngall.com/wp-content/uploads/14/Signature-PNG-Picture.png",
+                    Name: Name.text,
+                    Pic_link: pic,
+                    Students: 0,
+                    Pic: pic12,
+                    id: hhh,
+                    Adminemail: g,
+                    Phone: Mobile.text,
+                    Clientemail: ClientEmail.text,
+                    AuthorizeSignature: pic2,
+                    b: true,
+                    Chief: Chief.text,
+                    uidise: Uidse.text,
+                    BloodB: true,
+                    DepB: true,
+                    EmailB: true,
+                    MotherB: true,
+                    Other1B: true,
+                    Other2B: true,
+                    Other3B: true,
+                    Other4B: true,
+                    RegisB: true,
+                  );
+                  CollectionReference collection =
+                      FirebaseFirestore.instance.collection('School');
+                  await collection.doc(hhh).set(sh.toJson());
+                  CollectionReference collection22 =
+                      FirebaseFirestore.instance.collection('Admin');
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
                   await collection22.doc("Order").update({
                     '$selectedValue': FieldValue.arrayUnion([hhh]),
                     '$selectedValue2': FieldValue.arrayUnion([hhh])
@@ -662,6 +909,7 @@ class StudentProfile extends StatefulWidget {
 
 class _StudentProfileState extends State<StudentProfile> {
   bool b = true;
+<<<<<<< HEAD
   int prc = 0;
   void countp() async {
     int totalMfValue = 0;
@@ -698,6 +946,10 @@ class _StudentProfileState extends State<StudentProfile> {
   }
   void initState() {
     countp();
+=======
+
+  void initState() {
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
     setState(() {
       b = widget.user.b;
     });
@@ -1023,6 +1275,7 @@ class _StudentProfileState extends State<StudentProfile> {
                             duration: Duration(milliseconds: 800)));
                   },
                   child: s("Special Access Password", widget.user.SpName, false, false)),
+<<<<<<< HEAD
               InkWell(
                   onTap: () {
                     Navigator.push(
@@ -1055,6 +1308,10 @@ class _StudentProfileState extends State<StudentProfile> {
                   child: s("No. of Students in School", widget.user.Students.toString(), false, false)),
               s("Pending Data", (widget.user.Students-prc).toString(), true, true),
               s("Total Students in App", prc.toString(), true, true),
+=======
+              s("Phone", widget.user.Phone, true, true),
+              s("No. of Students", widget.user.Students.toString(), true, true),
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
               s("Authorize Signature here ", " ", false, true),
               InkWell(
                 onTap: () async {

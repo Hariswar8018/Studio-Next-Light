@@ -6,19 +6,32 @@ import 'package:page_transition/page_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:student_managment_app/Parents_Portal/home.dart';
 import 'package:student_managment_app/after_login/stu_edit.dart';
+=======
+import 'package:studio_next_light/Parents_Portal/home.dart';
+import 'package:studio_next_light/after_login/stu_edit.dart';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 import 'dart:convert';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show SystemUiOverlayStyle, rootBundle;
+<<<<<<< HEAD
 import 'package:student_managment_app/model/student_model.dart';
 import 'package:student_managment_app/upload/csv.dart';
 import 'package:student_managment_app/upload/download.dart';
 import 'dart:typed_data';
 import 'package:student_managment_app/upload/upload.dart';
 
+=======
+import 'package:studio_next_light/model/student_model.dart';
+import 'package:studio_next_light/upload/csv.dart';
+import 'package:studio_next_light/upload/download.dart';
+import 'dart:typed_data';
+import 'package:studio_next_light/upload/upload.dart';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
 
 class StudentsP extends StatelessWidget {
@@ -72,20 +85,37 @@ class StudentsP extends StatelessWidget {
                   fontSize: 21,
                   buttonType: SocialLoginButtonType.generalLogin,
                   onPressed: () async {
+<<<<<<< HEAD
 
+=======
+                    Navigator.push(
+                        context,
+                        PageTransition(
+                            child: Download(  session : session_id, classu : class_id,
+                              id: id,),
+                            type: PageTransitionType.rightToLeft,
+                            duration: Duration(milliseconds: 800)));
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
                   },
                 )
               : SizedBox(height: 10),
         ],
         body: StreamBuilder(
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
           stream: Fire.collection('School')
               .doc(id)
               .collection('Session')
               .doc(session_id)
               .collection("Class")
               .doc(class_id)
+<<<<<<< HEAD
               .collection("Student").orderBy("Name",descending:false)
+=======
+              .collection("Student")
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
               .snapshots(),
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
@@ -116,6 +146,10 @@ class StudentsP extends StatelessWidget {
             }
           },
         ),
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
     );
   }
 
@@ -144,6 +178,7 @@ class ChatUser extends StatelessWidget {
           user.Class +
           user.Section
       ),
+<<<<<<< HEAD
       onLongPress: (){
         if(user.ou=="Waiting"||b){
           showDialog(
@@ -189,6 +224,8 @@ class ChatUser extends StatelessWidget {
           );
         }
       },
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
       onTap: () {
         if(b){
           Navigator.push(
@@ -222,11 +259,15 @@ class ChatUser extends StatelessWidget {
         }
 
       },
+<<<<<<< HEAD
       trailing:  user.ou=="Waiting"?Icon(
         Icons.hourglass_bottom,
         color: Colors.red,
         size: 20,
       ):user.state == "Confirm by Parent"
+=======
+      trailing: user.state == "Confirm by Parent"
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
           ? Container(
               decoration: BoxDecoration(
                 border: Border.all(
@@ -255,6 +296,7 @@ class ChatUser extends StatelessWidget {
   }
 }
 
+<<<<<<< HEAD
 
 class Check extends StatelessWidget {
   final StudentModel user;
@@ -276,6 +318,22 @@ class Check extends StatelessWidget {
       String hint,
       bool number,
       ) {
+=======
+class Check extends StatelessWidget {
+  StudentModel user;
+String school_id;
+String class_id;
+String session_id;
+
+  Check({super.key, required this.user, required this.school_id, required this.class_id,required this.session_id});
+
+  Widget d(
+    TextEditingController c,
+    String label,
+    String hint,
+    bool number,
+  ) {
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
     return Padding(
       padding: const EdgeInsets.all(14.0),
       child: TextFormField(
@@ -298,13 +356,19 @@ class Check extends StatelessWidget {
   }
 
   final TextEditingController Admission = TextEditingController();
+<<<<<<< HEAD
   final TextEditingController Registration = TextEditingController();
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+=======
+
+  final TextEditingController Registration = TextEditingController();
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+<<<<<<< HEAD
       key: scaffoldKey,
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -389,5 +453,103 @@ class Check extends StatelessWidget {
         ],
       ),
     );
+=======
+        appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: Colors.white,
+          ),
+          title: Text("Confirm You are a Parent",
+              style: TextStyle(color: Colors.white)),
+          backgroundColor: Color(0xff50008e),
+        ),
+        body: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Center(
+                child: CircleAvatar(
+                  backgroundImage: NetworkImage(user.pic),
+                  radius: 40,
+                ),
+              ),
+            ),
+            SizedBox(height: 5),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Center(
+                  child: Text(
+                      textAlign: TextAlign.center,
+                      "Type his/her Registration number as well as Admission number to confirm")),
+            ),
+            d(
+              Registration,
+              "Registration Number",
+              "TN09863256",
+              false,
+            ),
+            Center(
+                child: Text("Or",
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.w700))),
+            d(
+              Admission,
+              "Admission Number",
+              "AN000123",
+              false,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SocialLoginButton(
+                backgroundColor: Color(0xff50008e),
+                height: 40,
+                text: 'I CONFIRM, I AM A PARENT',
+                borderRadius: 20,
+                fontSize: 21,
+                buttonType: SocialLoginButtonType.generalLogin,
+                onPressed: () async {
+                  if (Registration.text == user.Registration_number ||
+                      Admission.text == user.Admission_number) {
+                    SharedPreferences prefs = await SharedPreferences.getInstance();
+                    prefs.setBool('Parent', true);
+                    prefs.setString("id", user.id);
+                    prefs.setString("class", class_id);
+                    prefs.setString("session", session_id);
+                    prefs.setString("school", school_id);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                            'Success ! Taking you to Parent\'s Portal'),
+                      ),
+
+                    );
+                    Navigator.push(
+                        context,
+                        PageTransition(
+                            child: HomePa(),
+                            type: PageTransitionType.rightToLeft,
+                            duration: Duration(milliseconds: 400)));
+                   /* Navigator.push(
+                        context,
+                        PageTransition(
+                            child: StudentProfile(user: user, class_id: class_id,
+                              session_id: session_id, school_id: school_id, parent : true),
+                            type: PageTransitionType.rightToLeft,
+                            duration: Duration(milliseconds: 400)));*/
+                  } else {
+                    print('${user.Admission_number}');
+                    ScaffoldMessenger.of(context).showSnackBar(
+
+                      SnackBar(
+                        content: Text(
+                            'Wrong! Please check his/her school document and try again !'),
+                      ),
+                    );
+                  }
+                },
+              ),
+            ),
+          ],
+        ));
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   }
 }

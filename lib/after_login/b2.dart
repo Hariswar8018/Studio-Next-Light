@@ -15,9 +15,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:page_transition/page_transition.dart';
+<<<<<<< HEAD
 import 'package:student_managment_app/after_login/class.dart';
 import 'package:student_managment_app/after_login/session.dart';
 import 'package:student_managment_app/model/birthday_student.dart';
+=======
+import 'package:studio_next_light/after_login/class.dart';
+import 'package:studio_next_light/after_login/session.dart';
+import 'package:studio_next_light/model/birthday_student.dart';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:convert'; // for base64Encode
 import 'package:path_provider/path_provider.dart';
@@ -43,7 +49,10 @@ class BD extends StatelessWidget {
   final GlobalKey boundaryKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     double w = MediaQuery.of(context).size.width;
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
@@ -56,11 +65,16 @@ class BD extends StatelessWidget {
           child : Center(
             child : Stack(
               children: [
+<<<<<<< HEAD
                  Image.asset("assets/03d.jpg"),
+=======
+                hindi ? Image.asset("assets/02d.jpg") : Image.asset("assets/01d.jpg"),
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox( height : 27),
+<<<<<<< HEAD
                     Text( "Dear, " + name , style : TextStyle( color : Color(0xffFFCC00) , fontSize: w/19, fontWeight: FontWeight.w800)),
                     SizedBox(height: 20,),
                     Text( "Happy Birthday", style : TextStyle( color : Color(0xffFFCC00) , fontSize: w/12, fontWeight: FontWeight.w900,fontFamily: "RobotoS")),
@@ -73,6 +87,12 @@ class BD extends StatelessWidget {
                     SizedBox( height : 20),
                     Container(
                       height : 220, width : 170,
+=======
+                    Text( "Dear, " + name , style : TextStyle( color : Color(0xffFFCC00) , fontSize: 26, fontWeight: FontWeight.w900)),
+                    SizedBox( height : 150),
+                    Container(
+                      height : 210, width : 160,
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
                         decoration: BoxDecoration(
                           color: Colors.white,
                           boxShadow: [
@@ -97,6 +117,7 @@ class BD extends StatelessWidget {
                     ),
                     SizedBox( height : 45),
                     Row(
+<<<<<<< HEAD
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children : [
@@ -115,6 +136,22 @@ class BD extends StatelessWidget {
                               Text("Regards , ", style : TextStyle( color : Colors.orange, fontSize : w/27,fontWeight: FontWeight.w800)),
                               Text(iname, style : TextStyle( color : Colors.white, fontSize: w/16, fontStyle: FontStyle.italic, fontWeight: FontWeight.w800)),
                               Text(address, style : TextStyle( color : Colors.white, fontSize : w/25)),
+=======
+                      children : [
+                        Spacer(),
+                        CircleAvatar(
+                          backgroundImage: NetworkImage(logo),
+                          radius: 28,
+                        ),
+                        SizedBox( width : 20),
+
+                        Container(
+                          width : MediaQuery.of(context).size.width - 100,
+                          child: Column(
+                            children : [
+                              Text(iname, style : TextStyle( color : Colors.white, fontSize: 25, fontStyle: FontStyle.italic, fontWeight: FontWeight.w800)),
+                              Text(address, style : TextStyle( color : Colors.white, fontSize : 14)),
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
                             ]
                           ),
                         ),
@@ -145,6 +182,7 @@ class BD extends StatelessWidget {
                       'Please Wait ! Saving your Image and directing you to Whatsapp'),
                 ),
               );
+<<<<<<< HEAD
               try {
                 sendImageToWhatsApp();
               }catch(e){
@@ -155,6 +193,9 @@ class BD extends StatelessWidget {
                   ),
                 );
               }
+=======
+              sendImageToWhatsApp();
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
             },
           ),
         ),
@@ -199,6 +240,7 @@ class BD extends StatelessWidget {
   }
   void sendImageToWhatsApp() async {
     RenderRepaintBoundary boundary = boundaryKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+<<<<<<< HEAD
     ui.Image image = await boundary.toImage(pixelRatio: 3.0);
     ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
     Uint8List pngBytes = byteData!.buffer.asUint8List();
@@ -227,6 +269,23 @@ class BD extends StatelessWidget {
       });
     }catch(e){
 
+=======
+    ui.Image image = await boundary.toImage(pixelRatio: 3.0); // Adjust the pixelRatio as needed
+    ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+    Uint8List pngBytes = byteData!.buffer.asUint8List();
+
+    final result = await ImageGallerySaver.saveImage(Uint8List.fromList(pngBytes));
+    String phoneNumber = "91" + number ;
+    String whatsappUrl = "https://wa.me/$phoneNumber?text=${Uri.encodeFull("Happy Birthday Dear, $name ! Many Happy returns of the Day")}";
+    await Fire.collection('School').doc(Schoolid).collection('Students').doc(id).update({
+      "dne" : true ,
+    });
+    // Launch the WhatsApp URL
+    if (await canLaunch(whatsappUrl)) {
+      await launch(whatsappUrl);
+    } else {
+      print("Could not launch WhatsApp.");
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
     }
   }
 }

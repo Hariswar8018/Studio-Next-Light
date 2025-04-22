@@ -41,7 +41,11 @@ class School_Data_Update extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Center(child: Text( textAlign: TextAlign.center, "Type the New $change_change ")),
             ),
+<<<<<<< HEAD
             d( Admission, "His New $change_change" , "AN000123", to_change=="Students"),
+=======
+            d( Admission, "His New $change_change" , "AN000123", false,),
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: SocialLoginButton(
@@ -53,6 +57,7 @@ class School_Data_Update extends StatelessWidget {
                 buttonType: SocialLoginButtonType.generalLogin,
                 onPressed: () async {
                   CollectionReference collection = FirebaseFirestore.instance.collection('School');
+<<<<<<< HEAD
                   if(to_change=="Students"){
                     int gst = int.tryParse(Admission.text) ?? 0;
                     await collection.doc(school_id).update({
@@ -63,6 +68,11 @@ class School_Data_Update extends StatelessWidget {
                       "$to_change" : Admission.text,
                     });
                   }
+=======
+                  await collection.doc(school_id).update({
+                    "$to_change" : Admission.text,
+                  });
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text('Success ! Updating ! It may take a While'),

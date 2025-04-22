@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+<<<<<<< HEAD
 import 'package:student_managment_app/Parents_Admin_all_data/bday.dart';
+=======
+import 'package:studio_next_light/Parents_Admin_all_data/bday.dart';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
@@ -11,7 +15,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
+<<<<<<< HEAD
 import 'package:student_managment_app/model/birthday_student.dart';
+=======
+import 'package:studio_next_light/model/birthday_student.dart';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
 class Birthdayv extends StatelessWidget {
   String logo ;

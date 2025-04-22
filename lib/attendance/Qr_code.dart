@@ -26,9 +26,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:page_transition/page_transition.dart';
+<<<<<<< HEAD
 import 'package:student_managment_app/after_login/class.dart';
 import 'package:student_managment_app/after_login/session.dart';
 import 'package:student_managment_app/model/birthday_student.dart';
+=======
+import 'package:studio_next_light/after_login/class.dart';
+import 'package:studio_next_light/after_login/session.dart';
+import 'package:studio_next_light/model/birthday_student.dart';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:convert'; // for base64Encode
 import 'package:path_provider/path_provider.dart';

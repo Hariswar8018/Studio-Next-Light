@@ -4,8 +4,13 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
+<<<<<<< HEAD
 import 'package:student_managment_app/after_login/school_names.dart';
 import 'package:student_managment_app/before_check/forgot_password.dart';
+=======
+import 'package:studio_next_light/after_login/school_names.dart';
+import 'package:studio_next_light/before_check/forgot_password.dart';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
 class SScreen extends StatefulWidget {
   @override
@@ -103,7 +108,48 @@ class _LoginScreenState extends State<SScreen> {
                     fontSize: 21,
                     buttonType: SocialLoginButtonType.generalLogin,
                     onPressed: () async {
+<<<<<<< HEAD
 
+=======
+                      try {
+                        final credential = await FirebaseAuth.instance
+                            .createUserWithEmailAndPassword(
+                          email: d,
+                          password: s,
+                        );
+                        print(credential);
+                        Navigator.push(
+                            context, PageTransition(
+                            child: Schoo_Name(), type: PageTransitionType.rightToLeft, duration: Duration(milliseconds: 800)
+                        ));
+                      } on FirebaseAuthException catch (e) {
+                        if (e.code == 'weak-password') {
+                          print('The password provided is too weak.');
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                  'The password provided is too weak.'),
+                            ),
+                          );
+                        } else if (e.code == 'email-already-in-use') {
+                          print(
+                              'The account already exists for that email.');
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                  'The account already exists for that email.'),
+                            ),
+                          );
+                        }
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                                '${e}'),
+                          ),
+                        );
+                      }
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
                     },
                   ),
                   Row(

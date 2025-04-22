@@ -1,21 +1,42 @@
 plugins {
     id "com.android.application"
     id "kotlin-android"
+<<<<<<< HEAD
 
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
     id "dev.flutter.flutter-gradle-plugin"
 }
 
 def localProperties = new Properties()
+<<<<<<< HEAD
 def localPropertiesFile = rootProject.file("local.properties")
 if (localPropertiesFile.exists()) {
     localPropertiesFile.withReader("UTF-8") { reader ->
+=======
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
         localProperties.load(reader)
     }
 }
 
+<<<<<<< HEAD
 def flutterVersionCode = localProperties.getProperty("flutter.versionCode") ?: "1"
 def flutterVersionName = localProperties.getProperty("flutter.versionName") ?: "1.0"
+=======
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+if (flutterVersionCode == null) {
+    flutterVersionCode = '1'
+}
+
+def flutterVersionName = localProperties.getProperty('flutter.versionName')
+if (flutterVersionName == null) {
+    flutterVersionName = '1.0'
+}
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
 def keystoreProperties = new Properties()
 def keystorePropertiesFile = rootProject.file('key.properties')
@@ -24,6 +45,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
+<<<<<<< HEAD
     namespace = "com.starwish.student_managment_app"
     compileSdk = 34
     ndkVersion = flutter.ndkVersion
@@ -39,6 +61,34 @@ android {
         targetSdk = 36
         versionCode = 17
         versionName = "1.8.0"
+=======
+    namespace "com.heavenonthisearth.studio_next_light"
+    compileSdkVersion flutter.compileSdkVersion
+    ndkVersion flutter.ndkVersion
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    defaultConfig {
+        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        applicationId "com.heavenonthisearth.studio_next_light"
+        // You can update the following values to match your application needs.
+        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
+        minSdkVersion 22
+        targetSdkVersion flutter.targetSdkVersion
+        versionCode 4
+        versionName "1.4"
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
     }
 
     signingConfigs {
@@ -49,6 +99,7 @@ android {
             storePassword keystoreProperties['storePassword']
         }
     }
+<<<<<<< HEAD
 
     buildTypes {
         release {
@@ -56,11 +107,17 @@ android {
             shrinkResources true
             minifyEnabled true // You can set this to true if you want to shrink the code
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+=======
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
         }
     }
 }
 
 flutter {
+<<<<<<< HEAD
     source = "../.."
 }
 apply plugin: 'com.android.application'
@@ -70,3 +127,9 @@ apply plugin: 'kotlin-android'
 
 // This line must be at the very bottom of the file
 apply plugin: 'com.google.gms.google-services'
+=======
+    source '../..'
+}
+
+dependencies {}
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056

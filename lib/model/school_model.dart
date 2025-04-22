@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 class SchoolModel {
   SchoolModel({
     required this.Address,
@@ -30,6 +33,7 @@ class SchoolModel {
     required this.csession,
     required this.stampp,
     required this.paidp,
+<<<<<<< HEAD
     required this.smsend,
     required this.complete,
     required this.pending,
@@ -52,6 +56,8 @@ class SchoolModel {
     required this.j,
     required this.token1,
     required this.token2,
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   });
 
   late final String Address;
@@ -83,14 +89,21 @@ class SchoolModel {
   late final List<Map<String, dynamic>> TMonth;
   late final List<Map<String, dynamic>> TYear;
   late final int total;
+<<<<<<< HEAD
   late final int complete;
   late final int pending;
   late final int receive;
+=======
+  late final int complete ;
+  late final int pending ;
+  late final int receive ;
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   late final bool premium;
   late final String SpName;
   late final int totse;
   final String stampp;
   final String paidp;
+<<<<<<< HEAD
   late final bool smsend;
   late final String token1;
   late final String token2;
@@ -109,6 +122,11 @@ class SchoolModel {
   SchoolModel.fromJson(Map<String, dynamic> json)
       : Address = json['Address'] ?? '1st 2018',
         smsend = json['smsend'] ?? false,
+=======
+
+  SchoolModel.fromJson(Map<String, dynamic> json)
+      : Address = json['Address'] ?? '1st 2018',
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
         stampp = json['stampp'] ?? "https://freerangestock.com/sample/75419/technical-school-shows-stamp-print-and-stamped.jpg",
         paidp = json['paidp'] ?? "https://www.pngall.com/wp-content/uploads/14/Signature-PNG-Picture.png",
         totse = json['totse'] ?? 0,
@@ -125,8 +143,11 @@ class SchoolModel {
         Pic_link = json['Pic_link'] ?? 'https://i.pinimg.com/736x/98/fc/63/98fc635fae7bb3e63219dd270f88e39d.jpg',
         Students = json['Students'] ?? 0,
         id = json['id'] ?? 'Xhqo6S2946pNlw8sRSKd',
+<<<<<<< HEAD
         token1 = json['principaltoken'] ?? 'Xhqo6S2946pNlw8sRSKd',
         token2 = json['schooltoken'] ?? 'Xhqo6S2946pNlw8sRSKd',
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
         Adminemail = json['Admin_Email'] ?? "ad@gmail.com",
         Phone = json['Phone'] ?? "7978097489",
         Clientemail = json['Clientemail'] ?? "hariswarsamasi@gmail.com",
@@ -146,6 +167,7 @@ class SchoolModel {
         TPaid = List<Map<String, dynamic>>.from(json['dictList'] ?? []),
         TReceice = List<Map<String, dynamic>>.from(json['dictList'] ?? []),
         TYear = List<Map<String, dynamic>>.from(json['dictList'] ?? []),
+<<<<<<< HEAD
         TMonth = List<Map<String, dynamic>>.from(json['dictList'] ?? []),
   // New fields
         weatherlastupdate = json['weatherlastupdate'] ?? '',
@@ -157,6 +179,9 @@ class SchoolModel {
         humidity = json['humidity'] ?? 0.0,
         pressure = json['pressure'] ?? 0.0,
         j = json['j'] ?? 0;
+=======
+        TMonth = List<Map<String, dynamic>>.from(json['dictList'] ?? []);
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
@@ -173,9 +198,12 @@ class SchoolModel {
     data['AS'] = AuthorizeSignature;
     data['UIDSE'] = uidise;
     data['On'] = b;
+<<<<<<< HEAD
     data['principaltoken']=token1;
     data['schooltoken']=token2;
     data['smsend'] = smsend;
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
     data['Chief'] = Chief;
     data['EmailB'] = EmailB;
     data['BloodB'] = BloodB;
@@ -191,6 +219,7 @@ class SchoolModel {
     data['SpName'] = SpName;
     data['stampp'] = stampp;
     data['paidp'] = paidp;
+<<<<<<< HEAD
     // New fields
     data['weatherlastupdate'] = weatherlastupdate;
     data['lat'] = lat;
@@ -208,4 +237,8 @@ class SchoolModel {
     var snapshot = snap.data() as Map<String, dynamic>;
     return SchoolModel.fromJson(snapshot);
   }
+=======
+    return data;
+  }
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 }

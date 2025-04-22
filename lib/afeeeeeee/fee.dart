@@ -5,9 +5,15 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
+<<<<<<< HEAD
 import 'package:student_managment_app/aextra/session.dart';
 import 'package:student_managment_app/model/school_model.dart';
 import 'package:student_managment_app/model/student_model.dart';
+=======
+import 'package:studio_next_light/aextra/session.dart';
+import 'package:studio_next_light/model/school_model.dart';
+import 'package:studio_next_light/model/student_model.dart';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
 import 'package:dropdown_button2/dropdown_button2.dart';
 import '../model/fee.dart';
@@ -16,12 +22,19 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+<<<<<<< HEAD
 import 'package:student_managment_app/after_login/class.dart' as d;
 import 'package:url_launcher/url_launcher.dart';
 
 import '../upload/storage.dart';
 
 
+=======
+import 'package:studio_next_light/after_login/class.dart' as d;
+import 'package:url_launcher/url_launcher.dart';
+
+import '../upload/storage.dart';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 class Fee extends StatefulWidget {
   SchoolModel user;
   String id;
@@ -533,6 +546,7 @@ class _KState extends State<K> {
             buttonType: SocialLoginButtonType.generalLogin,
             onPressed: () async {
               if (widget.b) {
+<<<<<<< HEAD
                 RenderRepaintBoundary boundary = boundaryKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
                 ui.Image image = await boundary.toImage(pixelRatio: 3.0); // Adjust the pixelRatio as needed
                 ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
@@ -540,6 +554,21 @@ class _KState extends State<K> {
                 final result = await ImageGallerySaver.saveImage(Uint8List.fromList(pngBytes));
                 String phoneNumber = "91" + widget.user.Phone;
                 String whatsappUrl = "https://wa.me/$phoneNumber?text=${Uri.encodeFull("Hello, We had got your Payment Receipt in our School")}";
+=======
+                RenderRepaintBoundary boundary = boundaryKey.currentContext!
+                    .findRenderObject() as RenderRepaintBoundary;
+                ui.Image image = await boundary.toImage(
+                    pixelRatio: 3.0); // Adjust the pixelRatio as needed
+                ByteData? byteData =
+                    await image.toByteData(format: ui.ImageByteFormat.png);
+                Uint8List pngBytes = byteData!.buffer.asUint8List();
+                final result = await ImageGallerySaver.saveImage(
+                    Uint8List.fromList(pngBytes));
+                String phoneNumber = "91" + widget.user.Phone;
+                String whatsappUrl =
+                    "https://wa.me/$phoneNumber?text=${Uri.encodeFull("Hello, We had got your Payment Receipt in our School")}";
+                // Launch the WhatsApp URL
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
                 final Uri _url = Uri.parse(whatsappUrl);
                 if (!await launchUrl(_url)) {
                   throw Exception('Could not launch $_url');
@@ -767,7 +796,11 @@ String hy = "y7" ;
               String formattedDate = DateFormat('dd/MM/yyyy').format(now);
               String formatted = DateFormat('hh:mm').format(now);
               FeeModel u = FeeModel(
+<<<<<<< HEAD
                 School_Name: widget.user.id,
+=======
+                School_Name: School.text,
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
                 Address: Address.text,
                 Email: widget.user.Email,
                 Phone: widget.user.Phone,
@@ -832,6 +865,7 @@ String hy = "y7" ;
                   "Fee": g,
                 });
               }
+<<<<<<< HEAD
               try{
                 await FirebaseFirestore.instance.collection('School').doc(widget.user.id)
                     .collection('Fee').doc(df)
@@ -840,6 +874,9 @@ String hy = "y7" ;
               }catch(e){
 
               }
+=======
+
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
               Navigator.pop(context);
             },
           ),

@@ -7,9 +7,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:page_transition/page_transition.dart';
+<<<<<<< HEAD
 import 'package:student_managment_app/Parents_Admin_all_data/class_school.dart';
 import 'package:student_managment_app/after_login/class.dart';
 import 'package:student_managment_app/after_login/session.dart';
+=======
+import 'package:studio_next_light/Parents_Admin_all_data/class_school.dart';
+import 'package:studio_next_light/after_login/class.dart';
+import 'package:studio_next_light/after_login/session.dart';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
 class SessionP extends StatelessWidget {
   String id;
@@ -73,12 +79,20 @@ bool b;
   @override
   Widget build(BuildContext context) {
     return ListTile(
+<<<<<<< HEAD
       title: Text("Session : "+user.Name),
+=======
+      title: Text(user.Name),
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
       onLongPress: (){
         if(b){
           Navigator.push(
               context, PageTransition(
+<<<<<<< HEAD
               child: HG(id: id, session_id: user.id,vb:user.ou=="Under Admin Approval for Delete",name:user.Name), type: PageTransitionType.rightToLeft, duration: Duration(milliseconds: 800)
+=======
+              child: HG(id: id, session_id: user.id), type: PageTransitionType.rightToLeft, duration: Duration(milliseconds: 800)
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
           ));
         }
       },
@@ -88,11 +102,15 @@ bool b;
             child: ClassP(id: id, session_id: user.id, b : b), type: PageTransitionType.rightToLeft, duration: Duration(milliseconds: 800)
         ));
       },
+<<<<<<< HEAD
       trailing:  user.ou=="Under Admin Approval for Delete"?Icon(
         Icons.hourglass_bottom,
         color: Colors.red,
         size: 20,
       ):Icon(
+=======
+      trailing: Icon(
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
         Icons.arrow_forward_ios_sharp,
         color: Colors.black,
         size: 20,
@@ -104,9 +122,15 @@ bool b;
 }
 
 class HG extends StatelessWidget {
+<<<<<<< HEAD
   String id;bool vb;
   String session_id;String name;
   HG({super.key, required this.id, required this.session_id,required this.vb,required this.name});
+=======
+  String id;
+  String session_id;
+  HG({super.key, required this.id, required this.session_id});
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
   final TextEditingController Admission = TextEditingController();
 
@@ -134,10 +158,17 @@ class HG extends StatelessWidget {
             d(
               Admission,
               "Session Name",
+<<<<<<< HEAD
               vb?name:"Session 42",
               false,
             ),
             vb?SizedBox():Padding(
+=======
+              "Session 42",
+              false,
+            ),
+            Padding(
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
               padding: const EdgeInsets.all(8.0),
               child: SocialLoginButton(
                 backgroundColor: Color(0xff50008e),
@@ -148,7 +179,10 @@ class HG extends StatelessWidget {
                 buttonType: SocialLoginButtonType.generalLogin,
                 onPressed: () async {
                   CollectionReference collection = FirebaseFirestore.instance.collection('School').doc(id).collection('Session');
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
                   await collection.doc(session_id).update({
                     'Name' : Admission.text,
                     // Add more fields as needed
@@ -163,6 +197,7 @@ class HG extends StatelessWidget {
                 },
               ),
             ),
+<<<<<<< HEAD
            vb? Padding(
               padding: const EdgeInsets.all(8.0),
               child: SocialLoginButton(
@@ -225,6 +260,8 @@ class HG extends StatelessWidget {
                 },
               ),
             ):SizedBox(),
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
           ],
         ));
   }
@@ -265,11 +302,17 @@ class SessionModel {
 
   late final String Name;
   late final String id;
+<<<<<<< HEAD
   late String ou;
 
   SessionModel.fromJson(Map<String, dynamic> json) {
     Name = json['Name'] ?? 'samai';
     ou=json['ou']??"";
+=======
+
+  SessionModel.fromJson(Map<String, dynamic> json) {
+    Name = json['Name'] ?? 'samai';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
     id = json['id'] ?? 'Xhqo6S2946pNlw8sRSKd';
   }
 

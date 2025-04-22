@@ -7,10 +7,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:page_transition/page_transition.dart';
+<<<<<<< HEAD
 import 'package:student_managment_app/aextra/students.dart';
 import 'package:student_managment_app/after_login/class.dart';
 import 'package:student_managment_app/aextra2/students.dart';
 import 'package:student_managment_app/model/student_model.dart';
+=======
+import 'package:studio_next_light/aextra/students.dart';
+import 'package:studio_next_light/after_login/class.dart';
+import 'package:studio_next_light/aextra2/students.dart';
+import 'package:studio_next_light/model/student_model.dart';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
 class ClassJust1 extends StatefulWidget {
   String id; bool r ; String name ; bool premium ;
@@ -96,8 +103,13 @@ class _ChatUserState extends State<ChatUser> {
   int i = 0 ; int j = 0 ;
   void initState(){
     countDocumentsWithPresent();
+<<<<<<< HEAD
     countTotalMfValue();as();
     countDocumentsWithPresent1();
+=======
+    countTotalMfValue();
+as();
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   }
   void countTotalMfValue() async {
     int count = 0;
@@ -120,7 +132,10 @@ class _ChatUserState extends State<ChatUser> {
        print("Error counting total 'Mf' value: $error");
      }
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   void as() async {
   CollectionReference collection = FirebaseFirestore.instance.collection('School')
       .doc(widget.id).collection('Session')
@@ -136,8 +151,12 @@ class _ChatUserState extends State<ChatUser> {
     await FirebaseFirestore.instance
         .collection('School')
         .doc(widget.id)
+<<<<<<< HEAD
         .collection('Session').doc(widget.sessionid).collection("Class").doc(
         widget.user.id).collection("Student")
+=======
+        .collection('Session').doc(widget.sessionid).collection("Class").doc(widget.user.id).collection("Student")
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
         .where("Present", arrayContains: str)
         .get()
         .then((querySnapshot) async {
@@ -145,17 +164,26 @@ class _ChatUserState extends State<ChatUser> {
       setState(() async {
         i = querySnapshot.docs.length;
       });
+<<<<<<< HEAD
       CollectionReference collection = FirebaseFirestore.instance.collection(
           'School')
           .doc(widget.id).collection('Session')
           .doc(widget.sessionid).collection('Class');
       await collection.doc(widget.user.id).update({
         "pcount": querySnapshot.docs.length,
+=======
+      CollectionReference collection = FirebaseFirestore.instance.collection('School')
+          .doc(widget.id).collection('Session')
+          .doc(widget.sessionid).collection('Class');
+      await collection.doc(widget.user.id).update({
+        "pcount" : querySnapshot.docs.length,
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
       });
     }).catchError((error) {
       print("Error counting documents: $error");
     });
   }
+<<<<<<< HEAD
 
   void countDocumentsWithPresent1() async {
     int count = 0;
@@ -197,6 +225,8 @@ class _ChatUserState extends State<ChatUser> {
   }
   int ij=0;
 
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   @override
   Widget build(BuildContext context) {
     return ListTile(

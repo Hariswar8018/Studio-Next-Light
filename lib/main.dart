@@ -1,4 +1,5 @@
 import 'dart:io' ;
+<<<<<<< HEAD
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart' ;
 import 'package:student_managment_app/L10n/l10n.dart';
@@ -26,6 +27,16 @@ import 'package:student_managment_app/model/usermodel.dart';
 import 'package:student_managment_app/school_class/class/home.dart';
 import 'package:student_managment_app/school_class/dormitory/portal.dart';
 import 'package:student_managment_app/school_class/employee/home.dart';
+=======
+import 'package:flutter/material.dart' ;
+import 'package:studio_next_light/Parents_Portal/home.dart';
+import 'package:studio_next_light/admin/admin_panel.dart' ;
+import 'package:studio_next_light/after_login/school_names.dart' ;
+import 'package:studio_next_light/api.dart';
+import 'package:studio_next_light/before_check/first.dart';
+import 'package:studio_next_light/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart' ;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,6 +47,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart' ;
 import 'package:firebase_core/firebase_core.dart' ;
 import 'package:firebase_messaging/firebase_messaging.dart' ;
 import 'package:flutter_localizations/flutter_localizations.dart' ;
+<<<<<<< HEAD
 import 'package:provider/provider.dart';
 import 'package:student_managment_app/school_class/gate_keeper/portal.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -46,6 +58,12 @@ import 'package:in_app_review/in_app_review.dart';
 Future< void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Firebase.initializeApp();
+=======
+
+Future< void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  Firebase.initializeApp(); //initilization of Firebase app
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -53,6 +71,7 @@ Future< void> main() async {
   WidgetsFlutterBinding.ensureInitialized() ;
   final bool Admin = prefs.getBool('Admin') ?? false ;
   final bool Parent = prefs.getBool('Parent') ?? false ;
+<<<<<<< HEAD
   final String Position = prefs.getString('What') ?? "None";
   await  FirebaseApi().initNotification() ;
   runApp( ChangeNotifierProvider(
@@ -67,12 +86,24 @@ class MyApp extends StatefulWidget {
   String position;
 
   MyApp({required this.Admin, required this.Parent, required this.position});
+=======
+  await  FirebaseApi().initNotification() ;
+  
+  runApp( MyApp(Admin : Admin, Parent : Parent));
+}
+
+
+class MyApp extends StatefulWidget {
+  bool Admin ; bool Parent ;
+  MyApp({required this.Admin, required this.Parent});
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
+<<<<<<< HEAD
   User? user = FirebaseAuth.instance.currentUser;
 
   @override
@@ -467,3 +498,44 @@ class LocaleProvider extends ChangeNotifier {
   }
 }
 
+=======
+
+  late FirebaseMessaging messaging;
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  User? user = FirebaseAuth.instance.currentUser ;
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: "Studio Next Light", debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      localizationsDelegates: GlobalMaterialLocalizations.delegates,
+      supportedLocales: const [
+        Locale('en', ''),
+        Locale('hi', ''),
+      ],
+      home: FutureBuilder(
+          future: Future.delayed(Duration(seconds: 3)),
+          builder: (ctx, timer) =>
+          timer.connectionState == ConnectionState.done
+              ? (  widget.Parent ? HomePa() : (user == null ? First() : ( widget.Admin ? AdminP() : Schoo_Name())) ) //Screen to navigate to once the splashScreen is done.
+              : Container(color: Colors.white ,
+            width: MediaQuery.of(context).size.width ,
+            child: Image(
+              image: AssetImage(
+                  'assets/WhatsApp_Image_2023-11-22_at_17.13.30_388ceeb5-transformed.png'
+              ),
+            ),
+          ),
+      ),
+    );
+  }
+}
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056

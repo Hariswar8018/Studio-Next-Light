@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 import 'package:cloud_firestore/cloud_firestore.dart';
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
 class StudentModel {
   StudentModel({
@@ -6,23 +9,40 @@ class StudentModel {
     required this.id,
     required this.Address,
     required this.Email,
+<<<<<<< HEAD
     required this.Leave,
+=======
+    required this.Leave ,
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
     required this.Admission_number,
     required this.Batch,
     required this.BloodGroup,
     required this.Class,
     required this.Con,
+<<<<<<< HEAD
     required this.Department,
     required this.Driver,
     required this.Classn,
     required this.Father_Name,
     required this.Mobile,
     required this.Mother_Name,
+=======
+    required this.Department ,
+    required this.Driver,
+    required this.Classn ,
+    required this.Father_Name,
+    required this.Mobile ,
+    required this.Mother_Name ,
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
     required this.pic,
     required this.Registration_number,
     required this.Roll_number,
     required this.Section,
+<<<<<<< HEAD
     required this.Session,
+=======
+    required this.Session ,
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
     required this.Other1,
     required this.Other2,
     required this.Other3,
@@ -35,6 +55,7 @@ class StudentModel {
     required this.present,
     required this.LastUpdate,
     required this.Myfee,
+<<<<<<< HEAD
     required this.token,
     required this.present1,
     required this.secode,
@@ -51,11 +72,14 @@ class StudentModel {
     required this.bus,
     required this.latitude,
     required this.longitude,
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   });
 
   late final String Name;
   late final String LastUpdate;
   late final int Myfee;
+<<<<<<< HEAD
   late final String Admission_number;
   late final int Roll_number;
   late final String Father_Name;
@@ -137,10 +161,72 @@ class StudentModel {
     Registration_number = json['Registration_number'] ?? "vhf";
     BloodGroup = json['BloodGroup'] ?? "NA";
     Mother_Name = json['Mother_Name'] ?? "NA";
+=======
+  late final String Admission_number ;
+  late final int Roll_number ;
+  late final String Father_Name ;
+  late final String Mobile ;
+  late final String Address ;
+  late final String Email ;
+  late final String Department;
+  late final String Class ;
+  late final String Section ;
+  late final String Con ;
+  late final List students ;
+  late final String Driver ;
+  late final String Session ;
+  late final String Batch ;
+  late final String id ;
+  late final String pic ;
+  late final String Registration_number ;
+  late final String BloodGroup ;
+  late final String Mother_Name ;
+  late final String Other1 ;
+  late final String Other2 ;
+  late final String Other3 ;
+  late final String Other4 ;
+  late final String state;
+  late final String dob;
+  late final String Pic_Name ;
+  late final String School_id_one ;
+  late final String newdob ;
+  late final List present ;
+  late final String Classn ;
+  late final List Leave ;
+  StudentModel.fromJson(Map<String, dynamic> json) {
+    Name = json['Name'] ?? "Ayus";
+    Leave = json['Leave'] ?? [];
+    Classn = json['Classn'] ?? "u";
+    students = json['Present'] ?? [] ;
+    Myfee = json['Mf'] ?? 0 ;
+    LastUpdate = json['LU'] ?? "Dec-21" ;
+    present = json['Present'] ?? [];
+    Admission_number= json['Admission_number'] ?? "NA";
+    Roll_number= json['Roll_number'] ?? 0;
+    Father_Name= json['Father_Name'] ?? "Afhh";
+    Mobile= json['Mobile'] ?? "7978097489";
+    Address= json['Address'] ?? "JAGDA, ROURELA";
+    Email= json['Email'] ?? "gkgkg";
+    Department= json['Department'] ?? "htfdfhf";
+    Class= json['Class'] ?? "ggg";
+    state = json['State'] ?? "Editing" ;
+    Section= json['Section'] ?? "chhh";
+    Con= json['Con'] ?? "hjvvjj";
+    Driver= json['Driver'] ?? "hdh";
+    Session= json['Session'] ?? "vhjv";
+    dob = json['dob'] ?? "14 Oct 2023";
+    Batch= json['Batch'] ?? "jj";
+    id= json['id'] ?? "jjffj";
+    pic= json['pic'] ?? "vhvj";
+    Registration_number= json['Registration_number'] ?? "vhf";
+    BloodGroup= json['BloodGroup'] ?? "NA";
+    Mother_Name= json['Mother_Name'] ?? "NA";
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
     Other1 = json['Other1'] ?? "NA";
     Other2 = json['Other2'] ?? "NA";
     Other3 = json['Other3'] ?? "NA";
     Other4 = json['Other4'] ?? "NA";
+<<<<<<< HEAD
     Pic_Name = json['Pic_Name'] ?? "NA";
     School_id_one = json['SCHOOLID'] ?? "";
     newdob = json['newdob'] ?? "2003-12-10 00:00:00.000";
@@ -161,10 +247,16 @@ class StudentModel {
     bus = json['bus'] ?? false;
     latitude = json['latitude'] ?? 0.0;
     longitude = json['longitude'] ?? 0.0;
+=======
+    Pic_Name = json['Pic_Name'] ?? "NA" ;
+    School_id_one = json['SCHOOLID'] ?? "";
+    newdob = json['newdob'] ?? "2003-12-10 00:00:00.000";
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   }
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
+<<<<<<< HEAD
     data['Mf'] = Myfee;
     data['Present1'] = present1;
     data['LU'] = LastUpdate;
@@ -176,6 +268,18 @@ class StudentModel {
     data['Roll_number'] = Roll_number;
     data['Father_Name'] = Father_Name;
     data['Pic_Name'] = Pic_Name;
+=======
+     data['Mf'] = Myfee  ;
+     data['LU'] = LastUpdate  ;
+    data['Name'] = Name;
+    data['Present'] = present ;
+    data['newdob'] = newdob ;
+    data['SCHOOLID'] = School_id_one ;
+    data['Admission_number'] = Admission_number;
+    data['Roll_number'] = Roll_number;
+    data['Father_Name'] = Father_Name;
+    data['Pic_Name'] = Pic_Name ;
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
     data['Mobile'] = Mobile;
     data['Address'] = Address;
     data['Email'] = Email;
@@ -188,12 +292,17 @@ class StudentModel {
     data['Batch'] = Batch;
     data['id'] = id;
     data['pic'] = pic;
+<<<<<<< HEAD
     data['dob'] = dob;
+=======
+    data['dob'] = dob ;
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
     data['Registration_number'] = Registration_number;
     data['BloodGroup'] = BloodGroup;
     data['Mother_Name'] = Mother_Name;
     data['Other1'] = Other1;
     data['Other2'] = Other2;
+<<<<<<< HEAD
     data['Classn'] = Classn;
     data['Other3'] = Other3;
     data['Other4'] = Other4;
@@ -225,3 +334,13 @@ class StudentModel {
     return StudentModel.fromJson(snapshot);
   }
 }
+=======
+    data['Classn'] = Classn ;
+    data['Other3'] = Other3;
+    data['Other4'] = Other4;
+    data['State'] = state ;
+    data['Leave'] = Leave ;
+    return data;
+  }
+}
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056

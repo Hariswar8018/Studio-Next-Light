@@ -7,8 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
+<<<<<<< HEAD
 import 'package:student_managment_app/after_login/calender.dart';
 import 'package:student_managment_app/model/student_model.dart';
+=======
+import 'package:studio_next_light/after_login/calender.dart';
+import 'package:studio_next_light/model/student_model.dart';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 import 'package:audioplayers/audioplayers.dart';
 import 'package:http/http.dart' as http;
 
@@ -264,8 +269,12 @@ class _ChatUserState extends State<ChatUser> {
   void checkDatePresence() async {
     DateTime date = DateTime.now();
     String st = '${date.day}-${date.month}-${date.year}';
+<<<<<<< HEAD
     final schoolDocRef = FirebaseFirestore.instance.collection('School')
         .doc(widget.id).collection("Employee").doc(widget.user.Id_number);
+=======
+    final schoolDocRef = FirebaseFirestore.instance.collection('School').doc(widget.id).collection("Employee").doc(widget.user.Id_number);
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
     schoolDocRef.get().then((docSnapshot) {
       if (docSnapshot.exists) {
         final presentArray = docSnapshot.data()!['Present'] as List<dynamic>? ?? [];

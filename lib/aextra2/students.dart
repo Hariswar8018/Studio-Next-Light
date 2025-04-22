@@ -2,10 +2,16 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
+<<<<<<< HEAD
 import 'package:student_managment_app/model/student_model.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http ;
 
+=======
+import 'package:studio_next_light/model/student_model.dart';
+import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http ;
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 class StudentsJust1 extends StatefulWidget {
   String id; bool premium ;
   String session_id;
@@ -28,12 +34,17 @@ class StudentsJust1 extends StatefulWidget {
 }
 
 class _StudentsJust1State extends State<StudentsJust1> {
+<<<<<<< HEAD
+=======
+  List<StudentModel> list = [];
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
   late Map<String, dynamic> userMap;
 
   TextEditingController ud = TextEditingController();
 
   bool send = false ;
+<<<<<<< HEAD
   final Fire = FirebaseFirestore.instance;
   DateTime now = DateTime.now();
   bool up=false;
@@ -88,11 +99,64 @@ class _StudentsJust1State extends State<StudentsJust1> {
       body: StreamBuilder(
         stream: widget.h
             ? Fire.collection('School')
+=======
+
+  final Fire = FirebaseFirestore.instance;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: true,
+        backgroundColor: Colors.orange,
+        title: Text('Students Data'),
+        actions : [
+          widget.h  ? TextButton.icon(onPressed: () {
+            if(widget.premium ){
+              setState((){
+                send = !send ;
+              });
+              if(send){
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("Attendance will be Marked, with Sending SMS"),
+                  ),
+                );
+              }else{
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("Attendance will be Marked, WITHOUT Sending SMS"),
+                  ),
+                );
+              }
+            }else{
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text("You must be Premium to use this Feature. Do contact your Admin"),
+                ),
+              );
+            }
+          },
+            icon: Icon(Icons.speed, size: 25),
+            label: Text("Send P/A Message"),
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(
+                  send ?  Colors.blue : Colors.orange),
+              // Set the background color of the button
+              foregroundColor: MaterialStateProperty.all<Color>(
+                  Colors.white), // Set the text color of the button
+            ),) : SizedBox(),
+        ]
+      ),
+      body: StreamBuilder(
+        stream: Fire.collection('School')
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
             .doc(widget.id)
             .collection('Session')
             .doc(widget.session_id)
             .collection("Class")
             .doc(widget.class_id)
+<<<<<<< HEAD
             .collection("Student")
             .orderBy('Name', descending: true)
             .snapshots()
@@ -103,6 +167,9 @@ class _StudentsJust1State extends State<StudentsJust1> {
             .collection("Class")
             .doc(widget.class_id)
             .collection("Student")
+=======
+            .collection("Student").orderBy("Name")
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
             .snapshots(),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
@@ -111,6 +178,7 @@ class _StudentsJust1State extends State<StudentsJust1> {
               return Center(child: CircularProgressIndicator());
             case ConnectionState.active:
             case ConnectionState.done:
+<<<<<<< HEAD
               final data = snapshot.data?.docs ?? [];
 
               final filteredData = widget.h
@@ -124,6 +192,12 @@ class _StudentsJust1State extends State<StudentsJust1> {
 
               list = filteredData.map((e) => StudentModel.fromJson(e.data())).toList();
 
+=======
+              final data = snapshot.data?.docs;
+              list =
+                  data?.map((e) => StudentModel.fromJson(e.data())).toList() ??
+                      [];
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
               return ListView.builder(
                 itemCount: list.length,
                 padding: EdgeInsets.only(top: 10),
@@ -134,12 +208,17 @@ class _StudentsJust1State extends State<StudentsJust1> {
                     id: widget.id,
                     session_id: widget.session_id,
                     class_id: widget.class_id,
+<<<<<<< HEAD
                     h: widget.h,
                     r: send,
                     length: list.length,
                     sname: widget.sname,
                     st: widget.st,
                     b: widget.rem,
+=======
+                     h : widget.h,  r : send,
+                    length: list.length, sname : widget.sname, st : widget.st, b : widget.rem
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
                   );
                 },
               );
@@ -149,9 +228,14 @@ class _StudentsJust1State extends State<StudentsJust1> {
       persistentFooterButtons: [
         Padding(
           padding: const EdgeInsets.all(1.0),
+<<<<<<< HEAD
           child: widget.h ? SizedBox() : up
               ? CircularProgressIndicator()
               : SocialLoginButton(
+=======
+          child:
+          widget.h ? SizedBox() : SocialLoginButton(
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
             backgroundColor: Color(0xff50008e),
             height: 40,
             text: 'Message Absentise Student\'s',
@@ -159,6 +243,7 @@ class _StudentsJust1State extends State<StudentsJust1> {
             fontSize: 21,
             buttonType: SocialLoginButtonType.generalLogin,
             onPressed: () async {
+<<<<<<< HEAD
               setState(() {
                 up = true;
               });
@@ -194,6 +279,27 @@ class _StudentsJust1State extends State<StudentsJust1> {
                 setState(() {
                   up = false;
                 });
+=======
+              try {
+                for (final student in list) {
+                  await sendNotification(student);
+                }
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                        'Success: All Message sent!'),
+                  ),
+                );
+              }catch(e){
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                        'Falied : The API server is down or the APi is Wrong ! ${e}'),
+                  ),
+                );
+                Navigator.pop(context);
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
               }
             },
           ),
@@ -202,6 +308,7 @@ class _StudentsJust1State extends State<StudentsJust1> {
     );
   }
 
+<<<<<<< HEAD
 
   Future<void> sendNotification(List<StudentModel> list) async {
     print('sendNotification called with ${list.length} students');
@@ -254,6 +361,42 @@ class _StudentsJust1State extends State<StudentsJust1> {
     }
   }
 
+=======
+  Future<void> sendNotification(StudentModel user) async {
+    String apiUrl = 'https://sms.autobysms.com/app/smsapi/index.php';
+    DateTime currentTime = DateTime.now();
+    String formattedTime = DateFormat('h:mm a').format(currentTime);
+    Map<String, String> queryParams = {
+      'key': '365E176C71F352',
+      'campaign': '0',
+      'routeid': '9',
+      'type': 'text',
+      'contacts': user.Mobile,
+      'senderid': 'WAHRAM',
+      'msg':
+      'Dear Parents, Your ${user.Name} of Class ${user.Class} Check ABSENT Today Time $formattedTime in our institute ${widget.st} JRAM',
+      'template_id': '1407171212391331672',
+    };
+
+    String fullUrl = '$apiUrl?' +
+        queryParams.entries.map((e) => '${e.key}=${Uri.encodeComponent(e.value)}').join('&');
+
+    try {
+      // Make the GET request
+      var response = await http.get(Uri.parse(fullUrl));
+
+      // Check the response status code
+      if (response.statusCode == 200) {
+        print('SMS sent successfully');
+        print('Response: ${response.body}');
+      } else {
+        print('Failed to send SMS. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error sending SMS: $e');
+    }
+  }
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 }
 
 class ChatUser extends StatefulWidget {
@@ -280,6 +423,7 @@ String sname ;
   @override
   State<ChatUser> createState() => _ChatUserState();
 }
+<<<<<<< HEAD
 Set<String> prabsent = {}; // Track processed QR codes
 
 
@@ -288,6 +432,10 @@ class _ChatUserState extends State<ChatUser> {
 
 
 
+=======
+
+class _ChatUserState extends State<ChatUser> {
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -297,11 +445,18 @@ class _ChatUserState extends State<ChatUser> {
       title: Text(widget.user.Name, style: TextStyle(fontWeight: FontWeight.w700)),
       subtitle: Text("Roll no : " +
           widget.user.Roll_number.toString() +
+<<<<<<< HEAD
           "   Class : " +
           widget.user.Class +" ("+
           widget.user.Section+")"),
       onTap : () async {
         print(widget.user.dict1);
+=======
+          "   " +
+          widget.user.Class +
+          widget.user.Section),
+      onTap : () async {
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
         if(widget.h){
           DateTime now = DateTime.now();
           String stm = '${now.day}-${now.month}-${now.year}';
@@ -316,6 +471,11 @@ class _ChatUserState extends State<ChatUser> {
                 'Present': FieldValue.arrayRemove([st]),
               });
               DateTime now = DateTime.now();
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
               await _storeColorInFirestore(now, Colors.red, false);
             }catch(e){
               ScaffoldMessenger.of(context).showSnackBar(
@@ -335,7 +495,12 @@ class _ChatUserState extends State<ChatUser> {
                 'Present': FieldValue.arrayUnion([st]),
               });
               DateTime now = DateTime.now();
+<<<<<<< HEAD
               checkin();
+=======
+
+
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
               await _storeColorInFirestore(now, Colors.blue, true);
             }catch(e){
               ScaffoldMessenger.of(context).showSnackBar(
@@ -352,6 +517,7 @@ class _ChatUserState extends State<ChatUser> {
       tileColor: Colors.grey.shade50,
     );
   }
+<<<<<<< HEAD
 
   Future<void> checkin() async {
     try {
@@ -377,6 +543,8 @@ class _ChatUserState extends State<ChatUser> {
     }
   }
 
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   Widget acheck(){
     DateTime now = DateTime.now();
     String stm = '${now.day}-${now.month}-${now.year}';
@@ -401,7 +569,10 @@ class _ChatUserState extends State<ChatUser> {
     }
     return formattedNumber;
   }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   Future<void> _storeColorInFirestore(DateTime date, Color color, bool i ) async {
     try {
       String st = '${date.day}-${date.month}-${date.year}';
@@ -420,6 +591,7 @@ class _ChatUserState extends State<ChatUser> {
       String apiUrl = 'https://sms.autobysms.com/app/smsapi/index.php';
       DateTime currentTime = DateTime.now();
       String formattedTime = DateFormat('h:mm a').format(currentTime);
+<<<<<<< HEAD
 
       if (i && widget.r){
 
@@ -432,6 +604,9 @@ class _ChatUserState extends State<ChatUser> {
 
         prabsent.add(widget.user.Registration_number);
 
+=======
+      if (i && widget.r){
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
         Map<String, String> queryParams = {
           'key': '365E176C71F352',
           'campaign': '0',

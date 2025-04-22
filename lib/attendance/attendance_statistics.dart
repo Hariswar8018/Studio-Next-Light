@@ -8,12 +8,16 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:image_gallery_saver/image_gallery_saver.dart';
+<<<<<<< HEAD
 import 'package:page_transition/page_transition.dart';
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
 import 'package:path_provider/path_provider.dart';
 
 import 'package:pdf/widgets.dart' as pw;
 import 'dart:io';
+<<<<<<< HEAD
 import 'package:share_plus/share_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -27,6 +31,17 @@ import 'package:student_managment_app/model/student_model.dart';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:flutter_to_pdf/flutter_to_pdf.dart';
+=======
+
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:studio_next_light/attendance/single_attendance.dart';
+import 'package:studio_next_light/model/student_model.dart';
+
+import 'dart:typed_data';
+import 'dart:ui' as ui;
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
 class StudentsJust8 extends StatefulWidget {
   String id;
@@ -54,12 +69,26 @@ class _StudentsJust8State extends State<StudentsJust8> {
   @override
   void dispose() {
     // Reset orientations when exiting the screen
+<<<<<<< HEAD
 
+=======
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
     super.dispose();
   }
 
   void initState() {
     super.initState();
+<<<<<<< HEAD
+=======
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+    ]);
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
     DateTime now = DateTime.now();
     int Mo = now.month;
     int Ye = now.year;
@@ -101,6 +130,7 @@ class _StudentsJust8State extends State<StudentsJust8> {
   TextEditingController ud = TextEditingController();
   String selectedValue = "2023";
   String mo = "1";
+<<<<<<< HEAD
 
   final ExportDelegate exportDelegate = ExportDelegate();
   Future<pw.Document> generatePdf() async {
@@ -140,6 +170,70 @@ class _StudentsJust8State extends State<StudentsJust8> {
       return null;
     }
   }
+=======
+  /*Future<void> _generatePdf(BuildContext context) async {
+    // Create a PDF document
+    final pdf = pw.Document();
+
+    // Add a page to the PDF
+    pdf.addPage(
+      pw.Page(
+        build: (pw.Context context) {
+          return pw.Column(
+            children: [
+              pw.Expanded(
+                child: pw.StreamBuilder<QuerySnapshot>(
+                  stream: Fire.collection('School')
+                      .doc(widget.id)
+                      .collection('Session')
+                      .doc(widget.session_id)
+                      .collection("Class")
+                      .doc(widget.class_id)
+                      .collection("Student")
+                      .snapshots(),
+                  builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else {
+                      // Process the snapshot data and return appropriate UI
+                      final data = snapshot.data?.docs;
+                      list = data?.map((e) => StudentModel.fromJson(e.data())).toList() ?? [];
+                      return ListView.builder(
+                        itemCount: list.length,
+                        padding: EdgeInsets.only(top: 10),
+                        physics: BouncingScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return ChatUser(
+                            user: list[index],
+                            id: widget.id,
+                            session_id: widget.session_id,
+                            class_id: widget.class_id,
+                            length: list.length,
+                            year: selectedValue,
+                            month: mo,
+                          );
+                        },
+                      );
+                    }
+                  },
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+
+    // Save the PDF to a file
+    final output = await getTemporaryDirectory();
+    final file = File('${output.path}/example.pdf');
+    await file.writeAsBytes(await pdf.save());
+
+  }*/
+
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   final Fire = FirebaseFirestore.instance;
   final GlobalKey boundaryKey = GlobalKey();
   @override
@@ -286,6 +380,7 @@ class _StudentsJust8State extends State<StudentsJust8> {
             ),
           ]
       ),
+<<<<<<< HEAD
       persistentFooterButtons: [
         Padding(
           padding: const EdgeInsets.all(1.0),
@@ -330,6 +425,10 @@ class _StudentsJust8State extends State<StudentsJust8> {
       body: ExportFrame(
         frameId: 'someFrameId',
         exportDelegate: exportDelegate,
+=======
+      body: RepaintBoundary(
+        key: boundaryKey,
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
         child: Column(
           children: [
             Padding(

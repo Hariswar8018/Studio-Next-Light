@@ -7,9 +7,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:page_transition/page_transition.dart';
+<<<<<<< HEAD
 import 'package:student_managment_app/Parents_Admin_all_data/student_data.dart';
 import 'package:student_managment_app/after_login/session.dart';
 import 'package:student_managment_app/after_login/students.dart';
+=======
+import 'package:studio_next_light/Parents_Admin_all_data/student_data.dart';
+import 'package:studio_next_light/after_login/session.dart';
+import 'package:studio_next_light/after_login/students.dart';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
 class ClassP extends StatelessWidget {
   String id;
@@ -79,7 +85,11 @@ class ChatUser extends StatelessWidget {
     return Container(
       color : user.status == "Still Uploading" ? Colors.white : Colors.blue.shade50 ,
       child: ListTile(
+<<<<<<< HEAD
         title: Text("Class : "+user.Name+" ( "+user.section+" )"),
+=======
+        title: Text(user.Name),
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
         onTap: () {
           if(b){
             Navigator.push(
@@ -93,6 +103,7 @@ class ChatUser extends StatelessWidget {
               ));
           }
         },
+<<<<<<< HEAD
         onLongPress: (){
           if(user.ou=="Waiting"||b){
             showDialog(
@@ -143,6 +154,9 @@ class ChatUser extends StatelessWidget {
           color: Colors.red,
           size: 20,
         ):user.status == "Still Uploading" ? Icon(
+=======
+        trailing: user.status == "Still Uploading" ? Icon(
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
           Icons.arrow_forward_ios_sharp,
           color: Colors.black,
           size: 20,
@@ -235,6 +249,7 @@ class ChatUser extends StatelessWidget {
 class SessionModel {
   SessionModel({
     required this.Name,
+<<<<<<< HEAD
     required this.id,required this.sset,
     required this.feet,
     required this.status,
@@ -291,11 +306,26 @@ class SessionModel {
     LetF = json['LetF'] ?? "";
     TransportF = json['TransportF'] ?? "";
     ID_Card_Fee = json['ID_Card_Fee'] ?? "";
+=======
+    required this.id,
+    required this.status,
+  });
+
+  late final String Name;
+  late final String id;
+  late final String status;
+
+  SessionModel.fromJson(Map<String, dynamic> json) {
+    Name = json['Name'] ?? 'samai';
+    id = json['id'] ?? 'Xhqo6S2946pNlw8sRSKd';
+    status = json['status'] ?? 'Still Uploading' ;
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   }
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
     data['Name'] = Name;
+<<<<<<< HEAD
     data['S'] = section ;
     data['status'] = status;
     data['id'] = id ;
@@ -312,6 +342,8 @@ class SessionModel {
     data['TransportF'] = TransportF;
     data['ID_Card_Fee'] = ID_Card_Fee;
     data['total'] = total ;
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
     return data;
   }
 }

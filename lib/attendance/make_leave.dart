@@ -1,5 +1,6 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+<<<<<<< HEAD
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -32,6 +33,14 @@ import 'package:student_managment_app/upload/storage.dart';
 import 'package:intl/intl.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
+=======
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:social_login_buttons/social_login_buttons.dart';
+import 'package:studio_next_light/aextra/session.dart';
+import 'package:studio_next_light/model/school_model.dart';
+import 'package:studio_next_light/model/student_model.dart';
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 
 class fS extends StatefulWidget {
   SchoolModel user ;
@@ -42,6 +51,7 @@ class fS extends StatefulWidget {
 }
 
 class _fSState extends State<fS> {
+<<<<<<< HEAD
   Future<Uint8List?> pickImage( ImageSource source) async {
     final ImagePicker _imagePicker = ImagePicker();
     XFile? _file = await _imagePicker.pickImage(source: source);
@@ -92,14 +102,22 @@ class _fSState extends State<fS> {
     print('Compressed length: ${result.length}');
     return result;
   }
+=======
+
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
 // Create the list with today's date and the date 4 days later
   List<DateTime?> _rangeDatePickerValueWithDefaultValue = [
     DateTime.now(),
     DateTime.now().add(Duration(days: 4)),
   ];
 
+<<<<<<< HEAD
   String pic = " ", name = " ", classn = " ", sec = " ", cl = " ", rg = " ",phone=" ", pic12=" ";
 bool isUploading = false ;
+=======
+  String pic = " ", name = " ", classn = " ", sec = " ", cl = " ", rg = " ";
+
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -129,7 +147,10 @@ bool isUploading = false ;
                 sec = u.Section ;
                 cl = u.Class ;
                 rg = u.Registration_number ;
+<<<<<<< HEAD
                 phone=u.Mobile;
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
               });
             },
             splashColor: Colors.orange,
@@ -152,6 +173,7 @@ bool isUploading = false ;
           },
             trailing: Icon(Icons.verified, color : Colors.green),
           ),
+<<<<<<< HEAD
           ListTile(
             onTap:() async {
               setState(() {
@@ -203,12 +225,19 @@ bool isUploading = false ;
               padding: const EdgeInsets.all(15.0),
               child: SocialLoginButton(
                 backgroundColor: (pic==" "||pic12==" ")?Colors.grey: Color(0xff50008e),
+=======
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: SocialLoginButton(
+                backgroundColor: Color(0xff50008e),
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
                 height: 40,
                 text: 'Mark Leave ',
                 borderRadius: 20,
                 fontSize: 21,
                 buttonType: SocialLoginButtonType.generalLogin,
                 onPressed: () async {
+<<<<<<< HEAD
                   if(pic==" "||pic12==" "){
                     print(pic);
                     print(pic12);
@@ -219,6 +248,8 @@ bool isUploading = false ;
                     );
                     return ;
                   }
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
                   List j = _generateFormattedDatesInRange( _rangeDatePickerValueWithDefaultValue[0]!  ,
                       _rangeDatePickerValueWithDefaultValue[1]!);
                   print(j);
@@ -233,6 +264,7 @@ bool isUploading = false ;
                     );
                   }
                   try{
+<<<<<<< HEAD
                     DateTime my= _rangeDatePickerValueWithDefaultValue[0]!;
                     String year = DateFormat('yyyy').format(my);
                     String month = DateFormat('MM').format(my);
@@ -254,12 +286,18 @@ bool isUploading = false ;
                     );
                   }
                   try{
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
                     await FirebaseFirestore.instance.collection('School').doc(widget.user.id)
                         .collection("Session")
                         .doc(widget.user.csession).collection("Class").doc(classn).collection("Student").doc(rg)
                         .update({
                       'Leave': FieldValue.arrayUnion(j),
                     });
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(name + " is set as Leave on the Following Days Success !"),
@@ -390,6 +428,7 @@ bool isUploading = false ;
     return valueText;
   }
 }
+<<<<<<< HEAD
 
 
 
@@ -685,3 +724,5 @@ class ChatUserL extends StatelessWidget {
     return day+"th "+month;
   }
 }
+=======
+>>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
