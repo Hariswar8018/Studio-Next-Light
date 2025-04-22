@@ -1,50 +1,58 @@
-<<<<<<< HEAD
-# student_managment_app
+# **Student Next Lights**
 
-A new Flutter project.
+### **A Comprehensive Student and School Management Solution**
 
-=======
-# Studio Next Light
+---
 
-Welcome to Studio Next Light, the comprehensive solution for streamlined student database management, designed to simplify the process of creating ID cards effortlessly. Studio Next Light offers a user-friendly platform for uploading and managing student data, including photos and essential information. This intuitive app extends its functionality to include the seamless uploading of school details, signatures, and photos, ensuring a hassle-free ID card generation process. Parents can actively engage with the app, allowing them to effortlessly check and verify their children's data, fostering a transparent and collaborative educational environment.
+## **🔗 App Details**
 
-# App for Student Managment for Institution, Admin, and Parents
+- **First Published:** October 2025  
+- **Google Play Store Link:** [Download from Play Store](https://play.google.com/store/apps/details?id=com.starwish.student_managment_app)  
+- **Name:** Jawahar Ram  
+- **Email:** [nextlight000@gmail.com](mailto:nextlight000@gmail.com)  
+- **Phone:** +91-7000994158
 
-![7k3Gn0SO6Ghz_1024_500](https://github.com/Hariswar8018/Studio-Next-Light/assets/126468993/79d1933c-20f8-46c6-a479-fdf9688f901c)
 
-# Admins View to add Schools, etc
+---
 
-![4Ft2CM1eCfew_1024_500](https://github.com/Hariswar8018/Studio-Next-Light/assets/126468993/d4265cb0-8de8-4a7e-90ef-0e3df8ab09fb)
-And Turn On / Off the View
-![1JmoIlenZUE2_1024_500](https://github.com/Hariswar8018/Studio-Next-Light/assets/126468993/f00eaaa5-5f43-4575-a00a-34f69979b07a)
 
-# Instituion could Upload Student info and Edit It
 
-![RW6BQ12XyrbB_1024_500](https://github.com/Hariswar8018/Studio-Next-Light/assets/126468993/d0e0ae87-3ebd-43c4-97ad-7cf851184d16)
+## **📱 App Overview**
 
-![1ZaxzA5PDYqy_1024_500](https://github.com/Hariswar8018/Studio-Next-Light/assets/126468993/6b7ded98-9066-4cbc-a606-df685f807123)
+**Student Next Lights** is an advanced app that bridges the communication gap between students, parents, and schools. Designed to simplify student management and enhance educational administration, it offers a suite of powerful features for every stakeholder.
 
-# Parent could View Data with student info verification
+---
 
-![973upmPfwdPn_1024_500 (1)](https://github.com/Hariswar8018/Studio-Next-Light/assets/126468993/30b7d5f5-70ec-4927-8150-4182aa98c015)
+## **🛠️ Features**
 
- Studio Next Light isn't just an app; it's a powerful tool crafted to optimize the administrative workflow of educational institutions. Experience the ease of centralized student data management, and empower parents with convenient access to their child's information. Welcome to Studio Next Light, where organizing student databases for ID cards is as efficient as it is user-friendly.
- 
->>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
-## Getting Started
+### **For Students & Parents:**
 
-This project is a starting point for a Flutter application.
+- **Login Functionality:** Secure login for students and parents.  
+- **AI Bot Assistance:** Get answers to your questions instantly.  
+- **Attendance Management:** View detailed attendance records.  
+- **Marksheet Access:** Download marksheets with ease.  
+- **Gate Pass Requests:** Apply for and download gate passes digitally.  
+- **Timetable Viewer:** Stay updated with class schedules.  
+- **History Tracking:** Access records of past events and performances.  
+- **Notice Board:** View announcements directly in the app.  
 
-A few resources to get you started if this is your first Flutter project:
+### **For Schools:**
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- **Student Management:** Add, edit, and remove student details.  
+- **Session & Class Management:** Organize and manage academic sessions and classes.  
+- **Attendance Tracking:** Use QR code scanning for quick attendance marking.  
+- **ID Card Printing:** Generate student ID cards, including QR-based IDs.  
+- **Announcements:** Publish important notices for students and parents.  
+- **Leave Management:** Approve and track leave applications.  
+- **Financial Management:** Handle school accounts and financials seamlessly.  
+- **Biometric Updates:** Integrate and manage biometric data.  
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-<<<<<<< HEAD
-=======
+### **For Admins:**
 
-This App is made available to Jawahar Ram, made by Ayusman Samasi, on 1-12-2023. We 
->>>>>>> 4579457a5684b5d607585bb7c8e7a996717b7056
+- **School Overview:** Monitor activities across all connected schools.  
+- **Premium Features:** Manage and update subscription details.  
+- **ID Card Orders:** View and process ID card generation requests.  
+- **Profile Management:** Customize admin profiles for enhanced control.  
+
+---
+
