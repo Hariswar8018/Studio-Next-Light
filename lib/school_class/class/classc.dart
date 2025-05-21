@@ -4,6 +4,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:student_managment_app/classroom_universal/academis/Test/all_test.dart';
+import 'package:student_managment_app/classroom_universal/notice.dart';
+import 'package:student_managment_app/classroom_universal/parents_meeting.dart';
 import 'package:student_managment_app/model/school_model.dart';
 import 'package:student_managment_app/model/usermodel.dart';
 
@@ -73,17 +76,51 @@ class Classc extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           InkWell(
-
+                              onTap: (){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AllTest(school: user.id, clas: c.classid,
+                                        exam: false,session:user.csession,
+                                        admin: true, j: 0,
+                                      )),
+                                );
+                                print(c.toJson());
+                              },
                               child: q(context,"assets/first/exam-test-checklist-online-learning-education-online-document-svgrepo-com.svg","Test")),
-                          q(context,"assets/first/test-checklist-online-learning-education-online-exam-svgrepo-com.svg","Exams"),
                           InkWell(
                               onTap: (){
-
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AllTest(school: user.id, clas: c.classid,
+                                          exam: true,session: user.csession,
+                                          admin: true, j: 0,
+                                      )),
+                                );
+                              },
+                              child: q(context,"assets/first/test-checklist-online-learning-education-online-exam-svgrepo-com.svg","Exams")),
+                          InkWell(
+                              onTap: (){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AllTest(school: user.id, clas: c.classid,
+                                        exam: false,session:user.csession,
+                                        admin: true, j: 3,given: true,
+                                      )),
+                                );
                               },
                               child: q(context,"assets/first/exam-svgrepo-com.svg","Results")),
                           InkWell(
                               onTap: () async {
-
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => NoticeMeeting(
+                                        clas: c.classid, school:user.id, session: user.csession,
+                                        teacher: true, id: '', type: type_class.assignment,)),
+                                );
                               },
                               child: q(context,"assets/first/exam-result-svgrepo-com.svg","Assignments")),
                         ],
@@ -96,15 +133,40 @@ class Classc extends StatelessWidget {
                           InkWell(
 
                               child: q(context,"assets/student-svgrepo-com.svg","Marksheets")),
-                          q(context,"assets/first/books-book-svgrepo-com.svg","Syllabus"),
                           InkWell(
                               onTap: (){
-
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AllTest(school: user.id, clas: c.classid,
+                                        exam: false,session:user.csession,
+                                        admin: true, j: 1,given: true,
+                                      )),
+                                );
+                              },
+                              child: q(context,"assets/first/books-book-svgrepo-com.svg","Syllabus")),
+                          InkWell(
+                              onTap: (){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AllTest(school: user.id, clas: c.classid,
+                                        exam: false,session:user.csession,
+                                        admin: true, j: 2,given: true,
+                                      )),
+                                );
                               },
                               child: q(context,"assets/first/date-svgrepo-com.svg","Datesheets")),
                           InkWell(
                               onTap: () async {
-
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AllTest(school: user.id, clas: c.classid,
+                                        exam: false,session:user.csession,
+                                        admin: true, j: 4,given: true,
+                                      )),
+                                );
                               },
                               child: q(context,"assets/first/win-svgrepo-com.svg","Toppers")),
                         ],

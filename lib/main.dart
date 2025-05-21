@@ -1,6 +1,7 @@
 import 'dart:io' ;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart' ;
+import 'package:flutter_riverpod/flutter_riverpod.dart' as df;
 import 'package:student_managment_app/L10n/l10n.dart';
 import 'package:student_managment_app/Parents_Admin_all_data/Admin/homeportal.dart';
 import 'package:student_managment_app/Parents_Admin_all_data/finance/home_p.dart';
@@ -23,6 +24,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:student_managment_app/l10n/app_localization.dart';
 import 'package:student_managment_app/model/student_model.dart';
 import 'package:student_managment_app/model/usermodel.dart';
+import 'package:student_managment_app/riverpod_fetch.dart';
 import 'package:student_managment_app/school_class/class/home.dart';
 import 'package:student_managment_app/school_class/dormitory/portal.dart';
 import 'package:student_managment_app/school_class/employee/home.dart';
@@ -131,275 +133,8 @@ class _MyAppState extends State<MyApp> {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      home: FutureBuilder(
-        future: Future.delayed(Duration(seconds: 4)),
-        builder: (ctx, timer) {
-          if (timer.connectionState == ConnectionState.done) {
-            if (widget.Parent) {
-              if(widget.position == "Parent"){
-                return FutureBuilder<StudentModel?>(
-                  future: getStudent("bh"),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: CircularProgressIndicator());
-                    } else if (snapshot.hasError) {
-                      return Center(child: Text("Error: ${snapshot.error}"));
-                    } else if (snapshot.hasData) {
-                      return PortalStudent(st: snapshot.data!, parent: true,);
-                    } else {
-                      return Center(child: Text("User not found"));
-                    }
-                  },
-                );
-              }else{
-                return FutureBuilder<StudentModel?>(
-                  future: getStudent("bh"),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: CircularProgressIndicator());
-                    } else if (snapshot.hasError) {
-                      return Center(child: Text("Error: ${snapshot.error}"));
-                    } else if (snapshot.hasData) {
-                      return PortalStudent(st: snapshot.data!, parent: false,);
-                    } else {
-                      return Center(child: Text("User not found"));
-                    }
-                  },
-                );
-              }
-            } else {
-              if (user == null) {
-                return First();
-              } else {
-                if (widget.position == "Photo") {
-                  return FutureBuilder<UserModel?>(
-                    future: getUserByUid(FirebaseAuth.instance.currentUser!.uid),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
-                      } else if (snapshot.hasError) {
-                        return Center(child: Text("Error: ${snapshot.error}"));
-                      } else if (snapshot.hasData) {
-                        return HomePhoto(user: snapshot.data!);
-                      } else {
-                        return Center(child: Text("User not found"));
-                      }
-                    },
-                  );
-                }else  if (widget.position == "Gate") {
-                  return FutureBuilder<UserModel?>(
-                    future: getUserByUid(FirebaseAuth.instance.currentUser!.uid),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
-                      } else if (snapshot.hasError) {
-                        return Center(child: Text("Error: ${snapshot.error}"));
-                      } else if (snapshot.hasData) {
-                        return GatePortal(user: snapshot.data!);
-                      } else {
-                        return Center(child: Text("User not found"));
-                      }
-                    },
-                  );
-                }else  if (widget.position == "Dormitory") {
-                  return FutureBuilder<UserModel?>(
-                    future: getUserByUid(FirebaseAuth.instance.currentUser!.uid),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
-                      } else if (snapshot.hasError) {
-                        return Center(child: Text("Error: ${snapshot.error}"));
-                      } else if (snapshot.hasData) {
-                        return DormitoryKeeper(user: snapshot.data!);
-                      } else {
-                        return Center(child: Text("User not found"));
-                      }
-                    },
-                  );
-                }else  if (widget.position == "Gate Keeper") {
-                  return FutureBuilder<UserModel?>(
-                    future: getUserByUid(FirebaseAuth.instance.currentUser!.uid),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
-                      } else if (snapshot.hasError) {
-                        return Center(child: Text("Error: ${snapshot.error}"));
-                      } else if (snapshot.hasData) {
-                        return GateKeeper(user: snapshot.data!);
-                      } else {
-                        return Center(child: Text("User not found"));
-                      }
-                    },
-                  );
-                }else  if (widget.position == "Bus") {
-                  return FutureBuilder<UserModel?>(
-                    future: getUserByUid(FirebaseAuth.instance.currentUser!.uid),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
-                      } else if (snapshot.hasError) {
-                        return Center(child: Text("Error: ${snapshot.error}"));
-                      } else if (snapshot.hasData) {
-                        return BusPortal(user: snapshot.data!);
-                      } else {
-                        return Center(child: Text("User not found"));
-                      }
-                    },
-                  );
-                } else  if (widget.position == "Photographer") {
-                  return FutureBuilder<UserModel?>(
-                    future: getUserByUid(FirebaseAuth.instance.currentUser!.uid),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
-                      } else if (snapshot.hasError) {
-                        return Center(child: Text("Error: ${snapshot.error}"));
-                      } else if (snapshot.hasData) {
-                        return ClickPicPortal(user: snapshot.data!);
-                      } else {
-                        return Center(child: Text("User not found"));
-                      }
-                    },
-                  );
-                }else  if (widget.position == "Class Teacher") {
-                  return FutureBuilder<UserModel?>(
-                    future: getUserByUid(FirebaseAuth.instance.currentUser!.uid),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
-                      } else if (snapshot.hasError) {
-                        return Center(child: Text("Error: ${snapshot.error}"));
-                      } else if (snapshot.hasData) {
-                        return ClassHome(user: snapshot.data!);
-                      } else {
-                        return Center(child: Text("User not found"));
-                      }
-                    },
-                  );
-                }   else  if (widget.position == "Managment") {
-                  return FutureBuilder<UserModel?>(
-                    future: getUserByUid(FirebaseAuth.instance.currentUser!.uid),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
-                      } else if (snapshot.hasError) {
-                        return Center(child: Text("Error: ${snapshot.error}"));
-                      } else if (snapshot.hasData) {
-                        return ManagmentPPortal(user: snapshot.data!);
-                      } else {
-                        return Center(child: Text("User not found"));
-                      }
-                    },
-                  );
-                }  else  if (widget.position == "Employee") {
-                  return FutureBuilder<UserModel?>(
-                    future: getUserByUid(FirebaseAuth.instance.currentUser!.uid),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
-                      } else if (snapshot.hasError) {
-                        return Center(child: Text("Error: ${snapshot.error}"));
-                      } else if (snapshot.hasData) {
-                        return Employeeome(user: snapshot.data!);
-                      } else {
-                        return Center(child: Text("User not found"));
-                      }
-                    },
-                  );
-                }  else  if (widget.position == "Finance") {
-                  return FutureBuilder<UserModel?>(
-                    future: getUserByUid(FirebaseAuth.instance.currentUser!.uid),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
-                      } else if (snapshot.hasError) {
-                        return Center(child: Text("Error: ${snapshot.error}"));
-                      } else if (snapshot.hasData) {
-                        return FinancePPortal(user: snapshot.data!);
-                      } else {
-                        return Center(child: Text("User not found"));
-                      }
-                    },
-                  );
-                } else  if (widget.position == "Managment") {
-                  return FutureBuilder<UserModel?>(
-                    future: getUserByUid(FirebaseAuth.instance.currentUser!.uid),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
-                      } else if (snapshot.hasError) {
-                        return Center(child: Text("Error: ${snapshot.error}"));
-                      } else if (snapshot.hasData) {
-                        return ManagmentPPortal(user: snapshot.data!);
-                      } else {
-                        return Center(child: Text("User not found"));
-                      }
-                    },
-                  );
-                }  else  if (widget.position == "Admin") {
-                  return FutureBuilder<UserModel?>(
-                    future: getUserByUid(FirebaseAuth.instance.currentUser!.uid),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
-                      } else if (snapshot.hasError) {
-                        return Center(child: Text("Error: ${snapshot.error}"));
-                      } else if (snapshot.hasData) {
-                        return AdminPortal(user: snapshot.data!);
-                      } else {
-                        return Center(child: Text("User not found"));
-                      }
-                    },
-                  );
-                } else  if (widget.position == "SuperAdmin") {
-                  return FutureBuilder<UserModel?>(
-                    future: getUserByUid(FirebaseAuth.instance.currentUser!.uid),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
-                      } else if (snapshot.hasError) {
-                        return Center(child: Text("Error: ${snapshot.error}"));
-                      } else if (snapshot.hasData) {
-                        return AdminP();
-                      } else {
-                        return Center(child: Text("User not found"));
-                      }
-                    },
-                  );
-                }  else if (widget.Admin) {
-                  return AdminP();
-                } else {
-                  if (widget.position == "Principal"){
-                    return SchoolName(principal: true,);
-                  }else{
-                    return SchoolName(principal: false,);
-                  }
-
-                }
-              }
-            }
-          } else {
-            return Scaffold(
-              backgroundColor: Color(0xfffdfdff),
-              body: Column(
-                children: [
-                  SizedBox(height: 140,),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    child: Image(
-                      image: AssetImage('assets/logo.gif'),
-                    ),
-                  ),
-                  Spacer(),
-                  Text("Made with 💖 in India",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w900),),
-                  Text("Student Next Light",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600),),
-                  Text("Version 1.0.721",style: TextStyle(fontSize: 11,fontWeight: FontWeight.w300,color: Colors.grey),),
-                  SizedBox(height: 60,),
-                ],
-              ),
-            );
-          }
-        },
+      home:df.ProviderScope( // Wrap the app with ProviderScope
+        child: MyFind(parent: widget.Parent, position: widget.position,)
       ),
     );
   }
@@ -449,6 +184,9 @@ class _MyAppState extends State<MyApp> {
     }
   }
 }
+
+
+
 class LocaleProvider extends ChangeNotifier {
   Locale _locale = Locale('en');
 

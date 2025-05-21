@@ -5,6 +5,9 @@ import 'package:one_clock/one_clock.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:student_managment_app/Parents_Portal/as.dart';
 import 'package:student_managment_app/aextra2/Attendance/class_in_out.dart';
+import 'package:student_managment_app/classroom_universal/academis/home/see_all_employee.dart';
+import 'package:student_managment_app/classroom_universal/notice.dart';
+import 'package:student_managment_app/classroom_universal/parents_meeting.dart';
 import 'package:student_managment_app/classroom_universal/sticky.dart';
 import 'package:student_managment_app/classroom_universal/timetable.dart';
 import 'package:student_managment_app/helpline/help.dart';
@@ -142,7 +145,15 @@ class _ClasshState extends State<Classh> {
                                   );
                                 },
                                 child: q(context,"assets/student-svgrepo-com.svg","Students")),
-                            q(context,"assets/homework-svgrepo-com.svg","Homework"),
+                            InkWell(
+                                onTap: (){
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => NoticeMeeting(clas: widget.c.classid, school: widget.user.id, session: widget.user.csession, teacher: true, id: '', type: type_class.homework,)),
+                                  );
+                                },
+                                child: q(context,"assets/homework-svgrepo-com.svg","Homework")),
                             InkWell(
                                 onTap: (){
                                   Navigator.push(
@@ -263,7 +274,20 @@ class _ClasshState extends State<Classh> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            q(context,"assets/student-svgrepo-com.svg","Students"),
+                            InkWell(
+                                onTap: (){
+                                  print(widget.c.toJson());
+                                  print(widget.user.toJson());
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Studentsn(
+                                          showonly: true, id: widget.user.id, session_id: widget.user.csession, premium: widget.user.premium,
+                                          sname: widget.c.school, rem: false, class_id: widget.c.classid,
+                                          h: false, st: '', Class: '',)),
+                                  );
+                                },
+                                child: q(context,"assets/student-svgrepo-com.svg","Students")),
                             InkWell(
                                 onTap: (){
                                   //AIzaSyDJGQ3-DoQ5YgFk_fQqk0d3LcfCQcRw0V0
@@ -274,8 +298,28 @@ class _ClasshState extends State<Classh> {
                                   );
                                 },
                                 child: qy(context,"assets/images/school/cruise-ship-svgrepo-com.svg","Ask Tiara")),
-                            q(context,"assets/homework-svgrepo-com.svg","Homework"),
-                            q(context,"assets/family-svgrepo-com.svg","Parents Meeting"),
+                            InkWell(
+                                onTap: (){
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => NoticeMeeting(
+                                          clas: widget.c.classid, school: widget.user.id, session: widget.user.csession,
+                                          teacher: true, id: "", type: type_class.homework,)),
+                                  );
+                                },
+                                child: q(context,"assets/homework-svgrepo-com.svg","Homework")),
+                            InkWell(
+                                onTap: (){
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => NoticeMeeting(
+                                          clas: widget.c.classid, school: widget.user.id, session: widget.user.csession,
+                                          teacher: true, id: '', type: type_class.meeting,)),
+                                  );
+                                },
+                                child: q(context,"assets/family-svgrepo-com.svg","Parents Meeting")),
                           ],
                         ),
                         SizedBox(height: 9,),
@@ -283,9 +327,39 @@ class _ClasshState extends State<Classh> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            q(context,"assets/images/school/law-book-law-svgrepo-com.svg","Notices"),
-                            q(context,"assets/teacher-light-skin-tone-svgrepo-com.svg","Teachers"),
-                            q(context,"assets/research-svgrepo-com.svg","Proposals"),
+                            InkWell(
+                                onTap: (){
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => NoticeMeeting(
+                                          clas: widget.c.classid, school: widget.user.id, session: widget.user.csession,
+                                          teacher: true, id: '', type: type_class.notice,)),
+                                  );
+                                },
+                                child: q(context,"assets/images/school/law-book-law-svgrepo-com.svg","Notices")),
+                            InkWell(
+                                onTap: (){
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => All_My_Teachers(
+                                          school: widget.user.id, admi: true, 
+                                          )),
+                                  );
+                                },
+                                child: q(context,"assets/teacher-light-skin-tone-svgrepo-com.svg","Teachers")),
+                            InkWell(
+                                onTap: (){
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => NoticeMeeting(
+                                          clas: widget.c.classid, school: widget.user.id, session: widget.user.csession,
+                                          teacher: true, id: '', type: type_class.proposal,)),
+                                  );
+                                },
+                                child: q(context,"assets/research-svgrepo-com.svg","Proposals")),
                             q(context,"assets/images/school/profile-user-svgrepo-com.svg","Verification"),
                           ],
                         ),

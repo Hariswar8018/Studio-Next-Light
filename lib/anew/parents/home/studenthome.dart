@@ -13,6 +13,7 @@ import 'package:student_managment_app/anew/parents/home/gatepass/gatepass.dart';
 import 'package:student_managment_app/anew/parents/home/sta.dart';
 import 'package:student_managment_app/classroom_universal/chat.dart';
 import 'package:student_managment_app/classroom_universal/chatgpt.dart';
+import 'package:student_managment_app/classroom_universal/notice.dart';
 import 'package:student_managment_app/classroom_universal/parents_meeting.dart';
 import 'package:student_managment_app/classroom_universal/sticky.dart';
 import 'package:student_managment_app/function/send.dart';
@@ -404,7 +405,7 @@ class StHome extends StatelessWidget {
                                   Navigator.push(
                                       context,
                                       PageTransition(
-                                          child: NoticeMeeting(id: regist, clas: clas, school: id, session: session, teacher: false,),
+                                          child: NoticeMeeting(id: regist, clas: clas, school: id, session: session, teacher: false, type: type_class.meeting,),
                                           type: PageTransitionType.fade,
                                           duration: Duration(milliseconds: 50)));
                                 },

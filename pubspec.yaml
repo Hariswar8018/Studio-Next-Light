@@ -112,6 +112,7 @@ dependencies:
   galli_text_to_speech: ^0.0.1
   google_maps_flutter: ^2.5.3
   geolocator: ^10.1.1
+  flutter_riverpod: ^2.6.1
 
 dev_dependencies:
   flutter_test:
