@@ -1,6 +1,8 @@
 import 'package:appinio_animated_toggle_tab/appinio_animated_toggle_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:student_managment_app/classroom_universal/academis/Test/results/all_students.dart';
 import 'package:student_managment_app/classroom_universal/academis/Test/test_model.dart';
 
 class TestFull extends StatefulWidget {
@@ -50,7 +52,6 @@ class _TestFullState extends State<TestFull> {
                 'Note',
                 'Syllabus',
                 'DateSheet',
-                'Results',
               ],
               height: 40,
               width: w*9/10,
@@ -81,6 +82,36 @@ class _TestFullState extends State<TestFull> {
           ],
         ),
       ),
+      persistentFooterButtons: [
+        InkWell(
+          onTap: (){
+            Navigator.push(
+                context,
+                PageTransition(
+                    child:ResultAll(id: widget.school, session_id: widget.session, class_id: widget.clas, user:widget.user, admin: widget.admin,),
+                    type: PageTransitionType.rightToLeft,
+                    duration: Duration(milliseconds: 10)));
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(1.0),
+            child:Container(
+                width: MediaQuery.of(context).size.width-10,
+                height: 50,
+                decoration: BoxDecoration(
+                    color:Colors.green,
+                    borderRadius: BorderRadius.circular(5)
+                ),
+                child: Row(
+                  mainAxisAlignment:MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.golf_course),
+                    Text(" Check Result",style:TextStyle(fontWeight:FontWeight.w800)),
+                  ],
+                )
+            ),
+          ),
+        ),
+      ],
     );
   }
 

@@ -292,7 +292,7 @@ class _KopState extends State<Kop> {
     if( i == 0){
       return Classh(user: userr, c: widget.user,);
     }else{
-      return Classp(user: widget.user,);
+      return Classp(user: widget.user, c: userr,);
     }
   }
 

@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:student_managment_app/function/send.dart';
 import 'package:student_managment_app/model/employee_model.dart';
 import 'package:student_managment_app/model/usermodel.dart';
 
 class Add_My_Teachers extends StatefulWidget {
-  String school;bool admi;
-  Add_My_Teachers({super.key,required this.school,required this.admi});
+  String school;bool admi;String classid;
+  Add_My_Teachers({super.key,required this.school,required this.admi,required this.classid});
 
   @override
   State<Add_My_Teachers> createState() => _Add_My_TeachersState();
@@ -65,14 +66,38 @@ class _Add_My_TeachersState extends State<Add_My_Teachers> {
                 physics: BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
                   UserModel user=_list[index];
-                  return Card(
-                    color: Colors.white,
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundImage: NetworkImage(user.pic),
+                  return InkWell(
+                    onTap: () async {
+                      try {
+                        EmployeeModel emp=EmployeeModel(
+                            Name: user.name, present: [], Pic: user.pic, DOB: "",
+                            Profession: "Teacher", Address:"",
+                            Phone: "", Email: user.email, BloodG: "",
+                            Emergency_Contact: "", Father_Name: "",
+                            Id_number: user.uid, Registration_Number: ""
+                        );
+                        await FirebaseFirestore.instance.collection('School')
+                            .doc(widget.school).collection('Employee').doc(user.uid).set(emp.toJson());
+                        await FirebaseFirestore.instance.collection('School')
+                            .doc(widget.school).
+                        collection('Employee').doc(user.uid)
+                            .update({
+                          "teacher": FieldValue.arrayUnion([widget.classid]),
+                        });
+                        Send.message(context, "Added Successfully!", true);
+                      }catch(e){
+                        Send.message(context, "$e", false);
+                      }
+                    },
+                    child: Card(
+                      color: Colors.white,
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundImage: NetworkImage(user.pic),
+                        ),
+                        title: Text(user.name,style: TextStyle(fontWeight: FontWeight.w700),),
+                        subtitle: Text(user.position,style: TextStyle(fontWeight: FontWeight.w200),),
                       ),
-                      title: Text(user.name,style: TextStyle(fontWeight: FontWeight.w700),),
-                      subtitle: Text(user.position,style: TextStyle(fontWeight: FontWeight.w200),),
                     ),
                   );
                 },
@@ -113,14 +138,29 @@ class _Add_My_TeachersState extends State<Add_My_Teachers> {
                 physics: BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
                   EmployeeModel user=list[index];
-                  return Card(
-                    color: Colors.white,
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundImage: NetworkImage(user.Pic),
+                  return InkWell(
+                    onTap: () async {
+                      try {
+                        await FirebaseFirestore.instance.collection('School')
+                            .doc(widget.school).
+                        collection('Employee').doc(user.Id_number)
+                            .update({
+                          "teacher": FieldValue.arrayUnion([widget.classid]),
+                        });
+                        Send.message(context, "Added !", true);
+                      }catch(e){
+                        Send.message(context, "$e", false);
+                      }
+                    },
+                    child: Card(
+                      color: Colors.white,
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundImage: NetworkImage(user.Pic),
+                        ),
+                        title: Text(user.Name,style: TextStyle(fontWeight: FontWeight.w700),),
+                        subtitle: Text(user.Profession,style: TextStyle(fontWeight: FontWeight.w200),),
                       ),
-                      title: Text(user.Name,style: TextStyle(fontWeight: FontWeight.w700),),
-                      subtitle: Text(user.Profession,style: TextStyle(fontWeight: FontWeight.w200),),
                     ),
                   );
                 },

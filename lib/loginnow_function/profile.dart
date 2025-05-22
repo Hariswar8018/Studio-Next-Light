@@ -78,6 +78,9 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+      ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -118,9 +121,9 @@ class Profile extends StatelessWidget {
             SizedBox(height: 20),
            c("School Info"),
             s("School ID", user.schoolid, true, false),
-            s("School Name", user.school, true, false),
+            s("School/Class Name", user.school, true, false),
             s("Class ID", user.classid, false, false),
-            s("Section", user.email, true, false),
+            s("Your Email", user.email, true, false),
             s("Department", user.last, false, false),
           ],
         ),

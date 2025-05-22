@@ -2,6 +2,8 @@ import 'package:appinio_animated_toggle_tab/appinio_animated_toggle_tab.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:student_managment_app/classroom_universal/academis/Test/results/all_students.dart';
+import 'package:student_managment_app/classroom_universal/academis/Test/results/student_result.dart';
 import 'package:student_managment_app/classroom_universal/academis/Test/test_full.dart';
 import 'package:student_managment_app/classroom_universal/academis/Test/test_model.dart';
 import 'package:student_managment_app/classroom_universal/add/add_test.dart';
@@ -109,11 +111,19 @@ class _AllTestState extends State<AllTest> {
                           return InkWell(
                             onTap: (){
                               if(widget.given){
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => TestFull(user: user, j:widget.j, school: widget.school, clas: widget.clas, session: widget.session, admin: widget.admin,)),
-                                );
+                                if(widget.j==3){
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ResultAll(user: user, id: widget.school, class_id: widget.clas, session_id: widget.session, admin: widget.admin,)),
+                                  );
+                                }else{
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => TestFull(user: user, j:widget.j, school: widget.school, clas: widget.clas, session: widget.session, admin: widget.admin,)),
+                                  );
+                                }
                               }else{
                                 Navigator.push(
                                   context,
@@ -121,7 +131,6 @@ class _AllTestState extends State<AllTest> {
                                       builder: (context) => TestFull(user: user, j: 0, school: widget.school, clas: widget.clas, session: widget.session, admin: widget.admin,)),
                                 );
                               }
-
                             },
                             child: Card(
                               color: Colors.white,
@@ -189,13 +198,13 @@ class _AllTestState extends State<AllTest> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(onPressed: (){
+      floatingActionButton: widget.admin?FloatingActionButton(onPressed: (){
         Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => AddTests(clas: widget.clas, school: widget.school, test: !widget.exam, session: widget.session,)),
         );
-      },child: Icon(Icons.add,),backgroundColor: Colors.orangeAccent,),
+      },child: Icon(Icons.add,),backgroundColor: Colors.orangeAccent,):SizedBox(),
     );
   }
 

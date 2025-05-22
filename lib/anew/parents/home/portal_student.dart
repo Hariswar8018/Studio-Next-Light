@@ -5,9 +5,9 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_managment_app/anew/parents/home/profile.dart';
 import 'package:student_managment_app/anew/parents/home/sta.dart';
-import 'package:student_managment_app/anew/parents/home/ste.dart';
 import 'package:student_managment_app/anew/parents/home/studenthome.dart';
 import 'package:student_managment_app/anew/parents/home/studentu.dart';
+import 'package:student_managment_app/classroom_universal/academis/Test/results/any_student.dart';
 import 'package:student_managment_app/model/school_model.dart';
 import 'package:student_managment_app/model/student_model.dart';
 
@@ -114,7 +114,7 @@ class _PortalStudentState extends State<PortalStudent> {
     }else if(i == 1){
       return StA(user: widget.st, parent: widget.parent,);
     }else if(i == 2){
-      return StE(user: widget.st, parent: widget.parent,);
+      return StudentAnyResult(student: widget.st, id: userr.id, admin: false, class_id: widget.st.Classn, session_id: userr.csession,);
     }else if(i == 3){
       return StU(user: widget.st, parent: widget.parent,);
     }else{

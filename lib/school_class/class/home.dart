@@ -6,6 +6,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:student_managment_app/Parents_Portal/as.dart';
 
 import 'package:student_managment_app/function/send.dart';
+import 'package:student_managment_app/loginnow_function/profile.dart';
 import 'package:student_managment_app/model/school_model.dart';
 import 'package:student_managment_app/model/usermodel.dart';
 import 'package:student_managment_app/school_class/class/classH.dart';
@@ -290,11 +291,9 @@ class _KopState extends State<Kop> {
     }else if(i == 1){
       return Classc(user: userr, c: widget.user,);
     }else if(i == 2){
-      return Classh(user: userr, c: widget.user,);
-    }else if(i == 3){
-      return Classh(user: userr, c: widget.user,);
+      return Classp(c: userr, user: widget.user,);
     }else{
-      return Classp(user: widget.user,);
+      return Profile(user: widget.user,);
     }
   }
 

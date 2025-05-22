@@ -21,11 +21,12 @@ class Studentsn extends StatelessWidget {
   String sname ;
   String st ;
   bool h ; // Editing Attendance
+  bool parents_verify;
   bool showonly;
   Studentsn({super.key,required this.showonly,
     required this.id, required this.sname,
     required this.session_id, required this.premium,
-    required this.class_id,
+    required this.class_id,this.parents_verify=false,
     required this.rem, required this.h, required this.st,
     required this.Class,});
 
@@ -103,7 +104,7 @@ class Studentsn extends StatelessWidget {
                       length: list.length,
                       sname: sname,
                       st: st,
-                      b: rem,
+                      b: rem, parents_verify: parents_verify,
                     );
                   },
                 );
@@ -118,6 +119,7 @@ class Studentsn extends StatelessWidget {
 
 class StudentUser extends StatelessWidget {
   StudentModel user;bool showonly;
+  bool parents_verify;
   int length; bool h ; //attendance edit
   String st ; bool b ; // not yet
   String id;
@@ -132,7 +134,7 @@ class StudentUser extends StatelessWidget {
     required this.user,required this.showonly,
     required this.sname,
     required this.length, required this.st, required this.b,
-    required this.id,
+    required this.id,required this.parents_verify,
     required this.session_id,
     required this.class_id,
   });
@@ -151,14 +153,54 @@ class StudentUser extends StatelessWidget {
           user.Class +" ("+
           user.Section+")"),
       onTap : () async {
-        Navigator.push(
-            context,
-            PageTransition(
-                child: StudentProfileN(
-                  user: user, schoolid: id, classid: class_id, sessionid:session_id,
-                ),
-                type: PageTransitionType.rightToLeft,
-                duration: Duration(milliseconds: 50)));
+        if(parents_verify){
+          CustomBottomSheet.show(
+            context: context,
+            child:  Padding(
+              padding: EdgeInsets.all(10),
+              child: Container(
+                  width: w-10,
+                  child: Column(
+                    children: [
+                      SizedBox(height:15),
+                      Center(child: Text(textAlign: TextAlign.center,'Parents could Verify using this methods',style: TextStyle(fontWeight:FontWeight.w800,fontSize: 19),)),
+                      Center(child: Text(textAlign: TextAlign.center,'Please Login as Parent, use UDISE Code, than find Student and use one of Method to verify Code',style: TextStyle(fontWeight:FontWeight.w300,fontSize: 12),)),
+                      SizedBox(height:8),
+                      ListTile(
+                        leading: Icon(Icons.mail,color: Colors.red,),
+                        title: Text(user.Email,style: TextStyle(fontWeight: FontWeight.w800),),
+                        subtitle: Text("Use this Email to get OTP and Verify"),
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.phone,color: Colors.green,),
+                        title: Text(user.Email,style: TextStyle(fontWeight: FontWeight.w800),),
+                        subtitle: Text("Use this Phone to get OTP and Verify"),
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.code,color: Colors.orange,),
+                        title: Text(user.backcod.toString(),style: TextStyle(fontWeight: FontWeight.w800),),
+                        subtitle: Text("Use the BackUp Codes to Verify"),
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.security,color: Colors.indigo,),
+                        title: Text("Not yet Registered",style: TextStyle(fontWeight: FontWeight.w800),),
+                        subtitle: Text("Use the Authenticaor App to get Code"),
+                      ),
+                    ],
+                  )),
+            ),
+          );
+        }else{
+          Navigator.push(
+              context,
+              PageTransition(
+                  child: StudentProfileN(
+                    user: user, schoolid: id, classid: class_id, sessionid:session_id,
+                  ),
+                  type: PageTransitionType.rightToLeft,
+                  duration: Duration(milliseconds: 50)));
+        }
+
       },
       trailing:   acheck(),
       onLongPress: () async {
@@ -192,11 +234,6 @@ class StudentUser extends StatelessWidget {
                   "   Class : " +
                   user.Class +" ("+
                   user.Section+")"),
-              trailing:TextButton(
-                onPressed: (){},
-                child: Text("History"),
-              ),
-
               splashColor: Colors.orange.shade300,
               tileColor: Colors.grey.shade50,
             ),
@@ -395,4 +432,29 @@ class BackUpCode extends StatelessWidget {
     padding: const EdgeInsets.only(top: 10.0,bottom: 10,left: 15,right: 15),
     child: Text(s,style: TextStyle(fontSize: w/17,letterSpacing: 5,fontWeight: FontWeight.w800),),
   ),);
+}
+
+
+class CustomBottomSheet {
+  static Future<T?> show<T>({
+    required BuildContext context,
+    required Widget child,
+    bool isDismissible = true,
+    bool enableDrag = true,
+    Color? backgroundColor,
+    double? elevation,
+    ShapeBorder? shape,
+  }) {
+    return showModalBottomSheet<T>(
+      context: context,
+      isDismissible: isDismissible,
+      enableDrag: enableDrag,
+      backgroundColor: backgroundColor ?? Theme.of(context).canvasColor,
+      elevation: elevation ?? 8.0,
+      shape: shape ?? const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) => child,
+    );
+  }
 }

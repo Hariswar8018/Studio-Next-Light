@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:student_managment_app/classroom_universal/academis/Test/all_test.dart';
+import 'package:student_managment_app/classroom_universal/logs/all_students.dart';
 import 'package:student_managment_app/classroom_universal/notice.dart';
 import 'package:student_managment_app/classroom_universal/parents_meeting.dart';
 import 'package:student_managment_app/model/school_model.dart';
@@ -131,8 +132,17 @@ class Classc extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           InkWell(
-
-                              child: q(context,"assets/student-svgrepo-com.svg","Marksheets")),
+                              onTap: (){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Logs(
+                                        showonly: true, id: user.id, session_id: user.csession, premium: user.premium,
+                                        sname: c.school, rem: false, class_id:c.classid,
+                                        h: false, st: '', Class: '', type: logtype.Progress,)),
+                                );
+                              },
+                              child: q(context,"assets/first/graph-svgrepo-com.svg","Progress")),
                           InkWell(
                               onTap: (){
                                 Navigator.push(
@@ -158,59 +168,16 @@ class Classc extends StatelessWidget {
                               },
                               child: q(context,"assets/first/date-svgrepo-com.svg","Datesheets")),
                           InkWell(
-                              onTap: () async {
+                              onTap: (){
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => AllTest(school: user.id, clas: c.classid,
-                                        exam: false,session:user.csession,
-                                        admin: true, j: 4,given: true,
-                                      )),
+                                      builder: (context) => NoticeMeeting(
+                                        clas: c.classid, school: user.id, session: user.csession,
+                                        teacher: true, id: '', type: type_class.notice,)),
                                 );
                               },
-                              child: q(context,"assets/first/win-svgrepo-com.svg","Toppers")),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-          SizedBox(height: 10,),
-          Center(
-            child: Container(
-              width: w-15,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10)
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(top: 10.0,bottom: 15),
-                child: Center(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("    Student Progress",style: TextStyle(fontWeight: FontWeight.w700),textAlign: TextAlign.start,),
-                      SizedBox(height: 9,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          InkWell(
-
-                              child: q(context,"assets/first/graph-svgrepo-com.svg","Progress")),
-                          q(context,"assets/first/graph-business-pie-analytics-marketing-svgrepo-com.svg","Report"),
-                          InkWell(
-                              onTap: (){
-
-                              },
-                              child: q(context,"assets/first/print-warn-svgrepo-com.svg","LOGs")),
-                          InkWell(
-                              onTap: () async {
-
-                              },
-                              child: q(context,"assets/first/customer-complaint-svgrepo-com.svg","Warnings")),
+                              child: q(context,"assets/images/school/law-book-law-svgrepo-com.svg","Notices")),
                         ],
                       ),
                     ],

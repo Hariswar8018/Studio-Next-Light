@@ -4,8 +4,8 @@ import 'package:student_managment_app/classroom_universal/add/add_all_employee.d
 import 'package:student_managment_app/model/employee_model.dart';
 
 class All_My_Teachers extends StatelessWidget {
-  String school;bool admi;
-   All_My_Teachers({super.key,required this.school,required this.admi});
+  String school;bool admi;String classid;
+   All_My_Teachers({super.key,required this.school,required this.admi,required this.classid});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class All_My_Teachers extends StatelessWidget {
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection('School').doc(school).
-        collection('Employee').snapshots(),
+        collection('Employee').where("teacher",arrayContains: classid).snapshots(),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
@@ -68,14 +68,14 @@ class All_My_Teachers extends StatelessWidget {
           }
         },
       ),
-      floatingActionButton: FloatingActionButton(onPressed: (){
+      floatingActionButton:admi?FloatingActionButton(onPressed: (){
         Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => Add_My_Teachers(
-                school: school, admi: true,)),
+                school: school, admi: true, classid: classid,)),
         );
-      },child: Icon(Icons.add,),),
+      },child: Icon(Icons.add,),):SizedBox(),
     );
   }
   List<EmployeeModel> list = [];

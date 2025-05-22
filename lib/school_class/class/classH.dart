@@ -6,6 +6,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:student_managment_app/Parents_Portal/as.dart';
 import 'package:student_managment_app/aextra2/Attendance/class_in_out.dart';
 import 'package:student_managment_app/classroom_universal/academis/home/see_all_employee.dart';
+import 'package:student_managment_app/classroom_universal/logs/all_students.dart';
 import 'package:student_managment_app/classroom_universal/notice.dart';
 import 'package:student_managment_app/classroom_universal/parents_meeting.dart';
 import 'package:student_managment_app/classroom_universal/sticky.dart';
@@ -344,7 +345,7 @@ class _ClasshState extends State<Classh> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => All_My_Teachers(
-                                          school: widget.user.id, admi: true, 
+                                          school: widget.user.id, admi: true, classid: widget.c.classid,
                                           )),
                                   );
                                 },
@@ -360,7 +361,20 @@ class _ClasshState extends State<Classh> {
                                   );
                                 },
                                 child: q(context,"assets/research-svgrepo-com.svg","Proposals")),
-                            q(context,"assets/images/school/profile-user-svgrepo-com.svg","Verification"),
+                            InkWell(
+                                onTap: (){
+                                  print(widget.c.toJson());
+                                  print(widget.user.toJson());
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Studentsn(
+                                            showonly: true, id: widget.user.id, session_id: widget.user.csession, premium: widget.user.premium,
+                                            sname: widget.c.school, rem: false, class_id: widget.c.classid,
+                                            h: false, st: '', Class: '',parents_verify:true)),
+                                  );
+                                },
+                                child: q(context,"assets/images/school/profile-user-svgrepo-com.svg","Verification")),
                           ],
                         ),
                       ],
@@ -401,8 +415,32 @@ class _ClasshState extends State<Classh> {
                                   );
                                 },
                                 child: q(context,"assets/pin-code-svgrepo-com.svg","Student Code")),
-                            q(context,"assets/images/school/profile-user-svgrepo-com.svg","Parent Verify"),
-                            q(context,"assets/images/school/attendance-svgrepo-com.svg","Security"),
+                            InkWell(
+                                onTap: (){
+                                  print(widget.c.toJson());
+                                  print(widget.user.toJson());
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Studentsn(
+                                          showonly: true, id: widget.user.id, session_id: widget.user.csession, premium: widget.user.premium,
+                                          sname: widget.c.school, rem: false, class_id: widget.c.classid,
+                                          h: false, st: '', Class: '',parents_verify:true)),
+                                  );
+                                },
+                                child: q(context,"assets/images/school/profile-user-svgrepo-com.svg","Parent Verify")),
+                            InkWell(
+                                onTap: (){
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Logs(
+                                          showonly: true, id: widget.user.id, session_id: widget.user.csession, premium: widget.user.premium,
+                                          sname: widget.c.school, rem: false, class_id: widget.c.classid,
+                                          h: false, st: '', Class: '', type: logtype.LoginSecurity,)),
+                                  );
+                                },
+                                child: q(context,"assets/images/school/attendance-svgrepo-com.svg","Security")),
                             InkWell(
                                 onTap: (){
                                   Navigator.push(

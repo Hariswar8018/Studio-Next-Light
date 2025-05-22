@@ -11,11 +11,16 @@ import 'package:student_managment_app/after_login/calender.dart';
 import 'package:student_managment_app/anew/parents/home/classroom/notice.dart';
 import 'package:student_managment_app/anew/parents/home/gatepass/gatepass.dart';
 import 'package:student_managment_app/anew/parents/home/sta.dart';
+import 'package:student_managment_app/classroom_universal/academis/Test/all_test.dart';
+import 'package:student_managment_app/classroom_universal/academis/home/see_all_employee.dart';
 import 'package:student_managment_app/classroom_universal/chat.dart';
 import 'package:student_managment_app/classroom_universal/chatgpt.dart';
+import 'package:student_managment_app/classroom_universal/logs/all_students.dart';
+import 'package:student_managment_app/classroom_universal/logs/logs_warnings.dart';
 import 'package:student_managment_app/classroom_universal/notice.dart';
 import 'package:student_managment_app/classroom_universal/parents_meeting.dart';
 import 'package:student_managment_app/classroom_universal/sticky.dart';
+import 'package:student_managment_app/classroom_universal/timetable.dart';
 import 'package:student_managment_app/function/send.dart';
 import 'package:student_managment_app/model/school_model.dart';
 
@@ -139,10 +144,19 @@ class StHome extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             InkWell(
-                                onTap: (){
-                                  Send.message(context, "No data Exist ! Student is Absent Today or in way to our School", false);
+                                onTap: () async {
+                                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                                  final String id = prefs.getString('school') ?? "None";
+                                  final String clas = prefs.getString('class') ?? "None";
+                                  final String session = prefs.getString('session') ?? "None";
+                                  final String regist = prefs.getString('id') ?? "None";
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => NoticeMeeting(clas: clas, school: id, session: session, teacher: false, id: '', type: type_class.homework,)),
+                                  );
                                 },
-                                child: q(context,"assets/images/school/report5.svg","Today Report")),
+                                child: q(context,"assets/homework-svgrepo-com.svg","Homework")),
                             InkWell(
                                 onTap: () async {
                                   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -160,7 +174,7 @@ class StHome extends StatelessWidget {
                                           type: PageTransitionType.rightToLeft,
                                           duration: Duration(milliseconds: 400)));
                                 },
-                                child: q(context,"assets/images/parents/homework-svgrepo-com.svg","Attendance")),
+                                child: q(context,"assets/new/school-svgrepo-com (2).svg","Attendance")),
                             InkWell(
                                 onTap: () async {
                                   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -169,13 +183,13 @@ class StHome extends StatelessWidget {
                                   final String session = prefs.getString('session') ?? "None";
                                   final String regist = prefs.getString('id') ?? "None";
                                   Navigator.push(
-                                      context,
-                                      PageTransition(
-                                          child: NoticeP(id: regist, clas: clas, school: id, session: session,),
-                                          type: PageTransitionType.fade,
-                                          duration: Duration(milliseconds: 50)));
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Timetablee(
+                                          clas: clas, school: id, session: session, teacher: false, id: '',)),
+                                  );
                                 },
-                                child: q(context,"assets/images/parents/alert-bell-notice-svgrepo-com (2).svg","Notice")),
+                                child: q(context,"assets/schedule-svgrepo-com.svg","Timetable")),
                             InkWell(
                                 onTap: () async {
                                   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -194,20 +208,76 @@ class StHome extends StatelessWidget {
                           ],
                         ),
                         SizedBox(height: 9,),
-                       /* Row(
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            q(context,"assets/images/school/lecture-class-svgrepo-com.svg","Timetable"),
+                            InkWell(
+                              onTap: () async {
+                                SharedPreferences prefs = await SharedPreferences.getInstance();
+                                final String id = prefs.getString('school') ?? "None";
+                                final String clas = prefs.getString('class') ?? "None";
+                                final String session = prefs.getString('session') ?? "None";
+                                final String regist = prefs.getString('id') ?? "None";
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => NoticeMeeting(
+                                          clas: clas, school: id, session: session,
+                                          teacher: false, id: '', type: type_class.meeting,)),
+                                  );
+                              },
+                                child: q(context,"assets/family-svgrepo-com.svg","Parents Meeting")),
                             InkWell(
                                 onTap: () async {
-                                  await FirebaseAuth.instance.signOut();
+                                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                                  final String id = prefs.getString('school') ?? "None";
+                                  final String clas = prefs.getString('class') ?? "None";
+                                  final String session = prefs.getString('session') ?? "None";
+                                  final String regist = prefs.getString('id') ?? "None";
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => NoticeMeeting(
+                                          clas: clas, school: id, session: session,
+                                          teacher: false, id: '', type: type_class.notice,)),
+                                  );
                                 },
-                                child: q(context,"assets/images/school/schedule-svgrepo-com.svg","Upcoming")),
-                            q(context,"assets/images/parents/school-material-writer-svgrepo-com.svg","Assignment"),
-                            q(context,"assets/images/school/profile-user-svgrepo-com.svg","Profile"),
+                                child: q(context,"assets/images/school/law-book-law-svgrepo-com.svg","Notices")),
+                            InkWell(
+                                onTap: () async {
+                                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                                  final String id = prefs.getString('school') ?? "None";
+                                  final String clas = prefs.getString('class') ?? "None";
+                                  final String session = prefs.getString('session') ?? "None";
+                                  final String regist = prefs.getString('id') ?? "None";
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => NoticeMeeting(
+                                          clas: clas, school: id, session: session,
+                                          teacher: false, id: '', type: type_class.assignment,)),
+                                  );
+                                },
+                                child: q(context,"assets/images/parents/school-material-writer-svgrepo-com.svg","Assignment")),
+                            InkWell(
+                                onTap: () async {
+                                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                                  final String id = prefs.getString('school') ?? "None";
+                                  final String clas = prefs.getString('class') ?? "None";
+                                  final String session = prefs.getString('session') ?? "None";
+                                  final String regist = prefs.getString('id') ?? "None";
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => NoticeMeeting(
+                                          clas: clas, school: id, session: session,
+                                          teacher: false, id: '', type: type_class.proposal)),
+                                  );
+                                },
+                                child: q(context,"assets/research-svgrepo-com.svg","Proposals")),
                           ],
-                        ),*/
+                        ),
                       ],
                     ),
                   ),
@@ -354,6 +424,176 @@ class StHome extends StatelessWidget {
                           title: Text("No Bus Added"),
                           subtitle: Text("Bus Student? Add Now"),
                         )),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 10,),
+            Center(
+              child: Container(
+                width: w-15,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10)
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 10.0,bottom: 15),
+                  child: Center(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("    Important Related",style: TextStyle(fontWeight: FontWeight.w700),textAlign: TextAlign.start,),
+                        SizedBox(height: 9,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            InkWell(
+                                onTap: () async {
+                                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                                  final String id = prefs.getString('school') ?? "None";
+                                  final String clas = prefs.getString('class') ?? "None";
+                                  final String session = prefs.getString('session') ?? "None";
+                                  final String regist = prefs.getString('id') ?? "None";
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => All_My_Teachers(
+                                          school:id, admi: false, classid: clas,
+                                        )),
+                                  );
+                                },
+                                child: q(context,"assets/teacher-light-skin-tone-svgrepo-com.svg","Teachers")),
+                            InkWell(
+                                onTap: () async {
+                                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                                  final String id = prefs.getString('school') ?? "None";
+                                  final String clas = prefs.getString('class') ?? "None";
+                                  final String session = prefs.getString('session') ?? "None";
+                                  final String regist = prefs.getString('id') ?? "None";
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => AllTest(school: id, clas: clas,
+                                          exam: false,session:session,
+                                          admin:false, j: 0,
+                                        )),
+                                  );
+                                },
+                                child: q(context,"assets/first/exam-test-checklist-online-learning-education-online-document-svgrepo-com.svg","Tests")),
+                            InkWell(
+                                onTap: () async {
+                                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                                  final String id = prefs.getString('school') ?? "None";
+                                  final String clas = prefs.getString('class') ?? "None";
+                                  final String session = prefs.getString('session') ?? "None";
+                                  final String regist = prefs.getString('id') ?? "None";
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => AllTest(school: id, clas: clas,
+                                          exam: true,session:session,
+                                          admin:false, j: 0,
+                                        )),
+                                  );
+                                },
+                                child: q(context,"assets/first/test-checklist-online-learning-education-online-exam-svgrepo-com.svg","Exams")),
+                            InkWell(
+                                onTap: () async {
+                                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                                  final String id = prefs.getString('school') ?? "None";
+                                  final String clas = prefs.getString('class') ?? "None";
+                                  final String session = prefs.getString('session') ?? "None";
+                                  final String regist = prefs.getString('id') ?? "None";
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => AllTest(school: id, clas: clas,
+                                          exam: true,session:session,
+                                          admin:false, j: 3,given: true,
+                                        )),
+                                  );
+                                },
+                                child: q(context,"assets/first/exam-svgrepo-com.svg","Results")),
+                          ],
+                        ),
+                        SizedBox(height: 9,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            InkWell(
+                                onTap: () async {
+                                    SharedPreferences prefs = await SharedPreferences.getInstance();
+                                    final String id = prefs.getString('school') ?? "None";
+                                    final String clas = prefs.getString('class') ?? "None";
+                                    final String session = prefs.getString('session') ?? "None";
+                                    final String regist = prefs.getString('id') ?? "None";
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => AllTest(school: id, clas: clas,
+                                            exam: true,session:session,
+                                            admin:false, j: 2,given: true,
+                                          )),
+                                    );
+                                },
+                                child: q(context,"assets/first/date-svgrepo-com.svg","Datesheets")),
+                            InkWell(
+                                onTap: () async {
+                                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                                  final String id = prefs.getString('school') ?? "None";
+                                  final String clas = prefs.getString('class') ?? "None";
+                                  final String session = prefs.getString('session') ?? "None";
+                                  final String regist = prefs.getString('id') ?? "None";
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => AllTest(school: id, clas: clas,
+                                          exam: false,session:session,
+                                          admin:false, j: 1,given: true,
+                                        )),
+                                  );
+                                },
+                                child: q(context,"assets/first/books-book-svgrepo-com.svg","Syllabus")),
+                            InkWell(
+                                onTap: () async {
+                                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                                  final String id = prefs.getString('school') ?? "None";
+                                  final String clas = prefs.getString('class') ?? "None";
+                                  final String session = prefs.getString('session') ?? "None";
+                                  final String regist = prefs.getString('id') ?? "None";
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => LogsWarnings(
+                                          showonly: false, id: id, session_id: session,
+                                          sname: "",  class_id: clas,
+                                          h: false, st: '', type: "Warnings", user: user, length: 1, b: true, r: false,)),
+                                  );
+                                },
+                                child: q(context,"assets/first/customer-complaint-svgrepo-com.svg","Warnings")),
+                            InkWell(
+                                onTap: () async {
+                                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                                  final String id = prefs.getString('school') ?? "None";
+                                  final String clas = prefs.getString('class') ?? "None";
+                                  final String session = prefs.getString('session') ?? "None";
+                                  final String regist = prefs.getString('id') ?? "None";
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => LogsWarnings(
+                                          showonly: false, id: id, session_id: session,
+                                          sname: "",  class_id: clas,
+                                          h: false, st: '', type: "Logs", user: user, length: 1, b: true, r: false,)),
+                                  );
+                                },
+                                child: q(context,"assets/first/print-warn-svgrepo-com.svg","Logs")),
+                          ],
+                        ),
                       ],
                     ),
                   ),

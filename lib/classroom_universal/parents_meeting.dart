@@ -121,7 +121,7 @@ class NoticeMeeting extends StatelessWidget {
           }
         },
       ),
-      floatingActionButton: FloatingActionButton(onPressed: (){
+      floatingActionButton:teacher? FloatingActionButton(onPressed: (){
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -129,7 +129,7 @@ class NoticeMeeting extends StatelessWidget {
                 clas: clas, school: school, session: session,
                  type: type,)),
         );
-      },child: Icon(Icons.add,),),
+      },child: Icon(Icons.add,),):SizedBox(),
     );
   }
   String getDayAndMonth(String dateTimeString) {
