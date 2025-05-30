@@ -14,7 +14,8 @@ import 'package:http/http.dart' as http;
 
 class QRViewExample extends StatefulWidget {
   String str ; String id ; String status ; bool sms ;
-  QRViewExample({Key? key, required this.str, required this.id, required this.status,required this.sms}) : super(key: key);
+  bool classteacher;String classid;
+  QRViewExample({Key? key, required this.str, required this.id, required this.status,required this.sms,this.classid="",this.classteacher=false}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _QRViewExampleState();
@@ -195,6 +196,9 @@ class _QRViewExampleState extends State<QRViewExample> {
                 [];
             if(sid == widget.id) {
               if (list.isNotEmpty) {
+                if(widget.classteacher&&widget.classid!=classid){
+                  return Center(child: Text("Student is not from Your Class or NULL"));
+                }
                 return ListView.builder(
                   itemCount: list.length,
                   padding: EdgeInsets.only(top: 10),
@@ -206,7 +210,7 @@ class _QRViewExampleState extends State<QRViewExample> {
                         school: widget.id,smsend:widget.sms,
                         id: sid,
                         st: widget.str,
-                      status : widget.status, sid : sid , ssid : ssid , clasid : classid , studentid : studentid,
+                      status : widget.status, sid : sid , ssid : ssid , clasid : classid , studentid : studentid, classteacher: widget.classteacher,
                     );
                   },
                 );
@@ -250,8 +254,8 @@ class ChatUser extends StatefulWidget {
   StudentModel user; bool bgi ; String id ;
   String st ; String school ; String status ; String sid ;
   String ssid ; String clasid ; String studentid ;
-  bool smsend;
-  ChatUser({super.key, required this.smsend, required this.user, required this.bgi, required this.id, required this.st, required this.school, required this.status, required this.clasid, required this.sid, required this.ssid, required this.studentid});
+  bool smsend;bool classteacher;
+  ChatUser({super.key, required this.classteacher,required this.smsend, required this.user, required this.bgi, required this.id, required this.st, required this.school, required this.status, required this.clasid, required this.sid, required this.ssid, required this.studentid});
 
   @override
   State<ChatUser> createState() => _ChatUserState();
@@ -271,7 +275,39 @@ class _ChatUserState extends State<ChatUser> {
     }
   }
 
+  void mark()async{
+    try {
+      if(!(widget.classteacher)){
+        return ;
+      }
+      final String day = DateTime
+          .now()
+          .day
+          .toString() + "/" + DateTime
+          .now()
+          .month
+          .toString() + "/" + DateTime
+          .now()
+          .year
+          .toString();
+      await FirebaseFirestore.instance
+          .collection('School')
+          .doc(widget.id)
+          .collection('Session')
+          .doc(widget.ssid)
+          .collection('Class')
+          .doc(widget.clasid)
+          .collection('Student')
+          .doc(widget.user.Registration_number).update({
+        "schoollist": FieldValue.arrayUnion([day]),
+      });
+    }catch(e){
+      print(e);
+    }
+  }
+
   void checkDatePresence() async {
+    mark();
     DateTime now = DateTime.now();
     String stm = '${now.day}-${now.month}-${now.year}';
     final schoolDocRef = FirebaseFirestore.instance
@@ -320,6 +356,7 @@ class _ChatUserState extends State<ChatUser> {
   }
 
   Future<void> _storeColorInFirestore(DateTime date, Color color) async {
+    mark();
     if (isApiCallInProgress) {
       return;
     }

@@ -8,11 +8,12 @@ import 'package:page_transition/page_transition.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
 import 'package:student_managment_app/admin/student_profile_view.dart';
 import 'package:student_managment_app/aextra2/Attendance/class_in_out.dart';
+import 'package:student_managment_app/attendance/sc.dart';
 import 'package:student_managment_app/function/send.dart';
 import 'package:student_managment_app/model/student_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class Studentsn extends StatelessWidget {
+class StudentSSS extends StatelessWidget {
   String id; bool premium ;
   String session_id;
   String class_id;
@@ -23,7 +24,7 @@ class Studentsn extends StatelessWidget {
   bool h ; // Editing Attendance
   bool parents_verify;
   bool showonly;
-  Studentsn({super.key,required this.showonly,
+  StudentSSS({super.key,required this.showonly,
     required this.id, required this.sname,
     required this.session_id, required this.premium,
     required this.class_id,this.parents_verify=false,
@@ -42,28 +43,17 @@ class Studentsn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double w = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
-        backgroundColor: Colors.blue,
-        title: Text('My Class Students'),
-        actions: [
-          IconButton(onPressed: (){
-            print(list);
-          }, icon: Icon(Icons.abc_outlined,color: Colors.white,))
-        ],
+        backgroundColor: Colors.yellowAccent,
+        title: Text('Double Attendance'),
       ),
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('School')
-            .doc(id)
-            .collection('Session')
-            .doc(session_id)
-            .collection("Class")
-            .doc(class_id)
-            .collection("Student")
-            .orderBy('Name', descending: true)
-            .snapshots(),
+        stream: FirebaseFirestore.instance.collection('School').doc(id)
+            .collection('Session').doc(session_id).collection("Class").doc(class_id)
+            .collection("Student").orderBy('Name', descending: false).snapshots(),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
@@ -95,7 +85,9 @@ class Studentsn extends StatelessWidget {
                   physics: BouncingScrollPhysics(),
                   itemBuilder: (context, index) {
                     return StudentUser(
-                      user: list[index],showonly: showonly,
+                      user: list[index],
+                      index: index,
+                      showonly: showonly,
                       id: id,
                       session_id: session_id,
                       class_id: class_id,
@@ -112,6 +104,32 @@ class Studentsn extends StatelessWidget {
           }
         },
       ),
+      persistentFooterButtons: [
+        InkWell(
+          onTap: (){
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => QRViewExample(str: '', id: id, status: 'In', sms: premium,classid: class_id,classteacher: true,)),
+            );
+          },
+          child: Container(
+            width: w-30,
+            height: 50,
+            decoration: BoxDecoration(
+                color:Colors.yellowAccent,
+                borderRadius: BorderRadius.circular(5)
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.qr_code),SizedBox(width: 7,),
+                Text("Scan QR",style: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.w700),),
+              ],
+            ),
+          ),
+        )
+      ],
     );
   }
 }
@@ -124,13 +142,31 @@ class StudentUser extends StatelessWidget {
   String st ; bool b ; // not yet
   String id;
   bool r ; //message
-
+  int index;
   String session_id;
   String sname ;
   String class_id;
 
+  DateTime noww = DateTime.now();
+  final String day=DateTime.now().day.toString()+"/"+DateTime.now().month.toString()+"/"+DateTime.now().year.toString();
+  void mark()async{
+    if(user.schoollist.contains(day)){
+      await FirebaseFirestore.instance.collection('School').doc(id)
+          .collection('Session').doc(session_id).collection("Class").doc(class_id)
+          .collection("Student").doc(user.Registration_number).update({
+        "schoollist":FieldValue.arrayRemove([day]),
+      });
+      return ;
+    }
+    await FirebaseFirestore.instance.collection('School').doc(id)
+        .collection('Session').doc(session_id).collection("Class").doc(class_id)
+        .collection("Student").doc(user.Registration_number).update({
+      "schoollist":FieldValue.arrayUnion([day]),
+    });
+  }
+
   StudentUser({
-    super.key, required this.h , required this.r,
+    super.key, required this.h , required this.r,required this.index,
     required this.user,required this.showonly,
     required this.sname,
     required this.length, required this.st, required this.b,
@@ -142,125 +178,23 @@ class StudentUser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
-    return showonly? ListTile(
+    return ListTile(
       leading: CircleAvatar(
         backgroundImage: NetworkImage(user.pic),
       ),
       title: Text(user.Name, style: TextStyle(fontWeight: FontWeight.w700)),
       subtitle: Text("Roll no : " +
-          user.Roll_number.toString() +
-          "   Class : " +
-          user.Class +" ("+
-          user.Section+")"),
+          (index+1).toString()),
       onTap : () async {
-        if(parents_verify){
-          CustomBottomSheet.show(
-            context: context,
-            child:  Padding(
-              padding: EdgeInsets.all(10),
-              child: Container(
-                  width: w-10,
-                  child: Column(
-                    children: [
-                      SizedBox(height:15),
-                      Center(child: Text(textAlign: TextAlign.center,'Parents could Verify using this methods',style: TextStyle(fontWeight:FontWeight.w800,fontSize: 19),)),
-                      Center(child: Text(textAlign: TextAlign.center,'Please Login as Parent, use UDISE Code, than find Student and use one of Method to verify Code',style: TextStyle(fontWeight:FontWeight.w300,fontSize: 12),)),
-                      SizedBox(height:8),
-                      ListTile(
-                        leading: Icon(Icons.mail,color: Colors.red,),
-                        title: Text(user.Email,style: TextStyle(fontWeight: FontWeight.w800),),
-                        subtitle: Text("Use this Email to get OTP and Verify"),
-                      ),
-                      ListTile(
-                        leading: Icon(Icons.phone,color: Colors.green,),
-                        title: Text(user.Mobile,style: TextStyle(fontWeight: FontWeight.w800),),
-                        subtitle: Text("Use this Phone to get OTP and Verify"),
-                      ),
-                      ListTile(
-                        leading: Icon(Icons.code,color: Colors.orange,),
-                        title: Text(user.backcod.toString(),style: TextStyle(fontWeight: FontWeight.w800),),
-                        subtitle: Text("Use the BackUp Codes to Verify"),
-                      ),
-                      ListTile(
-                        leading: Icon(Icons.security,color: Colors.indigo,),
-                        title: Text("Not yet Registered",style: TextStyle(fontWeight: FontWeight.w800),),
-                        subtitle: Text("Use the Authenticaor App to get Code"),
-                      ),
-                    ],
-                  )),
-            ),
-          );
-        }else{
-          Navigator.push(
-              context,
-              PageTransition(
-                  child: StudentProfileN(
-                    user: user, schoolid: id, classid: class_id, sessionid:session_id,
-                  ),
-                  type: PageTransitionType.rightToLeft,
-                  duration: Duration(milliseconds: 50)));
-        }
-
+        mark();
       },
-      trailing:   acheck(),
+      trailing:   Text(user.schoollist.contains(day)?"P":"A", style : TextStyle(fontSize: 21, fontWeight: FontWeight.w800, color : user.schoollist.contains(day)?Colors.green:Colors.red)),
       onLongPress: () async {
         Uri uri = Uri.parse("tel:91"+user.Mobile);
         await launchUrl(uri, mode: LaunchMode.externalApplication);
       },
       splashColor: Colors.orange.shade300,
       tileColor: Colors.grey.shade50,
-    ): InkWell(
-      onTap: (){
-        Navigator.push(
-            context,
-            PageTransition(
-                child: BackUpCode(
-                  user: user, schoolid: id, classid: class_id, sessionid:session_id,
-                ),
-                type: PageTransitionType.rightToLeft,
-                duration: Duration(milliseconds: 50)));
-      },
-      child: Card(
-        color: Colors.white,
-        child: Column(
-          children: [
-            ListTile(
-              leading: CircleAvatar(
-                backgroundImage: NetworkImage(user.pic),
-              ),
-              title: Text(user.Name, style: TextStyle(fontWeight: FontWeight.w700)),
-              subtitle: Text("Roll no : " +
-                  user.Roll_number.toString() +
-                  "   Class : " +
-                  user.Class +" ("+
-                  user.Section+")"),
-              splashColor: Colors.orange.shade300,
-              tileColor: Colors.grey.shade50,
-            ),
-            Container(
-              width: w-30,
-              height: 25,
-              decoration: BoxDecoration(
-                color: Colors.grey.shade100,
-                border: Border.all(
-                  color: Colors.blue,
-                  width: 0.5
-                ),
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: Row(
-                children: [
-                  Text("   See / Regenerate Security Codes"),
-                  Spacer(),
-                  Icon(Icons.arrow_forward,color: Colors.blue,size: 16,),
-                  SizedBox(width: 10,),
-                ],
-              ),
-            ),
-            SizedBox(height: 10,)
-          ],
-        ),
-      ),
     );
   }
 
@@ -268,8 +202,6 @@ class StudentUser extends StatelessWidget {
     DateTime now = DateTime.now();
     String stm = '${now.day}-${now.month}-${now.year}';
     print(user.Name+user.present.toString()+user.present1.toString());
-
-
     if ( user.present.contains(stm)) {
       if(user.present1.contains(stm)){
         return Text("Both Done", style : TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color : Colors.red));
@@ -299,7 +231,7 @@ class StudentUser extends StatelessWidget {
 class BackUpCode extends StatelessWidget {
   String schoolid, sessionid, classid ;
   StudentModel user;
-   BackUpCode({super.key,required this.user, required this.schoolid, required this.classid, required this.sessionid});
+  BackUpCode({super.key,required this.user, required this.schoolid, required this.classid, required this.sessionid});
 
   @override
   Widget build(BuildContext context) {
@@ -326,11 +258,11 @@ class BackUpCode extends StatelessWidget {
           SizedBox(height: 20,),
           Container(
             decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(
-                color: Colors.grey,
-              ),
-              borderRadius: BorderRadius.circular(10)
+                color: Colors.white,
+                border: Border.all(
+                  color: Colors.grey,
+                ),
+                borderRadius: BorderRadius.circular(10)
             ),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -342,13 +274,13 @@ class BackUpCode extends StatelessWidget {
             child: Center(
               child: Container(
                 width: w-30,
-               decoration: BoxDecoration(
-                 color: Colors.white,
-                 borderRadius: BorderRadius.circular(10)
-               ),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10)
+                ),
                 child: Row(
                   children: [
-                   c(w,user.backcod[0].toString(),user.backcod[1].toString(),user.backcod[2].toString()),
+                    c(w,user.backcod[0].toString(),user.backcod[1].toString(),user.backcod[2].toString()),
                     c(w,user.backcod[3].toString(),user.backcod[4].toString(),user.backcod[5].toString()),
                   ],
                 ),
@@ -400,7 +332,7 @@ class BackUpCode extends StatelessWidget {
               }else {
                 Send.message(context, "${e}",false);
               }}
-            },
+          },
         ),
       ],
     );
@@ -422,16 +354,16 @@ class BackUpCode extends StatelessWidget {
   );
   Widget code(String s,double w)=>Container(
     decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(20),
-      border: Border.all(
-        color: Colors.grey.shade100
-      )
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+            color: Colors.grey.shade100
+        )
     ),
     child: Padding(
-    padding: const EdgeInsets.only(top: 10.0,bottom: 10,left: 15,right: 15),
-    child: Text(s,style: TextStyle(fontSize: w/17,letterSpacing: 5,fontWeight: FontWeight.w800),),
-  ),);
+      padding: const EdgeInsets.only(top: 10.0,bottom: 10,left: 15,right: 15),
+      child: Text(s,style: TextStyle(fontSize: w/17,letterSpacing: 5,fontWeight: FontWeight.w800),),
+    ),);
 }
 
 

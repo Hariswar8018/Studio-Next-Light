@@ -133,7 +133,7 @@ class _MyAppState extends State<MyApp> {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      home:df.ProviderScope( // Wrap the app with ProviderScope
+      home:FirebaseAuth.instance.currentUser ==null?First():df.ProviderScope( // Wrap the app with ProviderScope
         child: MyFind(parent: widget.Parent, position: widget.position,)
       ),
     );

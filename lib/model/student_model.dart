@@ -53,6 +53,8 @@ class StudentModel {
     required this.longitude,
   });
 
+  late final List schoollist;
+
   late final String Name;
   late final String LastUpdate;
   late final int Myfee;
@@ -108,6 +110,7 @@ class StudentModel {
   late final double longitude;
 
   StudentModel.fromJson(Map<String, dynamic> json) {
+    schoollist =json['schoollist']??[];
     present1 = json['Present1'] ?? [];
     Name = json['Name'] ?? "Ayus";
     ou = json['ou'] ?? "g";

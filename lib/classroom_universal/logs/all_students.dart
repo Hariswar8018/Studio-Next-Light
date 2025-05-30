@@ -153,7 +153,6 @@ class StudentUser extends StatelessWidget {
                     class_id: class_id, user: user, type: type.name, id: id,))
           );
         }
-
       },
       title: Text(user.Name, style: TextStyle(fontWeight: FontWeight.w700)),
       subtitle: Text("Roll no : " +
@@ -161,7 +160,6 @@ class StudentUser extends StatelessWidget {
           "   Class : " +
           user.Class +" ("+
           user.Section+")"),
-      trailing:   Text("0 W  5 Logs"),
       onLongPress: () async {
         Uri uri = Uri.parse("tel:91"+user.Mobile);
         await launchUrl(uri, mode: LaunchMode.externalApplication);

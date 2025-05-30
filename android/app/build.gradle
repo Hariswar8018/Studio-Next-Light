@@ -37,8 +37,8 @@ android {
         applicationId = "com.starwish.student_managment_app"
         minSdk = 22
         targetSdk = 36
-        versionCode = 19
-        versionName = "1.8.9"
+        versionCode = 21
+        versionName = "1.9.21"
     }
 
     signingConfigs {

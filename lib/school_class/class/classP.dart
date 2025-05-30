@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:student_managment_app/Parents_Portal/as.dart';
+import 'package:student_managment_app/classroom_universal/academis/student_attendance.dart';
 import 'package:student_managment_app/classroom_universal/logs/all_students.dart';
 import 'package:student_managment_app/function/send.dart';
 import 'package:student_managment_app/model/school_model.dart';
@@ -79,7 +80,14 @@ class Classp extends StatelessWidget {
 
                          InkWell(
                              onTap: (){
-                               Send.message(context, "Double Attendance is Not Yet Available", false);
+                               Navigator.push(
+                                 context,
+                                 MaterialPageRoute(
+                                     builder: (context) => StudentSSS(
+                                       showonly: true, id:c.id, session_id: c.csession, premium: c.premium,
+                                       sname: user.school, rem: false, class_id: user.classid,
+                                       h: false, st: '', Class: '',)),
+                               );
                              }, child: q(context,"assets/new/qr-code-svgrepo-com.svg","Attendance")),
                          InkWell(
                              onTap: (){
