@@ -12,6 +12,7 @@ import 'package:student_managment_app/after_login/session.dart';
 import 'package:student_managment_app/anew/school/dashboard/attendance.dart';
 import 'package:student_managment_app/anew/school/dashboard/fees.dart';
 import 'package:student_managment_app/anew/school/gatepass/gate_pass.dart';
+import 'package:student_managment_app/anew/school/service/duty_form.dart';
 import 'package:student_managment_app/model/school_model.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:weather/weather.dart';
@@ -580,7 +581,15 @@ class _SchholHState extends State<SchholH> {
                                   );
                                 },
                                 child: q(context,"assets/images/school/cruise-ship-svgrepo-com.svg","Holidays")),
-                            q(context,"assets/images/school/lecture-class-svgrepo-com.svg","TimeTable"),
+                            InkWell(
+                                onTap: (){
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>DutyForm(id: widget.user.id, teacher: true,)),
+                                  );
+                                },
+                                child: q(context,"assets/images/school/lecture-class-svgrepo-com.svg","Duty Form ( T ) ")),
                             q(context,"assets/images/school/alert-bell-notice-svgrepo-com.svg","Notice"),
                           ],
                         ),

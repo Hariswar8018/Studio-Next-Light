@@ -56,7 +56,11 @@ Future< void> main() async {
   final bool Admin = prefs.getBool('Admin') ?? false ;
   final bool Parent = prefs.getBool('Parent') ?? false ;
   final String Position = prefs.getString('What') ?? "None";
-  await  FirebaseApi().initNotification() ;
+  try{
+    await  FirebaseApi().initNotification() ;
+  }catch(e){
+
+  }
   runApp( ChangeNotifierProvider(
     create: (context) => LocaleProvider(),
     child:  MyApp(Admin : Admin, Parent : Parent, position: Position,),
@@ -107,9 +111,7 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> _requestReview() async {
     final InAppReview inAppReview = InAppReview.instance;
-
     if (await inAppReview.isAvailable()) {
-      // Request the in-app review
       inAppReview.requestReview();
     }
   }
@@ -128,7 +130,7 @@ class _MyAppState extends State<MyApp> {
       locale: provider.locale,
       supportedLocales: L10n.all,
       localizationsDelegates: [
-        AppLocalizations.delegate,  // Your custom delegate for app localization
+        AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
@@ -137,51 +139,6 @@ class _MyAppState extends State<MyApp> {
         child: MyFind(parent: widget.Parent, position: widget.position,)
       ),
     );
-  }
-
-  Future<UserModel?> getUserByUid(String uid) async {
-    try {
-      CollectionReference usersCollection = FirebaseFirestore.instance.collection('Users');
-      QuerySnapshot querySnapshot = await usersCollection.where('uid', isEqualTo: uid).get();
-
-      if (querySnapshot.docs.isNotEmpty) {
-        UserModel user = UserModel.fromSnap(querySnapshot.docs.first);
-        return user;
-      } else {
-        return null;
-      }
-    } catch (e) {
-      print("Error fetching user by uid: $e");
-      return null;
-    }
-  }
-
-  Future<StudentModel?> getStudent(String uid) async {
-    try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      final String id = prefs.getString('school') ?? "None";
-      final String clas = prefs.getString('class') ?? "None";
-      final String session = prefs.getString('session') ?? "None";
-      final String regist = prefs.getString('id') ?? "None";
-      CollectionReference usersCollection = FirebaseFirestore.instance.collection('School')
-          .doc(id)
-          .collection('Session')
-          .doc(session)
-          .collection("Class")
-          .doc(clas)
-          .collection("Student");
-      QuerySnapshot querySnapshot = await usersCollection.where('Registration_number', isEqualTo: regist).get();
-
-      if (querySnapshot.docs.isNotEmpty) {
-        StudentModel user = StudentModel.fromSnap(querySnapshot.docs.first);
-        return user;
-      } else {
-        return null;
-      }
-    } catch (e) {
-      print("Error fetching user by uid: $e");
-      return null;
-    }
   }
 }
 

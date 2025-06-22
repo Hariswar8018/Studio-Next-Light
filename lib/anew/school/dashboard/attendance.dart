@@ -66,7 +66,6 @@ class _SchoolAState extends State<SchoolA> {
           Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
           // Check if the document contains the 'Mf' field
           if (data.containsKey('pcount')) {
-            // Get the value of the 'Mf' field and add it to the totalMfValue
             dynamic mfValue = data['pcount'];
             if (mfValue is int) {
               totalMfValue += mfValue;

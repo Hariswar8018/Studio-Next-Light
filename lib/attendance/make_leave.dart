@@ -1,10 +1,13 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
+import 'package:student_managment_app/Parents_Portal/as.dart';
 import 'package:student_managment_app/aextra/session.dart';
+import 'package:student_managment_app/function/send.dart';
 import 'package:student_managment_app/model/leave_app.dart';
 import 'package:student_managment_app/model/school_model.dart';
 import 'package:student_managment_app/model/student_model.dart';
@@ -446,6 +449,7 @@ class _LSeeState extends State<LSee> {
   String selectedValue = "2023";
   String mo = "1";
 
+  bool given=false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -456,9 +460,17 @@ class _LSeeState extends State<LSee> {
         title: Text('Students on Leave', style: TextStyle(color: Colors.white)),
         actions: [
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                given=!given;
+                setState(() {
+
+                });
+                if(given){
+                  Send.message(context, "Success Delete Old Activity ( beyond 90 days )", true);
+                }
+              },
               icon: Icon(
-                Icons.filter_list_outlined,
+                Icons.delete,color: Colors.red,
               )),
           SizedBox(width: 8),
         ],
@@ -556,7 +568,10 @@ class _LSeeState extends State<LSee> {
           Container(
             height : MediaQuery.of(context).size.height - 145,
             child: StreamBuilder(
-              stream: FirebaseFirestore.instance.collection('School').doc(widget.user.id).
+              stream:given?FirebaseFirestore.instance.collection('School').doc(widget.user.id).
+              collection("Session").doc(widget.user.csession)
+                  .collection('Leave')
+                  .snapshots(): FirebaseFirestore.instance.collection('School').doc(widget.user.id).
               collection("Session").doc(widget.user.csession)
                   .collection('Leave').where("year",isEqualTo:selectedValue)
                   .snapshots(),
@@ -614,10 +629,35 @@ class _LSeeState extends State<LSee> {
   }
 }
 
-class ChatUserL extends StatelessWidget {
+class ChatUserL extends StatefulWidget {
     ChatUserL({super.key, required this.user,required this.id,required this.session});
     String id, session;
   LeaveApp user;
+
+  @override
+  State<ChatUserL> createState() => _ChatUserLState();
+}
+
+class _ChatUserLState extends State<ChatUserL> {
+
+  void initState(){
+    check();
+  }
+  check() async{
+    final dateString = widget.user.endDate;
+    final DateTime now = DateTime.now();
+    final DateTime sixtyDaysAgo = now.subtract(Duration(days: 60));
+    try {
+      DateTime fileDate = DateTime.parse(dateString);
+      if (fileDate.isBefore(sixtyDaysAgo)) {
+        delete(context,false);
+      }else{
+
+      }
+    } catch (e) {
+      print('Error processing date $dateString: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -625,9 +665,9 @@ class ChatUserL extends StatelessWidget {
       onTap: () async {
         try {
           // Reference to the 'users' collection
-          CollectionReference usersCollection = FirebaseFirestore.instance.collection('School').doc(id).collection('Session').doc(session).collection("Class").doc(user.stClass).collection("Student");
+          CollectionReference usersCollection = FirebaseFirestore.instance.collection('School').doc(widget.id).collection('Session').doc(widget.session).collection("Class").doc(widget.user.stClass).collection("Student");
           // Query the collection based on uid
-          QuerySnapshot querySnapshot = await usersCollection.where('Registration_number', isEqualTo: user.stId).get();
+          QuerySnapshot querySnapshot = await usersCollection.where('Registration_number', isEqualTo: widget.user.stId).get();
           // Check if a document with the given uid exists
           if (querySnapshot.docs.isNotEmpty) {
             // Convert the document snapshot to a UserModel
@@ -636,7 +676,7 @@ class ChatUserL extends StatelessWidget {
                 context,
                 PageTransition(
                     child: StudentProfile(user: user1, parent: false, str: '',
-                      class_id: user.stClass, session_id: user.stSession, school_id: '',),
+                      class_id: widget.user.stClass, session_id: widget.user.stSession, school_id: '',),
                     type: PageTransitionType.rightToLeft,
                     duration: Duration(milliseconds: 200)));
           } else {
@@ -648,11 +688,36 @@ class ChatUserL extends StatelessWidget {
           return null;
         }
       },
+        onLongPress: ()async{
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Delete this ?'),
+                content: Text('Do you really want to delete this Leave Application'),
+                actions: [
+                  TextButton(
+                    onPressed: (){
+                      delete(context,true);
+                    },
+                    child: Text('Yes'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text('No'),
+                  ),
+                ],
+              );
+            },
+          );
+        },
       leading: CircleAvatar(
-        backgroundImage:NetworkImage(user.stPic),
+        backgroundImage:NetworkImage(widget.user.stPic),
       ),
-      title: Text(user.stName , style : TextStyle(fontWeight : FontWeight.w900, fontSize: 20 )),
-      subtitle: Text("From ${yuuu(user.startDate)} to ${yuuu(user.endDate)}", style : TextStyle(fontWeight : FontWeight.w500, fontSize: 14)),
+      title: Text(widget.user.stName , style : TextStyle(fontWeight : FontWeight.w900, fontSize: 20 )),
+      subtitle: Text("From ${yuuu(widget.user.startDate)} to ${yuuu(widget.user.endDate)}", style : TextStyle(fontWeight : FontWeight.w500, fontSize: 14)),
       trailing: Container(
         width:100,
         child:Row(
@@ -663,8 +728,8 @@ class ChatUserL extends StatelessWidget {
                   Navigator.push(
                       context,
                       PageTransition(
-                          child: Pic(str: user.appPhoto,
-                              name: "Application Pic for "+user.stName),
+                          child: Pic(str: widget.user.appPhoto,
+                              name: "Application Pic for "+widget.user.stName),
                           type: PageTransitionType.rightToLeft,
                           duration: Duration(milliseconds: 400)));
                 },
@@ -676,6 +741,7 @@ class ChatUserL extends StatelessWidget {
       )
     );
   }
+
   String yuuu(String as){
     DateTime dateTime = DateTime.parse(as);
 
@@ -683,5 +749,40 @@ class ChatUserL extends StatelessWidget {
     String day = DateFormat('dd').format(dateTime);
     String month = DateFormat('MMMM').format(dateTime);
     return day+"th "+month;
+  }
+
+  Future<void> delete(BuildContext context,bool message) async {
+    print(widget.user.appPhoto);
+    try {
+      // Extract the path from the URL
+      Uri uri = Uri.parse(widget.user.appPhoto);
+      String path = uri.path;
+
+      // Remove the leading '/v0/b/bucket-name/o/' part
+      // The path will look like: '/v0/b/studio-next-light.appspot.com/o/students%2FPq730FVvCnMXeSHc2iXpGf253nC2%2F4dc62900-4f22-11f0-9048-7f9971f16f04'
+      List<String> parts = path.split('/o/');
+      if (parts.length > 1) {
+        String filePath = parts[1];
+        // Decode the URL-encoded path (e.g., %2F becomes /)
+        filePath = Uri.decodeFull(filePath);
+
+        final ref = FirebaseStorage.instance.ref().child(filePath);
+        await ref.delete();
+        print('File deleted successfully!');
+      } else {
+        print('Invalid storage URL format');
+      }
+    } catch (e) {
+      print('Error deleting file: $e');
+    }
+    try {
+      await FirebaseFirestore.instance.collection('School').doc(widget.id).
+      collection("Session").doc(widget.session)
+          .collection('Leave').doc(widget.user.stClassName).delete();
+    }catch(e){
+      if(message) {
+        Send.message(context, "$e", false);
+      }
+    }
   }
 }

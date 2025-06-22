@@ -6,6 +6,7 @@ import 'package:student_managment_app/L10n/l10n.dart';
 import 'package:student_managment_app/Parents_Admin_all_data/Admin/homeportal.dart';
 import 'package:student_managment_app/Parents_Admin_all_data/finance/home_p.dart';
 import 'package:student_managment_app/Parents_Admin_all_data/managment/home.dart';
+import 'package:student_managment_app/Parents_Portal/as.dart';
 import 'package:student_managment_app/Parents_Portal/home.dart';
 import 'package:student_managment_app/admin/admin_panel.dart' ;
 import 'package:student_managment_app/after_login/class.dart';
@@ -93,6 +94,7 @@ class MyFind extends ConsumerWidget {
       return null;
     }
   });
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (parent) {
@@ -100,7 +102,7 @@ class MyFind extends ConsumerWidget {
       return studentAsyncValue.when(
         data: (student) => PortalStudent(st: student!, parent: position == "Parent"),
         loading: () => loading(context),
-        error: (error, _) => Center(child: Text("Error: $error")),
+        error: (error, _) => logout(context),
       );
     } else {
       final uid = FirebaseAuth.instance.currentUser!.uid;
@@ -136,9 +138,51 @@ class MyFind extends ConsumerWidget {
           }
         },
         loading: () => loading(context),
-        error: (error, _) => Center(child: Text("Error: $error")),
+        error: (error, _) => logout(context),
       );
     }
+  }
+
+  Widget logout(BuildContext context){
+    return Scaffold(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Image.network("assets/nofound.jpg",width:MediaQuery.of(context).size.width,),
+          SizedBox(height: 5,),
+          Text("We can't find your Saved Info",style: TextStyle(fontWeight: FontWeight.w800),),
+          Text("Please, Login Again"),
+          SizedBox(height: 9,),
+          InkWell(
+            onTap: () async {
+              await FirebaseAuth.instance.signOut();
+              print('User signed out');
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              prefs.setBool('Admin', false)  ;
+              prefs.setBool('Parent', false)  ;
+              prefs.setString('What', "hfhgvjhvhj")  ;
+              // Navigate to the login screen
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => First()),
+              );
+            },
+            child: Center(
+              child: Container(
+                width: MediaQuery.of(context).size.width-20,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: Colors.red,
+                  borderRadius: BorderRadius.circular(10)
+                ),
+                child: Text("LOG OUT",style: TextStyle(color: Colors.white,fontWeight: FontWeight.w700,fontSize: 19),),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
   }
   Widget loading(BuildContext context)=>Scaffold(
     backgroundColor: Colors.white,

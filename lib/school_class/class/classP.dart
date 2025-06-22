@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:student_managment_app/Parents_Portal/as.dart';
@@ -10,11 +11,18 @@ import 'package:student_managment_app/model/school_model.dart';
 
 import '../../model/usermodel.dart';
 
-class Classp extends StatelessWidget {
+class Classp extends StatefulWidget {
  SchoolModel c;
   Classp({required this.user,required this.c });
   UserModel user;
+
+  @override
+  State<Classp> createState() => _ClasspState();
+}
+
+class _ClasspState extends State<Classp> {
  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
  String getRandomImage() {
    final quotes = [
      "https://www.teachermagazine.com/assets/images/teacher/Planning-student-group-work.jpg",
@@ -25,6 +33,64 @@ class Classp extends StatelessWidget {
    final random = Random();
    return quotes[random.nextInt(quotes.length)];
  }
+
+ void initState(){
+   countStudentAttendance(widget.c.id, widget.c.csession, widget.user.classid,);
+ }
+ Future<Map<String, dynamic>> countStudentAttendance(String id, String session_id, String class_id) async {
+   // Format current day as "dd/MM/yyyy"
+   final String day = "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
+
+   int containsDayCount = 0;
+   int notContainsDayCount = 0;
+   int totalScanned = 0;
+
+   try {
+     final querySnapshot = await FirebaseFirestore.instance
+         .collection('School').doc(id)
+         .collection('Session').doc(session_id)
+         .collection("Class").doc(class_id)
+         .collection("Student")
+         .get();
+
+     totalScanned = querySnapshot.size;
+
+     for (final doc in querySnapshot.docs) {
+       final data = doc.data();
+
+       if (data['schoollist'] != null && data['schoollist'] is List) {
+         final List<dynamic> schoollist = data['schoollist'];
+         if (schoollist.contains(day)) {
+           containsDayCount++;
+         } else {
+           notContainsDayCount++;
+         }
+       } else {
+         // If schoollist field doesn't exist or isn't a list
+         notContainsDayCount++;
+       }
+     }
+
+     setState(() {
+       all=totalScanned;
+       leaves=notContainsDayCount;
+       ins=containsDayCount;
+     });
+     return {
+       'contains_day_count': containsDayCount,
+       'not_contains_day_count': notContainsDayCount,
+       'total_scanned': totalScanned,
+       'day_checked': day,
+       'success': true,
+     };
+   } catch (e) {
+     return {
+       'error': e.toString(),
+       'success': false,
+     };
+   }
+ }
+
  @override
  Widget build(BuildContext context) {
    double w = MediaQuery.of(context).size.width;
@@ -32,7 +98,7 @@ class Classp extends StatelessWidget {
      drawer:Global.buildDrawer(context),
      key: _scaffoldKey,
      appBar: AppBar(
-       leading: CircleAvatar(backgroundImage: NetworkImage(c.Pic_link)),
+       leading: CircleAvatar(backgroundImage: NetworkImage(widget.c.Pic_link)),
        title: Text("Class Teacher Portal"),
        actions: [
          IconButton(onPressed: (){
@@ -54,6 +120,46 @@ class Classp extends StatelessWidget {
            ),
          ),
          SizedBox(height: 10,),
+         InkWell(
+           onTap: (){
+             Navigator.push(
+               context,
+               MaterialPageRoute(
+                   builder: (context) => StudentSSS(
+                     showonly: true, id:widget.c.id, session_id: widget.c.csession, premium: widget.c.premium,
+                     sname: widget.user.school, rem: false, class_id: widget.user.classid,
+                     h: false, st: '', Class: '',)),
+             );
+           },
+           child: Container(
+             width: w-20,height: 80,
+             decoration: BoxDecoration(
+               border: Border.all(
+                 color: Colors.blue,
+                 width: 2,
+               ),
+               borderRadius: BorderRadius.circular(6),
+               color: Colors.white,
+             ),
+             child: Padding(
+               padding: const EdgeInsets.only(top: 8.0),
+               child: Row(
+                 mainAxisAlignment: MainAxisAlignment.spaceAround,
+                 children: [
+                   t1(w,"Total","Students",all),
+                   c1(),
+                   t1(w,"Present","Students",ins),
+                   c1(),
+                   t1(w,"Absent","Students",leaves),
+                   c1(),
+                   t1(w,"Leave","Students",all-(ins+leaves)),
+                 ],
+               ),
+             ),
+           ),
+         ),
+         SizedBox(height: 5,),
+         SizedBox(height: 10,),
          Center(
            child: Container(
              width: w-15,
@@ -67,6 +173,7 @@ class Classp extends StatelessWidget {
                  child: Column(
                    crossAxisAlignment: CrossAxisAlignment.start,
                    children: [
+
                      Text("    Student Progress",style: TextStyle(fontWeight: FontWeight.w700),textAlign: TextAlign.start,),
                      SizedBox(height: 9,),
                      Row(
@@ -84,8 +191,8 @@ class Classp extends StatelessWidget {
                                  context,
                                  MaterialPageRoute(
                                      builder: (context) => StudentSSS(
-                                       showonly: true, id:c.id, session_id: c.csession, premium: c.premium,
-                                       sname: user.school, rem: false, class_id: user.classid,
+                                       showonly: true, id:widget.c.id, session_id: widget.c.csession, premium: widget.c.premium,
+                                       sname: widget.user.school, rem: false, class_id: widget.user.classid,
                                        h: false, st: '', Class: '',)),
                                );
                              }, child: q(context,"assets/new/qr-code-svgrepo-com.svg","Attendance")),
@@ -95,8 +202,8 @@ class Classp extends StatelessWidget {
                                  context,
                                  MaterialPageRoute(
                                      builder: (context) => Logs(
-                                       showonly: true, id: c.id, session_id: c.csession, premium: c.premium,
-                                       sname: user.school, rem: false, class_id: user.classid,
+                                       showonly: true, id: widget.c.id, session_id: widget.c.csession, premium: widget.c.premium,
+                                       sname: widget.user.school, rem: false, class_id: widget.user.classid,
                                        h: false, st: '', Class: '', type: logtype.Logs,)),
                                );
                              },
@@ -107,8 +214,8 @@ class Classp extends StatelessWidget {
                                  context,
                                  MaterialPageRoute(
                                      builder: (context) => Logs(
-                                       showonly: true, id: c.id, session_id: c.csession, premium: c.premium,
-                                       sname: user.school, rem: false, class_id: user.classid,
+                                       showonly: true, id: widget.c.id, session_id: widget.c.csession, premium: widget.c.premium,
+                                       sname: widget.user.school, rem: false, class_id: widget.user.classid,
                                        h: false, st: '', Class: '', type: logtype.Warnings,)),
                                );
                              },
@@ -125,6 +232,46 @@ class Classp extends StatelessWidget {
      ),
    );
  }
+
+ int ins=0, outs=0,leaves=0, all=0;
+
+ Widget t1(double w,String s1,String s2, int y)=>Container(
+   width: w/5-10,
+   child: Column(
+     mainAxisAlignment: MainAxisAlignment.center,
+     crossAxisAlignment: CrossAxisAlignment.center,
+     children: [
+       Text(s1,style: TextStyle(fontWeight: FontWeight.w800,fontSize: 9),),
+       Text(s2,style: TextStyle(fontWeight: FontWeight.w800,fontSize: 7),),
+       SizedBox(height: 2,),
+       Text(y.toString(),style: TextStyle(fontWeight: FontWeight.w800,fontSize: 22),),
+     ],
+   ),
+ );
+
+ Widget c1()=>Container(
+   width: 3,
+   height: 40,
+   decoration: BoxDecoration(
+       color: Colors.blue,
+       borderRadius: BorderRadius.circular(20)
+   ),
+ );
+
+ Widget t(double w,String s1,String s2, int y)=>Container(
+   width: w/3-10,
+   child: Column(
+     mainAxisAlignment: MainAxisAlignment.center,
+     crossAxisAlignment: CrossAxisAlignment.center,
+     children: [
+       Text(s1,style: TextStyle(fontWeight: FontWeight.w800,fontSize: 9),),
+       Text(s2,style: TextStyle(fontWeight: FontWeight.w800,fontSize: 9),),
+       SizedBox(height: 2,),
+       Text(y.toString(),style: TextStyle(fontWeight: FontWeight.w800,fontSize: 27),),
+     ],
+   ),
+ );
+
  Widget q(BuildContext context, String asset, String str) {
    double d = MediaQuery.of(context).size.width / 4 - 35;
    return Column(

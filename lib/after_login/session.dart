@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:page_transition/page_transition.dart';
+import 'package:student_managment_app/Parents_Portal/as.dart';
 import 'package:student_managment_app/after_login/class.dart';
 import 'package:student_managment_app/after_login/session.dart';
 
@@ -47,7 +48,7 @@ class Session extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => Add(id: id),
+                  builder: (context) => Add(id: id, upgrade: false, sessionid: '',),
                 ),
               );
             },
@@ -189,54 +190,52 @@ class _ChatUserState extends State<ChatUser> {
       ),
       onLongPress: (){
         showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Delete this ?'),
-            content: Text('Do you really want to delete this Sesssion including all Students'),
-            actions: [
-              TextButton(
-                onPressed: () async {
-                  CollectionReference collection1 = FirebaseFirestore.instance.collection('School').doc(widget.id).collection('Session');
-                  await collection1.doc(widget.user.id).update({
-                    "ou":"Under Admin Approval for Delete",
-                  });
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Success ! This Session will be Deleted once SuperAdmin confirms it'),
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Advance Function ?'),
+              content: Text('Use this Function for CRITICAL PROBLEMS '),
+              actions: [
+                InkWell(
+                  onTap: currentsession,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width-40,
+                    height: 55,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.green.shade200,
                     ),
-                  );
-                  Navigator.of(context).pop();
-                },
-                child: Text('Yes'),
-
-              ),
-              TextButton(
-                onPressed: () {
-                  // Close the dialog
-                  Navigator.of(context).pop();
-                },
-                child: Text('No'),
-              ),
-              TextButton(
-                onPressed: () async  {
-                  CollectionReference collection1 = FirebaseFirestore.instance.collection('School');
-                  await collection1.doc(widget.id).update({
-                    "cse" : widget.user.id,
-                  }) ;
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('This Session is now CURRENT SESSION'),
+                    child: Center(child: Text("Make Current Session")),
+                  ),
+                ),SizedBox(height: 10,),
+                InkWell(
+                  onTap: upgrade,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width-40,
+                    height: 55,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.blue.shade200,
                     ),
-                  );
-                  Navigator.of(context).pop();
-                },
-                child: Text('Make Current Session'),
-              ),
-            ],
-          );
-        },
-      );
+                    child: Center(child: Text("Upgrade Session")),
+                  ),
+                ),SizedBox(height: 10,),
+                InkWell(
+                  onTap: delete,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width-40,
+                    height: 55,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.red.shade200,
+                    ),
+                    child: Center(child: Text("Delete Session")),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
     },
       onTap: () async {
         if(widget.user.ou=="Under Admin Approval for Delete"){
@@ -281,7 +280,7 @@ class _ChatUserState extends State<ChatUser> {
                 EmailB: widget.EmailB, RegisB: widget.RegisB, Other4B: widget.Other4B,
                 Other3B: widget.Other3B, Other2B: widget.Other2B, Other1B: widget.Other1B,
                 MotherB: widget.MotherB, DepB: widget.DepB, BloodB: widget.BloodB,
-              ), type: PageTransitionType.rightToLeft, duration: Duration(milliseconds: 800)
+              ), type: PageTransitionType.rightToLeft, duration: Duration(milliseconds: 200)
           ));
           if ( widget.csession == "" || widget.csession == " "){
             CollectionReference collection1 = FirebaseFirestore.instance.collection('School');
@@ -311,12 +310,151 @@ class _ChatUserState extends State<ChatUser> {
       tileColor: Colors.grey.shade50,
     );
   }
+
+  void delete(){
+    Navigator.pop(context);
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Delete this ?'),
+          content: Text('Do you really want to delete this Sesssion including all Students.\n IT\'S PERAMANENT DELETE'),
+          actions: [
+            TextButton(
+              onPressed: () async {
+                try {
+                  CollectionReference collection1 = FirebaseFirestore.instance
+                      .collection('School').doc(widget.id).collection(
+                      'Session');
+                  await collection1.doc(widget.user.id).update({
+                    "ou": "Under Admin Approval for Delete",
+                  });
+                  Navigator.of(context).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                          'Success ! This Session will be Deleted once SuperAdmin confirms it'),
+                    ),
+                  );
+                }catch(e){
+                  Navigator.of(context).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('$e'),
+                    ),
+                  );
+                }
+              },
+              child: Text('Yes'),
+
+            ),
+            TextButton(
+              onPressed: () {
+                // Close the dialog
+                Navigator.of(context).pop();
+              },
+              child: Text('No'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+  void upgrade(){
+    Navigator.pop(context);
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Upgrade ?'),
+          content: Text('Is Safer .....Student and Teachers could still use Previous Login Details. No Critical change !'),
+          actions: [
+            TextButton(
+              onPressed: () async {
+                try {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Add(id: widget.id, upgrade: true, sessionid: widget.user.id,),
+                    ),
+                  );
+                }catch(e){
+                  Navigator.of(context).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('$e'),
+                    ),
+                  );
+                }
+              },
+              child: Text('Yes'),
+
+            ),
+            TextButton(
+              onPressed: () {
+                // Close the dialog
+                Navigator.of(context).pop();
+              },
+              child: Text('No'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+  void currentsession(){
+    Navigator.pop(context);
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Make this Session as Current Session ?'),
+          content: Text('Do you really want to make this as Current Session ! This may be Critical. All studennts and teachers registered in before Current Session can\'t able to Login nor Scan , and other problems'),
+          actions: [
+            TextButton(
+              onPressed: () async {
+                try {
+                  CollectionReference collection1 = FirebaseFirestore.instance.collection('School');
+                  await collection1.doc(widget.id).update({
+                    "cse" : widget.user.id,
+                  });
+                  Navigator.of(context).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                          'Success ! This Session is Current Session'),
+                    ),
+                  );
+                }catch(e){
+                  Navigator.of(context).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('$e'),
+                    ),
+                  );
+                }
+              },
+              child: Text('Yes'),
+
+            ),
+            TextButton(
+              onPressed: () {
+                // Close the dialog
+                Navigator.of(context).pop();
+              },
+              child: Text('No'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
 
 class Add extends StatelessWidget {
   String id;
-
-  Add({super.key, required this.id});
+  bool upgrade ; String sessionid;
+  Add({super.key, required this.id,required this.upgrade,required this.sessionid});
 
   final TextEditingController sessionNameController = TextEditingController();
   String s = " ";
@@ -326,7 +464,7 @@ class Add extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
-        title: Text("Add Session"),
+        title: Text(upgrade?"Upgrade Session":"Add Session"),
         backgroundColor: Colors.orange,
       ),
       body: Container(
@@ -342,7 +480,7 @@ class Add extends StatelessWidget {
               child: TextFormField(
                 controller: sessionNameController,
                 decoration: InputDecoration(
-                  labelText: 'Session Name',
+                  labelText: 'New Session Name',
                   isDense: true,
                   border: OutlineInputBorder(),
                 ),
@@ -364,18 +502,34 @@ class Add extends StatelessWidget {
               child: SocialLoginButton(
                 backgroundColor: Color(0xff50008e),
                 height: 40,
-                text: 'Add Session Now',
+                text: upgrade?"Upgrade Session":'Add Session Now',
                 borderRadius: 20,
                 fontSize: 21,
                 buttonType: SocialLoginButtonType.generalLogin,
                 onPressed: () async {
+                  if(upgrade){
+                    try{
+                    CollectionReference collection = FirebaseFirestore.instance.collection('School').doc(id).collection('Session');
+                    await collection.doc(sessionid).set({
+                      'Name': sessionNameController.text,
+                    });
+                    Navigator.pop(context);
+                    } catch (e) {
+                      print('${e}');
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('${e}'),
+                        ),
+                      );
+                    }
+                    return ;
+                  }
                   try {
                     CollectionReference collection = FirebaseFirestore.instance.collection('School').doc(id).collection('Session');
                     String customDocumentId = DateTime.now().millisecondsSinceEpoch.toString(); // Replace with your own custom ID
                     await collection.doc(customDocumentId).set({
                       'Name': sessionNameController.text,
                       'id' : customDocumentId ,
-                      // Add more fields as needed
                     });
 
                     Navigator.pop(context);
