@@ -98,6 +98,7 @@ class MyFind extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (parent) {
+      print("------------------------------------------>P");
       final studentAsyncValue = ref.watch(studentProvider("bh"));
       return studentAsyncValue.when(
         data: (student) => PortalStudent(st: student!, parent: position == "Parent"),
@@ -105,8 +106,10 @@ class MyFind extends ConsumerWidget {
         error: (error, _) => logout(context),
       );
     } else {
+      print("]=------------------------------------------------------T");
       final uid = FirebaseAuth.instance.currentUser!.uid;
       final userAsyncValue = ref.watch(userProvider(uid));
+      print(uid+userAsyncValue.toString()+position);
       return userAsyncValue.when(
         data: (user) {
           if (position == "Photo") {
@@ -133,8 +136,10 @@ class MyFind extends ConsumerWidget {
             return AdminPortal(user: user!);
           } else if (position == "SuperAdmin") {
             return AdminP();
-          } else {
-            return const Center(child: Text("User not found"));
+          } else if(position=="School") {
+            return SchoolName(principal: parent);
+          } else{
+            return logout(context);
           }
         },
         loading: () => loading(context),
@@ -145,15 +150,16 @@ class MyFind extends ConsumerWidget {
 
   Widget logout(BuildContext context){
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Image.network("assets/nofound.jpg",width:MediaQuery.of(context).size.width,),
+          Image.asset("assets/nofound.jpg",width:MediaQuery.of(context).size.width-80,),
           SizedBox(height: 5,),
-          Text("We can't find your Saved Info",style: TextStyle(fontWeight: FontWeight.w800),),
+          Text("We can't find your Saved Info",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 18),),   SizedBox(height: 4,),
           Text("Please, Login Again"),
-          SizedBox(height: 9,),
+          SizedBox(height: 15,),
           InkWell(
             onTap: () async {
               await FirebaseAuth.instance.signOut();
@@ -170,13 +176,13 @@ class MyFind extends ConsumerWidget {
             },
             child: Center(
               child: Container(
-                width: MediaQuery.of(context).size.width-20,
+                width: MediaQuery.of(context).size.width-40,
                 height: 50,
                 decoration: BoxDecoration(
                   color: Colors.red,
                   borderRadius: BorderRadius.circular(10)
                 ),
-                child: Text("LOG OUT",style: TextStyle(color: Colors.white,fontWeight: FontWeight.w700,fontSize: 19),),
+                child: Center(child: Text("LOG OUT",style: TextStyle(color: Colors.white,fontWeight: FontWeight.w700,fontSize: 19),)),
               ),
             ),
           )

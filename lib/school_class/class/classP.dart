@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:student_managment_app/Parents_Portal/as.dart';
+import 'package:student_managment_app/anew/school/service/duty_form.dart';
 import 'package:student_managment_app/classroom_universal/academis/student_attendance.dart';
 import 'package:student_managment_app/classroom_universal/logs/all_students.dart';
 import 'package:student_managment_app/function/send.dart';
@@ -181,9 +182,14 @@ class _ClasspState extends State<Classp> {
                        crossAxisAlignment: CrossAxisAlignment.center,
                        children: [
                          InkWell(
-                           onTap: (){
-                             Send.message(context, "Not Yet Available on ClassRoom Panel ! Please use School Portal Instead", false);
-                           }, child: q(context,"assets/student-svgrepo-com.svg","Marksheets")),
+                             onTap: (){
+                               Navigator.push(
+                                 context,
+                                 MaterialPageRoute(
+                                     builder: (context) =>DutyForm(id: widget.c.id, teacher: false)),
+                               );
+                             },
+                             child: q(context,"assets/images/school/lecture-class-svgrepo-com.svg","Duty Form")),
 
                          InkWell(
                              onTap: (){

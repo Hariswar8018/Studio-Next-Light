@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:student_managment_app/after_login/stu_edit.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
+import 'package:student_managment_app/anew/school/service/duty_form.dart';
 import 'package:student_managment_app/function/send.dart';
 
 class Timetablee extends StatefulWidget {
@@ -42,6 +43,19 @@ class _TimetableeState extends State<Timetablee> {
           color: Colors.white,
         ),
         actions: [
+          widget.teacher?InkWell(
+            onTap: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>DutyForm(id: widget.id, teacher: false)),
+                    );
+            },
+            child: CircleAvatar(
+              backgroundColor: Colors.white,
+              child: Icon(Icons.list_alt,color: Colors.red,),
+            ),
+          ):SizedBox(),
           InkWell(
             onTap: () async {
               setState(() {
